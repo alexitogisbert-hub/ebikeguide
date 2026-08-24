@@ -14,7 +14,7 @@ export type Comparativa = {
 };
 
 function formatAutonomia(bike: Bike): string {
-  return `${bike.autonomiaKm.min}-${bike.autonomiaKm.max} km`;
+  return `${bike.autonomiaMin}-${bike.autonomiaMax} km`;
 }
 
 export function compararBikes(bikes: Bike[], ids: string[]): Comparativa {

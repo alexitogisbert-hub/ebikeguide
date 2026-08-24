@@ -35,7 +35,12 @@ describe("compararBikes", () => {
   it("incluye la fila de autonomía formateada como rango en km", () => {
     const comparativa = compararBikes(bikes, [bikes[0].id]);
     const filaAutonomia = comparativa.filas.find((f) => f.campo === "autonomia")!;
-    expect(filaAutonomia.valores[0]).toBe(`${bikes[0].autonomiaKm.min}-${bikes[0].autonomiaKm.max} km`);
+    expect(filaAutonomia.valores[0]).toBe(`${bikes[0].autonomiaMin}-${bikes[0].autonomiaMax} km`);
+  });
+
+  it("compara las alternativas cruzadas b01/b02 con sentido (mismo grupo compacto/urbano)", () => {
+    const comparativa = compararBikes(bikes, ["b01", "b02", "b09"]);
+    expect(comparativa.bikes.map((b) => b.id)).toEqual(["b01", "b02", "b09"]);
   });
 
   it("con una selección vacía devuelve filas con valores vacíos", () => {

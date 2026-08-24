@@ -28,8 +28,8 @@ describe("computeWeightedScore", () => {
       { id: "a", label: "A", peso: 50, que: "" },
       { id: "b", label: "B", peso: 50, que: "" },
     ];
-    expect(computeWeightedScore({ a: 100, b: 0 }, pesos)).toBe(50);
-    expect(computeWeightedScore({ a: 80, b: 60 }, pesos)).toBe(70);
+    expect(computeWeightedScore({ a: 10, b: 0 }, pesos)).toBe(5);
+    expect(computeWeightedScore({ a: 8, b: 6 }, pesos)).toBe(7);
   });
 
   it("trata los criterios que faltan como 0", () => {
@@ -37,16 +37,17 @@ describe("computeWeightedScore", () => {
       { id: "a", label: "A", peso: 50, que: "" },
       { id: "b", label: "B", peso: 50, que: "" },
     ];
-    expect(computeWeightedScore({ a: 100 }, pesos)).toBe(50);
+    expect(computeWeightedScore({ a: 10 }, pesos)).toBe(5);
   });
 
   it("devuelve 0 si la suma de pesos es 0", () => {
-    expect(computeWeightedScore({ a: 100 }, [{ id: "a", label: "A", peso: 0, que: "" }])).toBe(0);
+    expect(computeWeightedScore({ a: 10 }, [{ id: "a", label: "A", peso: 0, que: "" }])).toBe(0);
   });
 
-  it("coincide con el cálculo manual para la Kalkhoff Endeavour (subs elegidas para dar 89.0 exacto)", () => {
-    const kalkhoff = EBG_DATA.bikes.find((b) => b.slug === "kalkhoff-endeavour-5b-move")!;
-    expect(computeWeightedScore(kalkhoff.subpuntuaciones, PESOS)).toBe(89);
+  it("coincide con el cálculo manual para la Nordvik Tour Trekking 625", () => {
+    // 25*9.6 + 20*8.4 + 20*9.3 + 15*8.4 + 10*6.9 + 10*7.6 = 865 -> 865/100 = 8.65 -> redondeado a 8.7
+    const nordvikTour = EBG_DATA.bikes.find((b) => b.slug === "nordvik-tour-trekking-625")!;
+    expect(computeWeightedScore(nordvikTour.subs, PESOS)).toBe(8.7);
   });
 });
 
@@ -58,7 +59,7 @@ describe("scoreBikeBreakdown", () => {
     expect(resultado.bikeId).toBe(bike.id);
     expect(resultado.desglose).toHaveLength(PESOS.length);
     resultado.desglose.forEach((item) => {
-      expect(item.valor).toBe(bike.subpuntuaciones[item.id as keyof typeof bike.subpuntuaciones]);
+      expect(item.valor).toBe(bike.subs[item.id as keyof typeof bike.subs]);
     });
   });
 
@@ -71,22 +72,23 @@ describe("scoreBikeBreakdown", () => {
 });
 
 describe("scoreBikes", () => {
-  it("recalcula la puntuación de todas las bicis del catálogo demo", () => {
+  it("recalcula la puntuación de las 12 bicis del catálogo demo", () => {
     const resultados = scoreBikes(EBG_DATA.bikes, PESOS);
+    expect(resultados).toHaveLength(12);
     expect(resultados).toHaveLength(EBG_DATA.bikes.length);
     resultados.forEach((r) => {
       expect(r.puntuacion).toBeGreaterThanOrEqual(0);
-      expect(r.puntuacion).toBeLessThanOrEqual(100);
+      expect(r.puntuacion).toBeLessThanOrEqual(10);
     });
   });
 
-  it("recalcula la puntuación si cambian los pesos (dar más peso al precio favorece a la bici más barata)", () => {
-    const pesosCentradosEnPrecio = PESOS.map((p) => (p.id === "precio" ? { ...p, peso: 90 } : { ...p, peso: 10 / 6 }));
+  it("recalcula la puntuación si cambian los pesos (dar casi todo el peso al precio favorece a la bici más barata)", () => {
+    const pesosCentradosEnPrecio = PESOS.map((p) => (p.id === "precio" ? { ...p, peso: 90 } : { ...p, peso: 10 / 5 }));
 
     const resultados = scoreBikes(EBG_DATA.bikes, pesosCentradosEnPrecio);
-    const moma = resultados.find((r) => r.bikeId === "bike-moma-e16-city")!;
-    const orbea = resultados.find((r) => r.bikeId === "bike-orbea-rise-m20")!;
+    const moma = resultados.find((r) => r.bikeId === "b01")!;
+    const granithTrail = resultados.find((r) => r.bikeId === "b03")!;
 
-    expect(moma.puntuacion).toBeGreaterThan(orbea.puntuacion);
+    expect(moma.puntuacion).toBeGreaterThan(granithTrail.puntuacion);
   });
 });

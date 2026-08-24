@@ -17,7 +17,7 @@ export function BikeDealCard({ bike }: { bike: Bike }) {
   const discountPct = bike.precioAnterior
     ? Math.round((1 - bike.precio / bike.precioAnterior) * 100)
     : null;
-  const rating = (bike.puntuacion / 20).toFixed(1);
+  const rating = (bike.puntuacion / 2).toFixed(1);
 
   return (
     <div className="rounded-2xl border border-line transition-shadow duration-200 hover:shadow-lg">

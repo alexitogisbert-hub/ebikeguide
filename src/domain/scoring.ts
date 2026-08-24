@@ -40,7 +40,7 @@ export function scoreBikeBreakdown(bike: Bike, pesos: PesoPuntuacion[]): BikeSco
   const sumaPesos = pesos.reduce((sum, p) => sum + p.peso, 0);
 
   const desglose: ScoreBreakdownItem[] = pesos.map((peso) => {
-    const valor = bike.subpuntuaciones[peso.id as keyof SubPuntuaciones] ?? 0;
+    const valor = bike.subs[peso.id as keyof SubPuntuaciones] ?? 0;
     return {
       id: peso.id,
       label: peso.label,
@@ -52,7 +52,7 @@ export function scoreBikeBreakdown(bike: Bike, pesos: PesoPuntuacion[]): BikeSco
 
   return {
     bikeId: bike.id,
-    puntuacion: computeWeightedScore(bike.subpuntuaciones, pesos),
+    puntuacion: computeWeightedScore(bike.subs, pesos),
     desglose,
   };
 }

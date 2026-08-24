@@ -15,8 +15,6 @@ export type FiltroCriterios = {
 export type OrdenCriterio = "puntuacion" | "precio" | "autonomia" | "peso" | "valor";
 export type OrdenDireccion = "asc" | "desc";
 
-const CATEGORIA_PLEGABLE = "plegables";
-
 export function filtrarBikes(bikes: Bike[], criterios: FiltroCriterios = {}): Bike[] {
   return bikes.filter((bike) => {
     if (criterios.tipo && bike.tipo !== criterios.tipo) return false;
@@ -25,12 +23,9 @@ export function filtrarBikes(bikes: Bike[], criterios: FiltroCriterios = {}): Bi
     if (criterios.precioMin !== undefined && bike.precio < criterios.precioMin) return false;
     if (criterios.pesoMax !== undefined && bike.pesoKg > criterios.pesoMax) return false;
     if (criterios.bateriaWhMin !== undefined && bike.bateriaWh < criterios.bateriaWhMin) return false;
-    if (criterios.autonomiaMinKm !== undefined && bike.autonomiaKm.max < criterios.autonomiaMinKm) return false;
+    if (criterios.autonomiaMinKm !== undefined && bike.autonomiaMax < criterios.autonomiaMinKm) return false;
     if (criterios.puntuacionMin !== undefined && bike.puntuacion < criterios.puntuacionMin) return false;
-    if (criterios.plegable !== undefined) {
-      const esPlegable = bike.categoriaId === CATEGORIA_PLEGABLE;
-      if (esPlegable !== criterios.plegable) return false;
-    }
+    if (criterios.plegable !== undefined && bike.plegable !== criterios.plegable) return false;
     return true;
   });
 }
@@ -42,7 +37,7 @@ function valorPorCriterio(bike: Bike, criterio: OrdenCriterio): number {
     case "precio":
       return bike.precio;
     case "autonomia":
-      return (bike.autonomiaKm.min + bike.autonomiaKm.max) / 2;
+      return (bike.autonomiaMin + bike.autonomiaMax) / 2;
     case "peso":
       return bike.pesoKg;
     case "valor":
