@@ -17,11 +17,19 @@ const STATIC_ROUTES = [
   "/metodologia/",
 ];
 
+const LEGAL_ROUTES = ["/aviso-legal/", "/privacidad/", "/cookies/"];
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((path) => ({
     url: `${BASE_URL}${path}`,
     changeFrequency: path === "" ? "weekly" : "weekly",
     priority: path === "" ? 1 : 0.7,
+  }));
+
+  const legalEntries: MetadataRoute.Sitemap = LEGAL_ROUTES.map((path) => ({
+    url: `${BASE_URL}${path}`,
+    changeFrequency: "yearly",
+    priority: 0.2,
   }));
 
   const categoriaEntries: MetadataRoute.Sitemap = EBG_DATA.categorias.map((categoria) => ({
@@ -48,5 +56,5 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticEntries, ...categoriaEntries, ...bikeEntries, ...guiaEntries, ...mejorEntries];
+  return [...staticEntries, ...legalEntries, ...categoriaEntries, ...bikeEntries, ...guiaEntries, ...mejorEntries];
 }

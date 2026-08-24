@@ -28,9 +28,26 @@ export function Footer() {
           </nav>
         </div>
 
-        <div className="mt-10 flex flex-col gap-2 border-t border-line pt-6 text-xs text-mut sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-4 border-t border-line pt-6 text-xs text-mut sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} eBikeGuide. Datos de muestra con fines de demostración.</p>
-          <p>Algunos enlaces son de afiliación: podemos ganar una comisión sin coste para ti.</p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <p>
+              Algunos enlaces son de afiliación:{" "}
+              <Link href="/aviso-legal/" className="underline hover:text-ink">
+                más información
+              </Link>
+              .
+            </p>
+            <Link href="/aviso-legal/" className="hover:text-ink">
+              Aviso legal
+            </Link>
+            <Link href="/privacidad/" className="hover:text-ink">
+              Privacidad
+            </Link>
+            <Link href="/cookies/" className="hover:text-ink">
+              Cookies
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

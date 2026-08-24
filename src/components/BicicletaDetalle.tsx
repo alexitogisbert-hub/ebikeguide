@@ -6,6 +6,7 @@ import { FavoriteButton } from "./FavoriteButton";
 import { SubsBreakdown } from "./SubsBreakdown";
 import { BikeDealCard } from "./BikeDealCard";
 import { Breadcrumbs } from "./Breadcrumbs";
+import { AffiliateLink } from "./AffiliateLink";
 import { ArrowRightIcon, StarIcon } from "./icons";
 
 const SCHEMA_AVAILABILITY: Record<string, string> = {
@@ -232,25 +233,42 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
         <div className="mt-4 flex flex-col gap-3">
           {bike.ofertas.map((oferta) => {
             const merchant = EBG_DATA.merchants.find((m) => m.id === oferta.merchantId);
+            const merchantName = merchant?.nombre ?? oferta.merchantId;
             return (
               <div
                 key={oferta.merchantId}
                 className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-line px-5 py-4"
               >
                 <div>
-                  <p className="font-semibold text-ink">{merchant?.nombre ?? oferta.merchantId}</p>
+                  <p className="font-semibold text-ink">{merchantName}</p>
                   <p className="text-xs text-mut">{DISPONIBILIDAD_LABEL[oferta.disponibilidad]}</p>
                 </div>
                 <div className="flex items-center gap-4">
                   <span className="text-lg font-bold text-ink">{priceFormatter.format(oferta.precio)}</span>
-                  <span className="rounded-full border border-line px-4 py-2 text-sm font-semibold text-mut">
-                    Enlace de afiliado pendiente (demo)
-                  </span>
+                  <AffiliateLink
+                    oferta={oferta}
+                    merchantName={merchantName}
+                    className={
+                      oferta.affiliateUrl
+                        ? "rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-acc-d"
+                        : "rounded-full border border-line px-4 py-2 text-sm font-semibold text-mut"
+                    }
+                  >
+                    {oferta.affiliateUrl ? "Ver oferta" : "Enlace pendiente (demo)"}
+                  </AffiliateLink>
                 </div>
               </div>
             );
           })}
         </div>
+        <p className="mt-4 text-xs text-mut">
+          Algunos enlaces son de afiliación: podemos ganar una comisión sin coste para ti si compras a través de
+          ellos. Nunca afecta a la puntuación.{" "}
+          <Link href="/aviso-legal/" className="underline hover:text-ink">
+            Más información
+          </Link>
+          .
+        </p>
       </section>
 
       {alternativas.length > 0 && (
