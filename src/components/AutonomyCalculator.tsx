@@ -1,47 +1,32 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { calcularAutonomia, type NivelAsistencia, type TipoTerreno } from "@/domain/autonomy";
 
 const BATTERY_OPTIONS = [300, 375, 500, 625, 750];
 
-const ASSIST_LEVELS = [
-  { id: "eco", label: "Eco", factor: 0.7 },
-  { id: "medio", label: "Medio", factor: 1.0 },
-  { id: "alto", label: "Alto", factor: 1.3 },
-  { id: "turbo", label: "Turbo", factor: 1.65 },
-] as const;
+const ASSIST_LEVELS: Array<{ id: NivelAsistencia; label: string }> = [
+  { id: "eco", label: "Eco" },
+  { id: "medio", label: "Medio" },
+  { id: "alto", label: "Alto" },
+  { id: "turbo", label: "Turbo" },
+];
 
-const TERRAIN_OPTIONS = [
-  { id: "llano", label: "Llano", factor: 0.85 },
-  { id: "mixto", label: "Mixto", factor: 1.0 },
-  { id: "montanoso", label: "Montañoso", factor: 1.4 },
-] as const;
-
-const BASE_WH_PER_KM = 8.5;
-
-function estimateRangeKm(bateriaWh: number, pesoKg: number, assistFactor: number, terrainFactor: number) {
-  const weightFactor = 1 + ((pesoKg - 75) / 75) * 0.3;
-  const consumoWhKm = BASE_WH_PER_KM * assistFactor * terrainFactor * Math.max(weightFactor, 0.6);
-  const estimado = bateriaWh / consumoWhKm;
-  return {
-    min: Math.round(estimado * 0.88),
-    max: Math.round(estimado * 1.12),
-    estimado: Math.round(estimado),
-  };
-}
+const TERRAIN_OPTIONS: Array<{ id: TipoTerreno; label: string }> = [
+  { id: "llano", label: "Llano" },
+  { id: "mixto", label: "Mixto" },
+  { id: "montanoso", label: "Montañoso" },
+];
 
 export function AutonomyCalculator() {
   const [bateriaWh, setBateriaWh] = useState(500);
   const [pesoKg, setPesoKg] = useState(80);
-  const [assistId, setAssistId] = useState<(typeof ASSIST_LEVELS)[number]["id"]>("medio");
-  const [terrainId, setTerrainId] = useState<(typeof TERRAIN_OPTIONS)[number]["id"]>("mixto");
+  const [assistId, setAssistId] = useState<NivelAsistencia>("medio");
+  const [terrainId, setTerrainId] = useState<TipoTerreno>("mixto");
 
-  const assist = ASSIST_LEVELS.find((a) => a.id === assistId) ?? ASSIST_LEVELS[1];
-  const terrain = TERRAIN_OPTIONS.find((t) => t.id === terrainId) ?? TERRAIN_OPTIONS[1];
-
-  const { min, max, estimado } = useMemo(
-    () => estimateRangeKm(bateriaWh, pesoKg, assist.factor, terrain.factor),
-    [bateriaWh, pesoKg, assist.factor, terrain.factor],
+  const { minKm: min, maxKm: max, estimadoKm: estimado } = useMemo(
+    () => calcularAutonomia({ bateriaWh, pesoKg, asistencia: assistId, terreno: terrainId }),
+    [bateriaWh, pesoKg, assistId, terrainId],
   );
 
   const curveWidth = 280;

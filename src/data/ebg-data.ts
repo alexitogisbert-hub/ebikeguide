@@ -21,6 +21,16 @@ export type Categoria = {
   modelosCount: number;
 };
 
+export type SubPuntuaciones = {
+  autonomia: number;
+  confort: number;
+  potencia: number;
+  equipamiento: number;
+  frenada: number;
+  peso: number;
+  precio: number;
+};
+
 export type Bike = {
   id: string;
   slug: string;
@@ -36,6 +46,7 @@ export type Bike = {
   parNm: number;
   pesoKg: number;
   puntuacion: number;
+  subpuntuaciones: SubPuntuaciones;
   reviews: number;
   pros: string[];
   contras: string[];
@@ -193,6 +204,15 @@ export const EBG_DATA = {
       parNm: 65,
       pesoKg: 24.5,
       puntuacion: 88,
+      subpuntuaciones: {
+        autonomia: 90,
+        confort: 93,
+        potencia: 80,
+        equipamiento: 95,
+        frenada: 85,
+        peso: 76,
+        precio: 90,
+      },
       reviews: 142,
       pros: [
         "Postura muy cómoda para trayectos diarios",
@@ -221,6 +241,15 @@ export const EBG_DATA = {
       parNm: 30,
       pesoKg: 16.6,
       puntuacion: 84,
+      subpuntuaciones: {
+        autonomia: 75,
+        confort: 92,
+        potencia: 75,
+        equipamiento: 83,
+        frenada: 82,
+        peso: 98,
+        precio: 89,
+      },
       reviews: 67,
       pros: [
         "Se pliega en segundos y cabe bajo una mesa",
@@ -249,6 +278,15 @@ export const EBG_DATA = {
       parNm: 85,
       pesoKg: 18.9,
       puntuacion: 91,
+      subpuntuaciones: {
+        autonomia: 80,
+        confort: 92,
+        potencia: 95,
+        equipamiento: 80,
+        frenada: 92,
+        peso: 96,
+        precio: 78,
+      },
       reviews: 98,
       pros: [
         "Se comporta casi como una MTB no eléctrica",
@@ -277,6 +315,15 @@ export const EBG_DATA = {
       parNm: 85,
       pesoKg: 25.8,
       puntuacion: 89,
+      subpuntuaciones: {
+        autonomia: 96,
+        confort: 88,
+        potencia: 90,
+        equipamiento: 88,
+        frenada: 90,
+        peso: 68,
+        precio: 97,
+      },
       reviews: 76,
       pros: [
         "Autonomía sobresaliente para rutas de fin de semana",
@@ -304,6 +351,15 @@ export const EBG_DATA = {
       parNm: 85,
       pesoKg: 30.3,
       puntuacion: 90,
+      subpuntuaciones: {
+        autonomia: 84,
+        confort: 88,
+        potencia: 93,
+        equipamiento: 96,
+        frenada: 90,
+        peso: 52,
+        precio: 75,
+      },
       reviews: 54,
       pros: [
         "Capacidad de carga hasta 200 kg entre bici y porteo",
@@ -333,6 +389,15 @@ export const EBG_DATA = {
       parNm: 40,
       pesoKg: 22,
       puntuacion: 74,
+      subpuntuaciones: {
+        autonomia: 62,
+        confort: 68,
+        potencia: 55,
+        equipamiento: 58,
+        frenada: 62,
+        peso: 84,
+        precio: 96,
+      },
       reviews: 210,
       pros: [
         "La opción más asequible con buena nota general",
