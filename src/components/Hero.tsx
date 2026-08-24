@@ -6,7 +6,7 @@ const AVATAR_INITIALS = ["MA", "JL", "SR", "PC"];
 
 export function Hero() {
   return (
-    <section className="mx-auto max-w-[1280px] px-5 py-14 sm:px-8 sm:py-20">
+    <section className="mx-auto max-w-[1280px] px-5 py-10 sm:px-8 sm:py-14">
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
         <div className="animate-ebg-in">
           <span className="inline-flex items-center rounded-full border border-line bg-surf px-3 py-1 text-xs font-semibold text-mut">
@@ -14,7 +14,10 @@ export function Hero() {
           </span>
 
           <h1 className="mt-5 text-[clamp(42px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink">
-            Encuentra tu e-bike ideal
+            <span className="block">Encuentra tu</span>
+            <span className="block">
+              e-bike <span className="text-acc">ideal</span>
+            </span>
           </h1>
 
           <p className="mt-5 max-w-[46ch] text-lg text-mut">
@@ -64,7 +67,7 @@ export function Hero() {
 
         <ImagePlaceholder
           label="Fotografía editorial de una persona pedaleando una e-bike urbana al atardecer"
-          className="aspect-[4/5] w-full rounded-[28px] lg:aspect-[3/4]"
+          className="aspect-[3/2] w-full rounded-[32px]"
         />
       </div>
     </section>
