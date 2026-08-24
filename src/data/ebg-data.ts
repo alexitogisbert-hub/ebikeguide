@@ -112,7 +112,47 @@ export type Guia = {
   resumen: string;
   minutosLectura: number;
   imagenPlaceholder: string;
+  cuerpo: string[];
+  productos: string[];
   destacada?: boolean;
+};
+
+export type MejorCriterio = {
+  titulo: string;
+  descripcion: string;
+};
+
+export type MejorGanador = {
+  bikeId: string;
+  motivo: string;
+};
+
+export type MejorFaqItem = {
+  pregunta: string;
+  respuesta: string;
+};
+
+export type Mejor = {
+  id: string;
+  slug: string;
+  titulo: string;
+  resumen: string;
+  intro: string;
+  criterios: MejorCriterio[];
+  ganadores: MejorGanador[];
+  faq: MejorFaqItem[];
+  imagenPlaceholder: string;
+};
+
+export type Accesorio = {
+  id: string;
+  slug: string;
+  nombre: string;
+  categoria: string;
+  precioAprox: number;
+  nota: string;
+  paraQue: string;
+  imagenPlaceholder: string;
 };
 
 export type NavLink = { label: string; href: string };
@@ -1001,6 +1041,14 @@ export const EBG_DATA = {
         "Comparamos par, peso, ruido y autonomía real de los tres motores más habituales del mercado para que sepas cuál encaja con tu forma de rodar.",
       minutosLectura: 9,
       imagenPlaceholder: "Primer plano de tres motores de e-bike distintos montados en cuadro",
+      cuerpo: [
+        "El motor es lo primero que se anuncia y lo último que se entiende bien. Hay dos familias: motores centrales, montados en el eje de pedalier, y motores de buje, en la rueda delantera o trasera. La diferencia no es solo de ubicación: cambia cómo se reparte el peso, cómo responde en rampa y cuánto puedes exigirle.",
+        "Un motor central mide el par que aplicas al pedal y lo multiplica, por lo que la asistencia se siente natural y escala con el esfuerzo. Es el estándar en bicis de gama media-alta —trekking, montaña, muchas urbanas premium— y es lo que llevan las Nordvik Tour Trekking 625 o Granith Trail eMTB 29 de este catálogo demo.",
+        "Un motor de buje es más simple y barato de fabricar, por eso domina las e-bikes de entrada. Empuja con menos matiz —a menudo por velocidad, no por par pedaleado— y añade peso no suspendido en la rueda. Es lo que monta la Vent City Basic 36: cumple en llano, se nota más en cuestas.",
+        "El par (Nm) importa más que la potencia nominal, que en la UE está limitada a 250 W en ambos casos. Un motor central de 85 Nm como el de la Portea Cargo Family L tira con carga en rampa; uno de 30-40 Nm en una bici ligera es suficiente porque hay menos peso que mover.",
+        "La recomendación práctica: si vas a llevar peso, subir cuestas con regularidad o rodar más de 40 km por salida, prioriza un motor central de par alto. Si tu uso es plano, corto y el precio manda, un motor de buje cumple y abarata la bici de forma notable.",
+      ],
+      productos: ["b04", "b03", "b06"],
       destacada: true,
     },
     {
@@ -1012,6 +1060,13 @@ export const EBG_DATA = {
         "La autonomía anunciada casi nunca coincide con la real. Te explicamos qué factores la reducen y cuántos Wh necesitas según tu ruta.",
       minutosLectura: 6,
       imagenPlaceholder: "Indicador de batería de una e-bike mostrado en un display central",
+      cuerpo: [
+        "La cifra de autonomía de una ficha técnica suele venir del test más favorable posible: asistencia mínima, terreno llano, ciclista ligero. En condiciones reales —asistencia alta, cuestas, más peso— es habitual perder entre un 30 % y un 50 % de esa cifra.",
+        "Lo que de verdad determina cuántos km vas a hacer es la relación entre los Wh de la batería y el consumo medio de tu ruta en Wh/km. Nuestra calculadora de autonomía usa un modelo simplificado (8,5 Wh/km base, ajustado por peso, terreno y nivel de asistencia) para dar un rango realista en vez de una única cifra optimista.",
+        "Como referencia de este catálogo demo: la Nordvik Tour Trekking 625 declara 100-160 km gracias a 625 Wh y una asistencia pensada para distancia; la Moma E-16 City declara 35-55 km con 374 Wh porque prioriza precio sobre capacidad.",
+        "Regla práctica: calcula tu trayecto habitual en km, multiplícalo por dos si sueles ir en asistencia alta o hay cuestas, y busca una bici cuya autonomía mínima cubra ese número sin apurar la batería por debajo del 20 % de forma sistemática.",
+      ],
+      productos: ["b04", "b01", "b03"],
     },
     {
       id: "guia-cuidado-bateria",
@@ -1022,6 +1077,13 @@ export const EBG_DATA = {
         "Temperatura, ciclos de carga y almacenamiento en invierno: los hábitos que más alargan la vida útil de una batería de litio.",
       minutosLectura: 5,
       imagenPlaceholder: "Batería extraíble de e-bike cargándose sobre una mesa de taller",
+      cuerpo: [
+        "Las baterías de e-bike son de ion-litio y se degradan por ciclos de carga y por temperatura, no solo por el paso del tiempo. Cargar entre el 20 % y el 80 % en el día a día, en vez de siempre a 100 %, reduce el estrés químico y alarga la vida útil.",
+        "El calor es el enemigo principal: no dejes la batería cargando al sol ni la guardes en el maletero de un coche en verano. El frío intenso reduce la autonomía de forma temporal pero no daña la batería igual que el calor.",
+        "Para almacenamiento largo (más de unas semanas sin usar la bici), deja la batería en torno al 50-60 % de carga y en un sitio fresco y seco, no completamente vacía ni completamente llena.",
+        "Una batería extraíble, como la de la Moma E-16 City, la Nordvik Tour Trekking 625 o la Granith Hardtail 500, facilita este cuidado porque puedes guardarla en casa en vez de dejar la bici entera a la intemperie con la batería puesta.",
+      ],
+      productos: ["b01", "b04", "b08"],
     },
     {
       id: "guia-normativa-espana",
@@ -1032,8 +1094,193 @@ export const EBG_DATA = {
         "Repasamos la clasificación legal de las bicicletas eléctricas en España, seguro, casco y en qué casos se consideran ciclomotor.",
       minutosLectura: 7,
       imagenPlaceholder: "Señal de tráfico de carril bici junto a una e-bike aparcada",
+      cuerpo: [
+        "En España y la UE, una e-bike homologada como EPAC (pedaleo asistido) tiene un motor de hasta 250 W que deja de asistir a partir de 25 km/h. Todas las bicis de este catálogo demo, como la Volter Urban Light 360 o la Vent Single Speed e, son de este tipo: legalmente se consideran bicicletas normales.",
+        "Eso significa que no necesitan matrícula, seguro obligatorio ni casco (aunque se recomienda) para circular, y pueden usar carriles bici igual que una bicicleta convencional.",
+        "Las e-bikes de hasta 45 km/h (conocidas como S-pedelec) son una categoría distinta: se consideran ciclomotor, exigen matrícula, seguro, casco homologado de ciclomotor y no pueden circular por carriles bici urbanos en la mayoría de casos. Ninguna bici de este catálogo demo entra en esta categoría.",
+        "Recomendación general aunque no sea obligatoria por ley: un seguro de responsabilidad civil es barato y cubre a terceros en caso de accidente, algo especialmente relevante si la e-bike pesa 20-30 kg y circula a más velocidad media que una bici convencional.",
+      ],
+      productos: ["b07", "b12"],
     },
   ] as Guia[],
+
+  mejores: [
+    {
+      id: "mejores-ebikes-urbanas-2026",
+      slug: "mejores-ebikes-urbanas",
+      titulo: "Las mejores e-bikes urbanas de 2026",
+      resumen: "Tres perfiles distintos para moverte por ciudad: la más ligera, la más barata y la de menos mantenimiento.",
+      intro:
+        "No existe «la mejor» e-bike urbana: existe la mejor para tu trayecto, tu portal y tu presupuesto. Aquí comparamos tres perfiles claramente distintos dentro del catálogo demo, en vez de forzar un único ganador.",
+      criterios: [
+        { titulo: "Peso y manejabilidad", descripcion: "Kilos que tienes que mover a mano, por ejemplo al subir escaleras o portales." },
+        { titulo: "Mantenimiento", descripcion: "Componentes que se desgastan (cadena, frenos) frente a soluciones de bajo mantenimiento." },
+        { titulo: "Equipamiento de serie", descripcion: "Guardabarros, luces y portabultos incluidos frente a accesorios que hay que añadir aparte." },
+        { titulo: "Precio", descripcion: "Coste de entrada frente a lo que ofrece cada modelo." },
+      ],
+      ganadores: [
+        { bikeId: "b07", motivo: "17,6 kg con motor central: la más fácil de subir a un piso sin ascensor." },
+        { bikeId: "b12", motivo: "Transmisión por correa sin cadena que engrasar: la de menos mantenimiento." },
+        { bikeId: "b01", motivo: "El precio de entrada más bajo del catálogo demo con batería extraíble." },
+      ],
+      faq: [
+        {
+          pregunta: "¿Necesito una e-bike con motor central para uso urbano?",
+          respuesta: "No necesariamente. Un motor de buje cumple bien en ciudad llana y trayectos cortos; el motor central se nota más en cuestas y arranques con carga.",
+        },
+        {
+          pregunta: "¿Merece la pena pagar más por batería extraíble?",
+          respuesta: "Si no tienes dónde enchufar la bici entera (garaje comunitario sin toma, por ejemplo), sí: puedes subir solo la batería a casa a cargar.",
+        },
+        {
+          pregunta: "¿Qué autonomía es suficiente para ciudad?",
+          respuesta: "Para trayectos urbanos de menos de 15 km al día, 300-400 Wh suelen bastar sin cargar cada noche.",
+        },
+      ],
+      imagenPlaceholder: "Tres e-bikes urbanas distintas aparcadas una junto a otra en una calle",
+    },
+    {
+      id: "mejores-ebikes-menos-2000-euros",
+      slug: "mejores-ebikes-menos-de-2000-euros",
+      titulo: "Las mejores e-bikes por menos de 2.000 € (2026)",
+      resumen: "Dónde se recorta a este precio, y qué modelos del catálogo demo recortan mejor.",
+      intro:
+        "Por debajo de 2.000 € toda e-bike recorta en algo: frenos, batería, componentes o equipamiento. La pregunta útil no es «cuál es perfecta» sino «cuál recorta lo que menos te importa a ti».",
+      criterios: [
+        { titulo: "Relación autonomía/precio", descripcion: "Km de autonomía estimados por cada euro invertido." },
+        { titulo: "Equipamiento pese al precio", descripcion: "Qué llevan de serie sin tener que comprarlo aparte." },
+        { titulo: "Frenos", descripcion: "Disco hidráulico frente a mecánico o V-brake a este rango de precio." },
+      ],
+      ganadores: [
+        { bikeId: "b07", motivo: "Motor central y frenos de disco hidráulico por 1.790 €, algo raro bajo 2.000 €." },
+        { bikeId: "b09", motivo: "La plegable más barata con batería extraíble para último kilómetro." },
+        { bikeId: "b01", motivo: "El precio de entrada absoluto del catálogo demo, por debajo de 1.000 €." },
+      ],
+      faq: [
+        {
+          pregunta: "¿Qué es lo primero que recortan las e-bikes baratas?",
+          respuesta: "Casi siempre los frenos (mecánicos o V-brake en vez de disco hidráulico) y la calidad del motor de buje frente a uno central.",
+        },
+        {
+          pregunta: "¿Compensa esperar y ahorrar para una gama más alta?",
+          respuesta: "Depende del uso: para trayectos cortos y llanos, una bici de entrada bien elegida cumple perfectamente y no hace falta sobrepagar.",
+        },
+      ],
+      imagenPlaceholder: "E-bike económica con etiqueta de precio visible en una tienda",
+    },
+    {
+      id: "mejores-ebikes-montana-2026",
+      slug: "mejores-ebikes-montana-y-gravel",
+      titulo: "Las mejores e-bikes de montaña y gravel de 2026",
+      resumen: "De la eMTB de doble suspensión a la gravel ligera con asistencia sutil: tres formas distintas de salir a pista.",
+      intro:
+        "«Montaña» no es una sola categoría: va desde la eMTB pensada para desnivel serio hasta la gravel que apenas se nota que lleva motor. Comparamos tres enfoques del catálogo demo.",
+      criterios: [
+        { titulo: "Par motor y batería", descripcion: "Nm disponibles y Wh para acumular desnivel sin quedarte a medias." },
+        { titulo: "Suspensión y geometría", descripcion: "Doble suspensión frente a rígida, según el terreno objetivo." },
+        { titulo: "Precio", descripcion: "Coste de entrada frente a prestaciones para el uso real, no el ideal." },
+      ],
+      ganadores: [
+        { bikeId: "b03", motivo: "750 Wh y 85 Nm: la referencia del catálogo demo para desnivel acumulado alto." },
+        { bikeId: "b08", motivo: "Mismo motor central de gama alta con cuadro rígido: 1.600 € menos que la Trail." },
+        { bikeId: "b11", motivo: "15,8 kg y grupo GRX de 12v: la más ligera, para quien quiere pedalear con un empujón sutil." },
+      ],
+      faq: [
+        {
+          pregunta: "¿Necesito doble suspensión para hacer montaña con e-bike?",
+          respuesta: "Solo si el terreno es técnico o el descenso es exigente. Para pistas y caminos, una rígida con buena horquilla delantera suele bastar.",
+        },
+        {
+          pregunta: "¿Una e-bike de gravel sirve para montaña de verdad?",
+          respuesta: "Sirve para pista y mixto, no para senderos técnicos: la geometría y las ruedas están pensadas para asfalto y gravilla, no para roca suelta.",
+        },
+      ],
+      imagenPlaceholder: "E-bike de montaña de doble suspensión apoyada en un mirador con vistas",
+    },
+  ] as Mejor[],
+
+  accesorios: [
+    {
+      id: "acc-casco-urbano",
+      slug: "casco-urbano-homologado",
+      nombre: "Casco urbano homologado",
+      categoria: "Seguridad",
+      precioAprox: 45,
+      nota: "No es obligatorio por ley en e-bikes de hasta 25 km/h, pero reduce muchísimo el riesgo en caso de caída.",
+      paraQue: "Protección en trayectos urbanos y commuting diario.",
+      imagenPlaceholder: "Casco de bicicleta urbano en color mate sobre una mesa",
+    },
+    {
+      id: "acc-candado-u",
+      slug: "candado-tipo-u-alta-seguridad",
+      nombre: "Candado tipo U de alta seguridad",
+      categoria: "Seguridad",
+      precioAprox: 60,
+      nota: "Una e-bike es un objetivo más atractivo para el robo que una bici convencional: no escatimes en el candado.",
+      paraQue: "Evitar el robo al dejar la bici en la calle.",
+      imagenPlaceholder: "Candado tipo U anclando una e-bike a una farola",
+    },
+    {
+      id: "acc-luces",
+      slug: "luces-delantera-trasera-recargables",
+      nombre: "Set de luces delantera y trasera recargables",
+      categoria: "Visibilidad",
+      precioAprox: 35,
+      nota: "Muchas e-bikes de gama media-alta ya las llevan integradas; en las más básicas conviene añadirlas.",
+      paraQue: "Visibilidad y seguridad en trayectos con poca luz.",
+      imagenPlaceholder: "Luz trasera de e-bike encendida en la oscuridad",
+    },
+    {
+      id: "acc-alforjas",
+      slug: "alforjas-impermeables",
+      nombre: "Alforjas impermeables",
+      categoria: "Transporte",
+      precioAprox: 70,
+      nota: "Imprescindibles en bicis de trekking o cicloturismo; útiles también para la compra semanal en una urbana.",
+      paraQue: "Cargar equipaje o compra sin mochila.",
+      imagenPlaceholder: "Alforjas impermeables instaladas en un portabultos trasero",
+    },
+    {
+      id: "acc-funda-bateria",
+      slug: "funda-protectora-bateria",
+      nombre: "Funda protectora de batería",
+      categoria: "Mantenimiento",
+      precioAprox: 25,
+      nota: "Protege la batería de golpes, lluvia y radiación solar directa, especialmente en baterías no extraíbles.",
+      paraQue: "Alargar la vida útil de la batería.",
+      imagenPlaceholder: "Funda de neopreno cubriendo una batería de e-bike integrada en el cuadro",
+    },
+    {
+      id: "acc-soporte-movil",
+      slug: "soporte-movil-manillar",
+      nombre: "Soporte de móvil para manillar",
+      categoria: "Accesorios",
+      precioAprox: 20,
+      nota: "Útil para navegación GPS en rutas largas; elige uno con sujeción firme y protección ante vibraciones.",
+      paraQue: "Usar el móvil como navegador durante la ruta.",
+      imagenPlaceholder: "Teléfono móvil montado en un soporte sobre el manillar de una e-bike",
+    },
+    {
+      id: "acc-guardabarros",
+      slug: "guardabarros-universales",
+      nombre: "Guardabarros universales",
+      categoria: "Componentes",
+      precioAprox: 30,
+      nota: "En modelos que no los llevan de serie, evitan salpicaduras en días de lluvia.",
+      paraQue: "Ir a trabajar sin mancharte de barro o agua.",
+      imagenPlaceholder: "Guardabarros trasero instalado sobre la rueda de una e-bike urbana",
+    },
+    {
+      id: "acc-cargador-rapido",
+      slug: "cargador-rapido-adicional",
+      nombre: "Cargador rápido adicional",
+      categoria: "Batería",
+      precioAprox: 90,
+      nota: "Útil si cargas en dos sitios distintos (casa y trabajo) para no tener que llevar el cargador contigo.",
+      paraQue: "Cargar más rápido o en dos ubicaciones distintas.",
+      imagenPlaceholder: "Cargador de e-bike enchufado junto a una batería extraíble",
+    },
+  ] as Accesorio[],
 
   trustItems: [
     "Comparamos especificaciones oficiales publicadas por cada fabricante",

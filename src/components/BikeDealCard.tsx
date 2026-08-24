@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
 import type { Bike } from "@/data/ebg-data";
+import { useFavorites } from "@/lib/favorites-context";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 import { HeartIcon, StarIcon } from "./icons";
 
@@ -13,7 +13,8 @@ const priceFormatter = new Intl.NumberFormat("es-ES", {
 });
 
 export function BikeDealCard({ bike }: { bike: Bike }) {
-  const [favorited, setFavorited] = useState(false);
+  const { isFavorito, toggleFavorito } = useFavorites();
+  const favorited = isFavorito(bike.id);
   const discountPct = bike.precioAnterior
     ? Math.round((1 - bike.precio / bike.precioAnterior) * 100)
     : null;
@@ -32,7 +33,7 @@ export function BikeDealCard({ bike }: { bike: Bike }) {
           type="button"
           aria-label={favorited ? "Quitar de favoritos" : "Añadir a favoritos"}
           aria-pressed={favorited}
-          onClick={() => setFavorited((v) => !v)}
+          onClick={() => toggleFavorito(bike.id)}
           className="absolute right-3 top-3 flex size-8 items-center justify-center rounded-full bg-white/90 text-ink hover:bg-white"
         >
           <HeartIcon className="size-4" filled={favorited} />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
+import { FavoritesProvider } from "@/lib/favorites-context";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -18,7 +19,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="es" className={`${manrope.variable}`}>
       <body className="bg-white text-ink font-sans antialiased">
-        {children}
+        <FavoritesProvider>{children}</FavoritesProvider>
       </body>
     </html>
   );

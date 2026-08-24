@@ -3,11 +3,11 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { EBG_DATA } from "@/data/ebg-data";
+import { useFavorites } from "@/lib/favorites-context";
 import { CloseIcon, HeartIcon, MenuIcon, SearchIcon } from "./icons";
 
-const DEMO_FAVORITES_COUNT = 2;
-
 export function Header() {
+  const { favoritos } = useFavorites();
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -72,9 +72,9 @@ export function Header() {
             className="relative flex size-10 items-center justify-center rounded-full text-ink hover:bg-surf"
           >
             <HeartIcon />
-            {DEMO_FAVORITES_COUNT > 0 && (
+            {favoritos.length > 0 && (
               <span className="absolute right-0.5 top-0.5 flex size-4 items-center justify-center rounded-full bg-acc text-[10px] font-bold text-white">
-                {DEMO_FAVORITES_COUNT}
+                {favoritos.length}
               </span>
             )}
           </Link>
