@@ -4,8 +4,9 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { EBG_DATA } from "@/data/ebg-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
+import { ChevronLeftIcon, ChevronRightIcon } from "./icons";
 
-const ROTATE_MS = 2800;
+const ROTATE_MS = 3200;
 
 const priceFormatter = new Intl.NumberFormat("es-ES", {
   style: "currency",
@@ -28,6 +29,10 @@ export function BikeShowcaseCard() {
 
   const bike = bikes[index];
 
+  function goTo(next: number) {
+    setIndex((next + bikes.length) % bikes.length);
+  }
+
   return (
     <div className="animate-ebg-in flex h-full flex-col justify-between rounded-3xl bg-dark p-8 text-white sm:p-10">
       <div>
@@ -47,20 +52,47 @@ export function BikeShowcaseCard() {
       </div>
 
       <div className="mt-8" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-        <Link
-          href={`/bicicletas-electricas/${bike.slug}/`}
-          className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-white/25"
-        >
-          <ImagePlaceholder
-            label={bike.imagenPlaceholder}
-            className="h-20 w-28 shrink-0 rounded-xl !border-white/10 !bg-white/10 !text-white/60"
-          />
-          <div className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-wide text-white/50">{bike.marca}</p>
-            <p className="truncate font-semibold text-white">{bike.modelo}</p>
-            <p className="mt-1 font-bold text-acc">{priceFormatter.format(bike.precio)}</p>
-          </div>
-        </Link>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            aria-label="Bici anterior"
+            onClick={() => goTo(index - 1)}
+            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-acc hover:text-acc"
+          >
+            <ChevronLeftIcon className="size-4" />
+          </button>
+
+          <Link
+            key={bike.id}
+            href={`/bicicletas-electricas/${bike.slug}/`}
+            className="animate-ebg-in group flex flex-1 items-center gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-acc/50 hover:bg-white/[0.08]"
+          >
+            <div className="relative shrink-0">
+              <ImagePlaceholder
+                label={bike.imagenPlaceholder}
+                className="h-24 w-32 rounded-xl !border-white/10 !bg-white/10 !text-white/60"
+              />
+              <span className="absolute -right-2 -top-2 rounded-full bg-acc px-2 py-0.5 text-[11px] font-bold text-dark shadow-sm">
+                {bike.puntuacion.toFixed(1)}
+              </span>
+            </div>
+            <div className="min-w-0">
+              <p className="text-xs font-semibold uppercase tracking-wide text-white/50">{bike.marca}</p>
+              <p className="truncate font-semibold text-white group-hover:text-acc">{bike.modelo}</p>
+              <p className="mt-1 font-bold text-acc">{priceFormatter.format(bike.precio)}</p>
+              <p className="mt-1 text-xs text-white/45">{bike.autonomiaMin}-{bike.autonomiaMax} km de autonomía</p>
+            </div>
+          </Link>
+
+          <button
+            type="button"
+            aria-label="Siguiente bici"
+            onClick={() => goTo(index + 1)}
+            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-acc hover:text-acc"
+          >
+            <ChevronRightIcon className="size-4" />
+          </button>
+        </div>
 
         <div className="mt-4 flex flex-wrap justify-center gap-1.5">
           {bikes.map((b, i) => (
@@ -69,8 +101,8 @@ export function BikeShowcaseCard() {
               type="button"
               aria-label={`Ver ${b.marca} ${b.modelo}`}
               aria-current={i === index}
-              onClick={() => setIndex(i)}
-              className={`h-1.5 rounded-full transition-all ${i === index ? "w-5 bg-acc" : "w-1.5 bg-white/25"}`}
+              onClick={() => goTo(i)}
+              className={`h-1.5 rounded-full transition-all ${i === index ? "w-5 bg-acc" : "w-1.5 bg-white/25 hover:bg-white/40"}`}
             />
           ))}
         </div>

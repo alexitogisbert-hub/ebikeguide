@@ -30,8 +30,41 @@ export function AutonomyCalculator() {
   );
 
   const curveWidth = 280;
-  const curveHeight = 100;
-  const curvePath = `M 6 10 Q ${curveWidth * 0.55} 30 ${curveWidth - 6} ${curveHeight - 10}`;
+  const curveHeight = 130;
+  const padX = 8;
+  const padTop = 12;
+  const padBottom = 24;
+  const plotWidth = curveWidth - padX * 2;
+  const plotHeight = curveHeight - padTop - padBottom;
+  const baselineY = padTop + plotHeight;
+
+  const chart = useMemo(() => {
+    const axisMaxKm = Math.max(max, 1);
+    const xForKm = (km: number) => padX + (Math.min(km, axisMaxKm) / axisMaxKm) * plotWidth;
+    const yForPct = (pct: number) => padTop + (1 - pct / 100) * plotHeight;
+
+    const startX = xForKm(0);
+    const startY = yForPct(100);
+    const endX = xForKm(estimado);
+    const endY = yForPct(0);
+    const controlX = xForKm(estimado * 0.55);
+    const controlY = padTop + plotHeight * 0.62;
+
+    const curvePath = `M ${startX} ${startY} Q ${controlX} ${controlY} ${endX} ${endY}`;
+    const areaPath = `${curvePath} L ${endX} ${baselineY} L ${startX} ${baselineY} Z`;
+
+    return {
+      axisMaxKm,
+      startX,
+      startY,
+      endX,
+      endY,
+      curvePath,
+      areaPath,
+      bandX1: xForKm(min),
+      bandX2: xForKm(max),
+    };
+  }, [min, max, estimado, plotWidth, plotHeight, baselineY]);
 
   return (
     <div className="animate-ebg-in flex h-full flex-col rounded-3xl border border-line p-8 sm:p-10">
@@ -121,14 +154,40 @@ export function AutonomyCalculator() {
 
         <svg
           viewBox={`0 0 ${curveWidth} ${curveHeight}`}
-          className="w-full max-w-[220px] sm:ml-auto"
+          className="w-full max-w-[240px] sm:ml-auto"
           role="img"
-          aria-label={`Curva de descarga estimada hasta ${estimado} kilómetros`}
+          aria-label={`Descarga estimada de la batería: de 100% a 0% en ${estimado} km, rango probable ${min}-${max} km`}
         >
-          <line x1={6} y1={curveHeight - 10} x2={curveWidth - 6} y2={curveHeight - 10} stroke="#e7eae9" strokeWidth={1} />
-          <path d={curvePath} fill="none" stroke="#0fb5a0" strokeWidth={2.5} strokeLinecap="round" />
-          <circle cx={6} cy={10} r={3} fill="#0fb5a0" />
-          <circle cx={curveWidth - 6} cy={curveHeight - 10} r={3} fill="#0fb5a0" />
+          <defs>
+            <linearGradient id="autonomyFade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#0fb5a0" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#0fb5a0" stopOpacity="0" />
+            </linearGradient>
+          </defs>
+
+          <rect
+            x={chart.bandX1}
+            y={padTop}
+            width={Math.max(chart.bandX2 - chart.bandX1, 1)}
+            height={plotHeight}
+            fill="#0fb5a0"
+            opacity={0.1}
+          />
+
+          <line x1={padX} y1={baselineY} x2={curveWidth - padX} y2={baselineY} stroke="#e7eae9" strokeWidth={1} />
+
+          <path d={chart.areaPath} fill="url(#autonomyFade)" stroke="none" />
+          <path d={chart.curvePath} fill="none" stroke="#0fb5a0" strokeWidth={2.5} strokeLinecap="round" />
+
+          <circle cx={chart.startX} cy={chart.startY} r={3} fill="#0fb5a0" />
+          <circle cx={chart.endX} cy={chart.endY} r={3.5} fill="#0fb5a0" stroke="#fff" strokeWidth={1.5} />
+
+          <text x={padX} y={curveHeight - 6} fill="#6b7773" fontSize={9}>
+            0 km
+          </text>
+          <text x={curveWidth - padX} y={curveHeight - 6} fill="#6b7773" fontSize={9} textAnchor="end">
+            {chart.axisMaxKm} km
+          </text>
         </svg>
       </div>
 
