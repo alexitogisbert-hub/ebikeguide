@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { FavoritesProvider } from "@/lib/favorites-context";
+import { EBG_DATA } from "@/data/ebg-data";
 import "./globals.css";
 
 const manrope = Manrope({
@@ -9,10 +10,27 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700", "800"],
 });
 
+const SITE_TITLE = `${EBG_DATA.meta.nombre} — Encuentra tu e-bike ideal`;
+const SITE_DESCRIPTION =
+  "Comparador y guía de compra de bicicletas eléctricas. Analizamos autonomía, motor, confort y precio para ayudarte a elegir.";
+
 export const metadata: Metadata = {
-  title: "eBikeGuide — Encuentra tu e-bike ideal",
-  description:
-    "Comparador y guía de compra de bicicletas eléctricas. Analizamos autonomía, motor, confort y precio para ayudarte a elegir.",
+  metadataBase: new URL(EBG_DATA.meta.dominio),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    locale: "es_ES",
+    siteName: EBG_DATA.meta.nombre,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    url: "/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

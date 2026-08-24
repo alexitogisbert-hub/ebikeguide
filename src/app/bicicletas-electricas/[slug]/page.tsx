@@ -5,7 +5,9 @@ import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { CatalogoBicicletas } from "@/components/CatalogoBicicletas";
 import { BicicletaDetalle } from "@/components/BicicletaDetalle";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { EBG_DATA } from "@/data/ebg-data";
+import { pageMetadata } from "@/lib/seo";
 
 function getCategoria(slug: string) {
   return EBG_DATA.categorias.find((c) => c.slug === slug);
@@ -31,18 +33,18 @@ export async function generateMetadata({
 
   const categoria = getCategoria(slug);
   if (categoria) {
-    return {
+    return pageMetadata({
       title: `E-bikes ${categoria.nombre.toLowerCase()} — ${categoria.claim} | eBikeGuide`,
       description: `Compara las bicicletas eléctricas ${categoria.nombre.toLowerCase()} del catálogo demo: ${categoria.claim.toLowerCase()}.`,
-    };
+    });
   }
 
   const bike = getBike(slug);
   if (bike) {
-    return {
+    return pageMetadata({
       title: `${bike.marca} ${bike.modelo} — análisis y precio | eBikeGuide`,
       description: bike.porQue,
-    };
+    });
   }
 
   return {};
@@ -61,6 +63,13 @@ export default async function BicicletasElectricasSlugPage({
       <>
         <Header />
         <main>
+          <Breadcrumbs
+            items={[
+              { label: "Inicio", href: "/" },
+              { label: "Bicicletas", href: "/bicicletas-electricas/" },
+              { label: categoria.nombre },
+            ]}
+          />
           <PageHeader
             eyebrow="Categoría"
             title={`E-bikes ${categoria.nombre.toLowerCase()}`}

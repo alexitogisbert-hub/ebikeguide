@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { BikeDealCard } from "@/components/BikeDealCard";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { EBG_DATA } from "@/data/ebg-data";
+import { pageMetadata } from "@/lib/seo";
 
 function getGuia(slug: string) {
   return EBG_DATA.guias.find((g) => g.slug === slug);
@@ -24,10 +25,10 @@ export async function generateMetadata({
   const guia = getGuia(slug);
   if (!guia) return {};
 
-  return {
+  return pageMetadata({
     title: `${guia.titulo} | eBikeGuide`,
     description: guia.resumen,
-  };
+  });
 }
 
 export default async function GuiaDetallePage({
@@ -43,15 +44,33 @@ export default async function GuiaDetallePage({
     .map((id) => EBG_DATA.bikes.find((b) => b.id === id))
     .filter((b): b is NonNullable<typeof b> => Boolean(b));
 
+  const articleJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guia.titulo,
+    description: guia.resumen,
+    datePublished: guia.fechaPublicacion,
+    dateModified: guia.fechaPublicacion,
+    author: { "@type": "Organization", name: EBG_DATA.meta.nombre },
+    publisher: { "@type": "Organization", name: EBG_DATA.meta.nombre },
+    articleSection: guia.categoria,
+    mainEntityOfPage: `${EBG_DATA.meta.dominio}/guias/${guia.slug}/`,
+  };
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
       <Header />
       <main>
-        <article className="mx-auto max-w-[760px] px-5 pt-12 sm:px-8">
-          <Link href="/guias/" className="text-sm font-medium text-mut hover:text-ink">
-            ← Todas las guías
-          </Link>
-          <p className="mt-5 text-xs font-semibold uppercase tracking-wide text-acc-d">{guia.categoria}</p>
+        <Breadcrumbs
+          items={[
+            { label: "Inicio", href: "/" },
+            { label: "Guías", href: "/guias/" },
+            { label: guia.titulo },
+          ]}
+        />
+        <article className="mx-auto max-w-[760px] px-5 pt-6 sm:px-8">
+          <p className="text-xs font-semibold uppercase tracking-wide text-acc-d">{guia.categoria}</p>
           <h1 className="mt-1.5 text-[clamp(28px,4vw,40px)] font-extrabold tracking-[-0.02em] text-ink">
             {guia.titulo}
           </h1>

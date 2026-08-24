@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { AutonomyCalculator } from "@/components/AutonomyCalculator";
 import { FACTOR_ASISTENCIA, FACTOR_TERRENO, BASE_WH_POR_KM } from "@/domain/autonomy";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Calculadora de autonomía de e-bikes | eBikeGuide",
   description: "Estima cuántos km puedes hacer con tu e-bike según la batería, tu peso, el terreno y el nivel de asistencia.",
-};
+});
 
 const ASISTENCIA_LABELS: Record<keyof typeof FACTOR_ASISTENCIA, string> = {
   eco: "Eco",

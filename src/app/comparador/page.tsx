@@ -1,13 +1,16 @@
-import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { ComparadorClient } from "@/components/ComparadorClient";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Comparador de e-bikes | eBikeGuide",
-  description: "Compara hasta 4 bicicletas eléctricas lado a lado: precio, batería, autonomía, motor, peso y puntuación.",
+export const metadata = {
+  ...pageMetadata({
+    title: "Comparador de e-bikes | eBikeGuide",
+    description: "Compara hasta 4 bicicletas eléctricas lado a lado: precio, batería, autonomía, motor, peso y puntuación.",
+  }),
+  alternates: { canonical: "/comparador/" },
 };
 
 export default function ComparadorPage() {

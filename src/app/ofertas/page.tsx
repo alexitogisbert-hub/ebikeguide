@@ -1,14 +1,14 @@
-import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { BikeDealCard } from "@/components/BikeDealCard";
 import { EBG_DATA } from "@/data/ebg-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Ofertas en e-bikes | eBikeGuide",
   description: "Bicicletas eléctricas con descuento en el catálogo demo, ordenadas por porcentaje de rebaja.",
-};
+});
 
 function descuentoPct(precio: number, precioAnterior: number) {
   return Math.round((1 - precio / precioAnterior) * 100);

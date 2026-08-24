@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { FavoritosClient } from "@/components/FavoritosClient";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Tus favoritos | eBikeGuide",
   description: "Las e-bikes que has guardado como favoritas, guardadas en este navegador.",
-};
+});
 
 export default function FavoritosPage() {
   return (

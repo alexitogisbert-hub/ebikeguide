@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { EncontrarBicicletaQuiz } from "@/components/EncontrarBicicletaQuiz";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Encuentra tu e-bike ideal | eBikeGuide",
   description: "Responde 7 preguntas rápidas sobre tu uso, terreno y presupuesto y te recomendamos las e-bikes del catálogo demo que mejor encajan.",
-};
+});
 
 export default function EncontrarBicicletaPage() {
   return (

@@ -1,14 +1,16 @@
-import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { CatalogoBicicletas } from "@/components/CatalogoBicicletas";
 import { EBG_DATA } from "@/data/ebg-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Bicicletas eléctricas — catálogo completo | eBikeGuide",
-  description:
-    "Compara todas las e-bikes del catálogo demo por categoría, precio, autonomía y puntuación.",
+export const metadata = {
+  ...pageMetadata({
+    title: "Bicicletas eléctricas — catálogo completo | eBikeGuide",
+    description: "Compara todas las e-bikes del catálogo demo por categoría, precio, autonomía y puntuación.",
+  }),
+  alternates: { canonical: "/bicicletas-electricas/" },
 };
 
 export default async function BicicletasElectricasPage({

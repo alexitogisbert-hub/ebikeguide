@@ -5,7 +5,14 @@ import { ImagePlaceholder } from "./ImagePlaceholder";
 import { FavoriteButton } from "./FavoriteButton";
 import { SubsBreakdown } from "./SubsBreakdown";
 import { BikeDealCard } from "./BikeDealCard";
+import { Breadcrumbs } from "./Breadcrumbs";
 import { ArrowRightIcon, StarIcon } from "./icons";
+
+const SCHEMA_AVAILABILITY: Record<string, string> = {
+  disponible: "https://schema.org/InStock",
+  pocas: "https://schema.org/LimitedAvailability",
+  agotado: "https://schema.org/OutOfStock",
+};
 
 const priceFormatter = new Intl.NumberFormat("es-ES", {
   style: "currency",
@@ -41,14 +48,46 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
 
   const discountPct = bike.precioAnterior ? Math.round((1 - bike.precio / bike.precioAnterior) * 100) : null;
   const rating = (bike.puntuacion / 2).toFixed(1);
+  const categoria = EBG_DATA.categorias.find((c) => c.id === bike.categoriaId);
+
+  const productJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: `${bike.marca} ${bike.modelo}`,
+    description: bike.porQue,
+    sku: bike.id,
+    brand: { "@type": "Brand", name: bike.marca },
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: bike.puntuacion,
+      bestRating: 10,
+      worstRating: 1,
+      reviewCount: bike.reviews,
+    },
+    offers: bike.ofertas.map((oferta) => ({
+      "@type": "Offer",
+      price: oferta.precio,
+      priceCurrency: "EUR",
+      availability: SCHEMA_AVAILABILITY[oferta.disponibilidad] ?? "https://schema.org/InStock",
+      url: `${EBG_DATA.meta.dominio}/bicicletas-electricas/${bike.slug}/`,
+      seller: {
+        "@type": "Organization",
+        name: EBG_DATA.merchants.find((m) => m.id === oferta.merchantId)?.nombre ?? oferta.merchantId,
+      },
+    })),
+  };
 
   return (
     <>
-      <div className="mx-auto max-w-[1280px] px-5 pt-8 sm:px-8">
-        <Link href={`/bicicletas-electricas/${bike.categoriaId}/`} className="text-sm font-medium text-mut hover:text-ink">
-          ← Volver a {EBG_DATA.categorias.find((c) => c.id === bike.categoriaId)?.nombre ?? "el catálogo"}
-        </Link>
-      </div>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(productJsonLd) }} />
+      <Breadcrumbs
+        items={[
+          { label: "Inicio", href: "/" },
+          { label: "Bicicletas", href: "/bicicletas-electricas/" },
+          { label: categoria?.nombre ?? "Categoría", href: `/bicicletas-electricas/${bike.categoriaId}/` },
+          { label: `${bike.marca} ${bike.modelo}` },
+        ]}
+      />
 
       <section className="mx-auto max-w-[1280px] px-5 py-8 sm:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">

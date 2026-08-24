@@ -114,6 +114,7 @@ export type Guia = {
   imagenPlaceholder: string;
   cuerpo: string[];
   productos: string[];
+  fechaPublicacion: string;
   destacada?: boolean;
 };
 
@@ -1049,6 +1050,7 @@ export const EBG_DATA = {
         "La recomendación práctica: si vas a llevar peso, subir cuestas con regularidad o rodar más de 40 km por salida, prioriza un motor central de par alto. Si tu uso es plano, corto y el precio manda, un motor de buje cumple y abarata la bici de forma notable.",
       ],
       productos: ["b04", "b03", "b06"],
+      fechaPublicacion: "2026-07-14",
       destacada: true,
     },
     {
@@ -1067,6 +1069,7 @@ export const EBG_DATA = {
         "Regla práctica: calcula tu trayecto habitual en km, multiplícalo por dos si sueles ir en asistencia alta o hay cuestas, y busca una bici cuya autonomía mínima cubra ese número sin apurar la batería por debajo del 20 % de forma sistemática.",
       ],
       productos: ["b04", "b01", "b03"],
+      fechaPublicacion: "2026-06-02",
     },
     {
       id: "guia-cuidado-bateria",
@@ -1084,6 +1087,7 @@ export const EBG_DATA = {
         "Una batería extraíble, como la de la Moma E-16 City, la Nordvik Tour Trekking 625 o la Granith Hardtail 500, facilita este cuidado porque puedes guardarla en casa en vez de dejar la bici entera a la intemperie con la batería puesta.",
       ],
       productos: ["b01", "b04", "b08"],
+      fechaPublicacion: "2026-05-18",
     },
     {
       id: "guia-normativa-espana",
@@ -1101,6 +1105,7 @@ export const EBG_DATA = {
         "Recomendación general aunque no sea obligatoria por ley: un seguro de responsabilidad civil es barato y cubre a terceros en caso de accidente, algo especialmente relevante si la e-bike pesa 20-30 kg y circula a más velocidad media que una bici convencional.",
       ],
       productos: ["b07", "b12"],
+      fechaPublicacion: "2026-04-09",
     },
   ] as Guia[],
 

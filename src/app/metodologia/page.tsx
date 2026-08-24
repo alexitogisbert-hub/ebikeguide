@@ -1,13 +1,13 @@
-import type { Metadata } from "next";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { EBG_DATA } from "@/data/ebg-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Metodología | eBikeGuide",
   description: "Cómo calculamos la puntuación de cada e-bike: los criterios, sus pesos y de dónde sale la evidencia.",
-};
+});
 
 export default function MetodologiaPage() {
   const { pesosPuntuacion } = EBG_DATA.meta;

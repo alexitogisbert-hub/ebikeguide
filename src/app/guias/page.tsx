@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { EBG_DATA } from "@/data/ebg-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Guías y consejos sobre e-bikes | eBikeGuide",
   description: "Guías de compra, mantenimiento y normativa sobre bicicletas eléctricas.",
-};
+});
 
 export default function GuiasPage() {
   return (

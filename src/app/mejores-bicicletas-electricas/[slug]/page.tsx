@@ -4,7 +4,9 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
+import { Breadcrumbs } from "@/components/Breadcrumbs";
 import { EBG_DATA } from "@/data/ebg-data";
+import { pageMetadata } from "@/lib/seo";
 
 const priceFormatter = new Intl.NumberFormat("es-ES", {
   style: "currency",
@@ -29,10 +31,10 @@ export async function generateMetadata({
   const mejor = getMejor(slug);
   if (!mejor) return {};
 
-  return {
+  return pageMetadata({
     title: `${mejor.titulo} | eBikeGuide`,
     description: mejor.resumen,
-  };
+  });
 }
 
 export default async function MejorDetallePage({
@@ -66,10 +68,14 @@ export default async function MejorDetallePage({
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
       <Header />
       <main>
-        <div className="mx-auto max-w-[1280px] px-5 pt-12 sm:px-8">
-          <Link href="/mejores-bicicletas-electricas/" className="text-sm font-medium text-mut hover:text-ink">
-            ← Todas las selecciones
-          </Link>
+        <Breadcrumbs
+          items={[
+            { label: "Inicio", href: "/" },
+            { label: "Mejores bicicletas eléctricas", href: "/mejores-bicicletas-electricas/" },
+            { label: mejor.titulo },
+          ]}
+        />
+        <div className="mx-auto max-w-[1280px] px-5 pt-6 sm:px-8">
           <h1 className="mt-4 text-[clamp(30px,4vw,44px)] font-extrabold tracking-[-0.02em] text-ink">
             {mejor.titulo}
           </h1>

@@ -1,15 +1,15 @@
-import type { Metadata } from "next";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { EBG_DATA } from "@/data/ebg-data";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = pageMetadata({
   title: "Las mejores bicicletas eléctricas | eBikeGuide",
   description: "Selecciones por categoría y presupuesto, con criterios explicados y preguntas frecuentes.",
-};
+});
 
 export default function MejoresBicicletasPage() {
   return (
