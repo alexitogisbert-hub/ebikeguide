@@ -1,0 +1,118 @@
+@import "tailwindcss";
+
+:root {
+  --acc: #0fb5a0;
+  --acc-d: #0a8f7e;
+  --acc-s: #e6f7f4;
+  --ink: #0d1512;
+  --mut: #6b7773;
+  --line: #e7eae9;
+  --surf: #f7f9f8;
+  --dark: #0b1110;
+}
+
+@theme inline {
+  --color-acc: var(--acc);
+  --color-acc-d: var(--acc-d);
+  --color-acc-s: var(--acc-s);
+  --color-ink: var(--ink);
+  --color-mut: var(--mut);
+  --color-line: var(--line);
+  --color-surf: var(--surf);
+  --color-dark: var(--dark);
+  --font-sans: var(--font-manrope);
+  --animate-ebg-in: ebgIn 0.5s ease both;
+}
+
+@keyframes ebgIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--ink);
+    font-family: var(--font-manrope), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-wrap: pretty;
+  }
+
+  a {
+    color: var(--acc-d);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--ink);
+  }
+
+  button,
+  input,
+  select {
+    font: inherit;
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--acc);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  ::selection {
+    background: var(--acc-s);
+  }
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    height: 22px;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 4px;
+    background: var(--line);
+    border-radius: 99px;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 18px;
+    height: 18px;
+    margin-top: -7px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--acc);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  input[type="range"]::-moz-range-track {
+    height: 4px;
+    background: var(--line);
+    border-radius: 99px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    border: 2px solid var(--acc);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+}
