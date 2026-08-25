@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EBG_DATA } from "@/data/ebg-data";
+import { EBG_DATA, type Bike } from "@/data/ebg-data";
 import {
   calcularSubsCatalogo,
   computeWeightedScore,
@@ -167,7 +167,7 @@ describe("scoreBikeBreakdown", () => {
   });
 
   it("las filas sin dato tienen valor null y aportación 0", () => {
-    const bikeSinPar = EBG_DATA.bikes.find((b) => b.parNm === null)!;
+    const bikeSinPar: Bike = { ...EBG_DATA.bikes[0], id: "test-sin-par", subs: { ...EBG_DATA.bikes[0].subs, potencia: null } };
     const resultado = scoreBikeBreakdown(bikeSinPar, PESOS);
     const filaPotencia = resultado.desglose.find((d) => d.id === "potencia")!;
     expect(filaPotencia.valor).toBeNull();
@@ -187,12 +187,24 @@ describe("scoreBikes", () => {
   });
 
   it("una bici puede acabar en 0 si es la más cara del catálogo y no tiene ningún otro dato confirmado (no es un fallo, es honesto)", () => {
-    const bikeSoloPrecio = EBG_DATA.bikes.find(
-      (b) => b.subs.autonomia === null && b.subs.potencia === null && b.subs.peso === null,
-    )!;
-    const esLaMasCara = EBG_DATA.bikes.every((b) => b.precio <= bikeSoloPrecio.precio);
-    expect(esLaMasCara).toBe(true);
-    expect(bikeSoloPrecio.puntuacion).toBe(0);
+    const precioMasAlto = Math.max(...EBG_DATA.bikes.map((b) => b.precio)) + 1000;
+    const metricas = [
+      ...EBG_DATA.bikes.map((b) => ({
+        autonomiaKm: b.autonomiaMin !== null && b.autonomiaMax !== null ? (b.autonomiaMin + b.autonomiaMax) / 2 : null,
+        parNm: b.parNm,
+        pesoKg: b.pesoKg,
+        precio: b.precio,
+      })),
+      { autonomiaKm: null, parNm: null, pesoKg: null, precio: precioMasAlto },
+    ];
+    const subs = calcularSubsCatalogo(metricas);
+    const subsSoloPrecio = subs[subs.length - 1];
+
+    expect(subsSoloPrecio.autonomia).toBeNull();
+    expect(subsSoloPrecio.potencia).toBeNull();
+    expect(subsSoloPrecio.peso).toBeNull();
+    expect(subsSoloPrecio.precio).toBe(0); // la más cara -> peor percentil inverso posible
+    expect(computeWeightedScore(subsSoloPrecio, PESOS)).toBe(0);
   });
 
   it("recalcula la puntuación si cambian los pesos (dar casi todo el peso al precio favorece a la bici más barata)", () => {

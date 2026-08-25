@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EBG_DATA } from "@/data/ebg-data";
+import { EBG_DATA, type Bike } from "@/data/ebg-data";
 import { compararBikes, MAX_BIKES_COMPARADOR } from "./comparator";
 
 const bikes = EBG_DATA.bikes;
@@ -41,8 +41,8 @@ describe("compararBikes", () => {
 
   it("muestra un único número cuando min y max coinciden, y 'Dato no publicado' si no hay autonomía", () => {
     const bikeCifraUnica = bikes.find((b) => b.autonomiaMin !== null && b.autonomiaMin === b.autonomiaMax)!;
-    const bikeSinAutonomia = bikes.find((b) => b.autonomiaMin === null)!;
-    const comparativa = compararBikes(bikes, [bikeCifraUnica.id, bikeSinAutonomia.id]);
+    const bikeSinAutonomia: Bike = { ...bikes[0], id: "test-sin-autonomia", autonomiaMin: null, autonomiaMax: null };
+    const comparativa = compararBikes([...bikes, bikeSinAutonomia], [bikeCifraUnica.id, bikeSinAutonomia.id]);
     const filaAutonomia = comparativa.filas.find((f) => f.campo === "autonomia")!;
     expect(filaAutonomia.valores[0]).toBe(`${bikeCifraUnica.autonomiaMin} km`);
     expect(filaAutonomia.valores[1]).toBe("Dato no publicado");

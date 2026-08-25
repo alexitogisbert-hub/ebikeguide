@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EBG_DATA } from "@/data/ebg-data";
+import { EBG_DATA, type Bike } from "@/data/ebg-data";
 import { filtrarBikes, filtrarYOrdenarBikes, ordenarBikes } from "./filters";
 
 const bikes = EBG_DATA.bikes;
@@ -38,8 +38,8 @@ describe("filtrarBikes", () => {
   });
 
   it("no excluye por peso máximo cuando el peso no está publicado (no penaliza el dato ausente)", () => {
-    const sinPeso = bikes.find((b) => b.pesoKg === null)!;
-    const resultado = filtrarBikes(bikes, { pesoMax: 1 });
+    const sinPeso: Bike = { ...bikes[0], id: "test-sin-peso", pesoKg: null };
+    const resultado = filtrarBikes([...bikes, sinPeso], { pesoMax: 1 });
     expect(resultado.map((b) => b.id)).toContain(sinPeso.id);
   });
 
@@ -50,8 +50,8 @@ describe("filtrarBikes", () => {
   });
 
   it("excluye por autonomía mínima cuando la autonomía no está confirmada (no puede garantizarla)", () => {
-    const sinAutonomia = bikes.find((b) => b.autonomiaMax === null)!;
-    const resultado = filtrarBikes(bikes, { autonomiaMinKm: 1 });
+    const sinAutonomia: Bike = { ...bikes[0], id: "test-sin-autonomia", autonomiaMin: null, autonomiaMax: null };
+    const resultado = filtrarBikes([...bikes, sinAutonomia], { autonomiaMinKm: 1 });
     expect(resultado.map((b) => b.id)).not.toContain(sinAutonomia.id);
   });
 

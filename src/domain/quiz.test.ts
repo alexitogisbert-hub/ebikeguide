@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EBG_DATA } from "@/data/ebg-data";
+import { EBG_DATA, type Bike } from "@/data/ebg-data";
 import { calcularAjusteQuiz, recomendarBikes, type QuizAnswers } from "./quiz";
 
 const bikes = EBG_DATA.bikes;
@@ -37,7 +37,7 @@ describe("calcularAjusteQuiz", () => {
 
   it("no falla si el criterio priorizado es null para una bici (dato no publicado)", () => {
     const respuestas: QuizAnswers = { ...baseAnswers, prioridad: "potencia" };
-    const sinPar = bikes.find((b) => b.parNm === null)!;
+    const sinPar: Bike = { ...bikes[0], id: "test-sin-par", parNm: null };
     expect(() => calcularAjusteQuiz(sinPar, respuestas)).not.toThrow();
     expect(Number.isFinite(calcularAjusteQuiz(sinPar, respuestas))).toBe(true);
   });
