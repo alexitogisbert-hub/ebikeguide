@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import type { Bike } from "@/data/ebg-data";
+import { obtenerBadgePrincipal } from "@/domain/scoring";
 import { useFavorites } from "@/lib/favorites-context";
 import { BikeImage } from "./BikeImage";
 import { HeartIcon } from "./icons";
@@ -18,6 +19,7 @@ export function BikeDealCard({ bike }: { bike: Bike }) {
   const discountPct = bike.precioAnterior
     ? Math.round((1 - bike.precio / bike.precioAnterior) * 100)
     : null;
+  const badge = obtenerBadgePrincipal(bike);
 
   return (
     <div className="rounded-2xl border border-line transition-shadow duration-200 hover:shadow-lg">
@@ -44,13 +46,10 @@ export function BikeDealCard({ bike }: { bike: Bike }) {
         <h2 className="mt-0.5 font-semibold text-ink">{bike.modelo}</h2>
 
         <div className="mt-2 flex items-center gap-1.5 text-sm">
-          {bike.puntuacion > 0 ? (
-            <span className="rounded-full bg-acc-s px-2 py-0.5 text-xs font-bold text-acc-d">
-              {bike.puntuacion.toFixed(1)}/10
-            </span>
-          ) : (
-            <span className="rounded-full bg-surf px-2 py-0.5 text-xs font-bold text-mut">Sin datos suficientes</span>
-          )}
+          <span className="inline-flex items-center gap-1 rounded-full bg-acc-s px-2 py-0.5 text-xs font-bold text-acc-d">
+            <span aria-hidden="true">{badge.emoji}</span>
+            {badge.etiqueta}
+          </span>
           {bike.esTriciclo && <span className="text-xs font-medium text-mut">Triciclo</span>}
         </div>
 

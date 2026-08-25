@@ -28,10 +28,13 @@ describe("calcularAjusteQuiz", () => {
     expect(calcularAjusteQuiz(montana, respuestas)).toBeGreaterThan(calcularAjusteQuiz(urbana, respuestas));
   });
 
-  it("subir la prioridad de potencia favorece a la bici con más par motor", () => {
+  it("subir la prioridad de potencia favorece a la bici con más par motor de su categoría", () => {
+    // Mismo tipo (trekking) para las dos, así terrenoFit/perfil de uso son idénticos y la
+    // única diferencia posible en el ajuste es la sub-puntuación de potencia (percentil dentro
+    // de la categoría): la puntuación de potencia ya no se compara contra todo el catálogo.
     const respuestas: QuizAnswers = { ...baseAnswers, prioridad: "potencia" };
-    const potente = bikes.find((b) => b.slug === "fischer-viator-42i")!; // 80 Nm
-    const floja = bikes.find((b) => b.slug === "ado-air20-pro")!; // 40 Nm
+    const potente = bikes.find((b) => b.slug === "fischer-viator-42i")!; // trekking, 80 Nm
+    const floja = bikes.find((b) => b.slug === "flli-schiano-e-ride")!; // trekking, 40 Nm
     expect(calcularAjusteQuiz(potente, respuestas)).toBeGreaterThan(calcularAjusteQuiz(floja, respuestas));
   });
 

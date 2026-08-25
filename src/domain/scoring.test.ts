@@ -3,6 +3,7 @@ import { EBG_DATA, type Bike } from "@/data/ebg-data";
 import {
   calcularSubsCatalogo,
   computeWeightedScore,
+  obtenerBadgePrincipal,
   percentil,
   percentilInverso,
   scoreBikeBreakdown,
@@ -69,8 +70,8 @@ describe("percentilInverso", () => {
 describe("calcularSubsCatalogo", () => {
   it("calcula autonomia/potencia/peso/precio a partir de métricas objetivas", () => {
     const metricas = [
-      { autonomiaKm: 100, parNm: 40, pesoKg: 20, precio: 1000 },
-      { autonomiaKm: 50, parNm: 80, pesoKg: 10, precio: 1000 },
+      { tipo: "urbana", autonomiaKm: 100, parNm: 40, pesoKg: 20, precio: 1000 },
+      { tipo: "urbana", autonomiaKm: 50, parNm: 80, pesoKg: 10, precio: 1000 },
     ];
     const subs = calcularSubsCatalogo(metricas);
     expect(subs[0].autonomia).toBe(10); // más km, mejor nota
@@ -83,8 +84,8 @@ describe("calcularSubsCatalogo", () => {
 
   it("deja en null el criterio de una bici que no tiene el dato, sin inventar un valor", () => {
     const metricas = [
-      { autonomiaKm: 100, parNm: null, pesoKg: 20, precio: 1000 },
-      { autonomiaKm: 50, parNm: 80, pesoKg: null, precio: 1000 },
+      { tipo: "urbana", autonomiaKm: 100, parNm: null, pesoKg: 20, precio: 1000 },
+      { tipo: "urbana", autonomiaKm: 50, parNm: 80, pesoKg: null, precio: 1000 },
     ];
     const subs = calcularSubsCatalogo(metricas);
     expect(subs[0].potencia).toBeNull();
@@ -95,17 +96,35 @@ describe("calcularSubsCatalogo", () => {
 
   it("la nota de precio es el percentil inverso del precio: más barata, mejor nota", () => {
     const metricas = [
-      { autonomiaKm: null, parNm: null, pesoKg: null, precio: 1000 },
-      { autonomiaKm: null, parNm: null, pesoKg: null, precio: 500 },
+      { tipo: "urbana", autonomiaKm: null, parNm: null, pesoKg: null, precio: 1000 },
+      { tipo: "urbana", autonomiaKm: null, parNm: null, pesoKg: null, precio: 500 },
     ];
     const subs = calcularSubsCatalogo(metricas);
     expect(subs[1].precio).toBeGreaterThan(subs[0].precio!);
   });
 
   it("el criterio de precio nunca es null, aunque falten todos los demás datos", () => {
-    const metricas = [{ autonomiaKm: null, parNm: null, pesoKg: null, precio: 1500 }];
+    const metricas = [{ tipo: "urbana", autonomiaKm: null, parNm: null, pesoKg: null, precio: 1500 }];
     const subs = calcularSubsCatalogo(metricas);
     expect(subs[0].precio).not.toBeNull();
+  });
+
+  it("compara cada bici solo dentro de su categoría (tipo), no con el catálogo entero", () => {
+    const metricas = [
+      { tipo: "urbana", autonomiaKm: 100, parNm: 40, pesoKg: 20, precio: 1000 },
+      { tipo: "urbana", autonomiaKm: 50, parNm: 80, pesoKg: 10, precio: 1000 },
+      { tipo: "montana", autonomiaKm: 10, parNm: 10, pesoKg: 50, precio: 100 },
+    ];
+    const subs = calcularSubsCatalogo(metricas);
+    // las urbanas se comparan solo entre ellas, igual que antes de agrupar por categoría
+    expect(subs[0].autonomia).toBe(10);
+    expect(subs[1].autonomia).toBe(0);
+    // la de montaña es la única de su categoría -> percentil 10 en todo, aunque sus valores
+    // absolutos sean los peores del catálogo entero: no hay con qué compararla dentro de "montana"
+    expect(subs[2].autonomia).toBe(10);
+    expect(subs[2].potencia).toBe(10);
+    expect(subs[2].peso).toBe(10);
+    expect(subs[2].precio).toBe(10);
   });
 });
 
@@ -186,16 +205,19 @@ describe("scoreBikes", () => {
     });
   });
 
-  it("una bici puede acabar en 0 si es la más cara del catálogo y no tiene ningún otro dato confirmado (no es un fallo, es honesto)", () => {
+  it("una bici puede acabar en 0 si es la más cara de su categoría y no tiene ningún otro dato confirmado (no es un fallo, es honesto)", () => {
     const precioMasAlto = Math.max(...EBG_DATA.bikes.map((b) => b.precio)) + 1000;
     const metricas = [
       ...EBG_DATA.bikes.map((b) => ({
+        tipo: b.tipo,
         autonomiaKm: b.autonomiaMin !== null && b.autonomiaMax !== null ? (b.autonomiaMin + b.autonomiaMax) / 2 : null,
         parNm: b.parNm,
         pesoKg: b.pesoKg,
         precio: b.precio,
       })),
-      { autonomiaKm: null, parNm: null, pesoKg: null, precio: precioMasAlto },
+      // misma categoría que las cargo del catálogo, para que compita con ellas y no acabe siendo
+      // la única de una categoría nueva (lo que le daría percentil 10 por definición).
+      { tipo: "cargo", autonomiaKm: null, parNm: null, pesoKg: null, precio: precioMasAlto },
     ];
     const subs = calcularSubsCatalogo(metricas);
     const subsSoloPrecio = subs[subs.length - 1];
@@ -203,7 +225,7 @@ describe("scoreBikes", () => {
     expect(subsSoloPrecio.autonomia).toBeNull();
     expect(subsSoloPrecio.potencia).toBeNull();
     expect(subsSoloPrecio.peso).toBeNull();
-    expect(subsSoloPrecio.precio).toBe(0); // la más cara -> peor percentil inverso posible
+    expect(subsSoloPrecio.precio).toBe(0); // la más cara de su categoría -> peor percentil inverso posible
     expect(computeWeightedScore(subsSoloPrecio, PESOS)).toBe(0);
   });
 
@@ -215,5 +237,39 @@ describe("scoreBikes", () => {
     const masCara = resultados.find((r) => r.bikeId === "b09")!; // Accolmile Cola Bear, 1.742 €
 
     expect(masBarata.puntuacion).toBeGreaterThan(masCara.puntuacion);
+  });
+});
+
+describe("obtenerBadgePrincipal", () => {
+  it("elige el criterio con mayor sub-puntuación", () => {
+    const bike: Bike = {
+      ...EBG_DATA.bikes[0],
+      subs: { autonomia: 5, potencia: 3, peso: 9, precio: 2 },
+    };
+    expect(obtenerBadgePrincipal(bike)).toEqual({ emoji: "🪶", etiqueta: "Ligera", criterio: "peso" });
+  });
+
+  it("ignora los criterios sin dato al elegir el mejor", () => {
+    const bike: Bike = {
+      ...EBG_DATA.bikes[0],
+      subs: { autonomia: null, potencia: 4, peso: null, precio: 10 },
+    };
+    expect(obtenerBadgePrincipal(bike)).toEqual({ emoji: "💰", etiqueta: "Calidad-precio", criterio: "precio" });
+  });
+
+  it("devuelve el badge 'En análisis' si ningún criterio tiene dato", () => {
+    const bike: Bike = {
+      ...EBG_DATA.bikes[0],
+      subs: { autonomia: null, potencia: null, peso: null, precio: null },
+    };
+    expect(obtenerBadgePrincipal(bike)).toEqual({ emoji: "📊", etiqueta: "En análisis", criterio: "precio" });
+  });
+
+  it("todas las bicis reales del catálogo obtienen un badge válido", () => {
+    EBG_DATA.bikes.forEach((bike) => {
+      const badge = obtenerBadgePrincipal(bike);
+      expect(["autonomia", "motor", "peso", "precio"]).toContain(badge.criterio);
+      expect(badge.etiqueta.length).toBeGreaterThan(0);
+    });
   });
 });

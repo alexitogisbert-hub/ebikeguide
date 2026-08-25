@@ -1178,6 +1178,7 @@ const BIKES_RAW: BikeRaw[] = [
 ];
 
 const METRICAS: MetricasBike[] = BIKES_RAW.map((b) => ({
+  tipo: b.tipo,
   autonomiaKm: b.autonomiaMin !== null && b.autonomiaMax !== null ? (b.autonomiaMin + b.autonomiaMax) / 2 : null,
   parNm: b.parNm,
   pesoKg: b.pesoKg,
