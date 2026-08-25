@@ -94,6 +94,17 @@ export type Bike = {
   contras: string[];
   ofertas: OfertaBike[];
   alternativas: string[];
+  /**
+   * Ruta local (p. ej. "/images/bikes/urbana.jpg") a una foto de stock GENÉRICA de la
+   * categoría del producto — no es la foto real de este modelo. No usamos fotos scrapeadas
+   * de Amazon/Google Images (riesgo de copyright y puede perjudicar la solicitud de afiliado
+   * de Amazon); usamos fotografía editorial con licencia libre (Unsplash/Pexels, uso
+   * comercial permitido) descargada y servida desde este proyecto, nunca hotlinked.
+   * Vacío ("") mientras no se haya incorporado esa foto: en ese caso los componentes que
+   * consumen este campo (ver `BikeImage`) recurren al placeholder de texto de
+   * `imagenPlaceholder`. Ver `obtenerImagenAmazonPAAPI` más abajo para el futuro reemplazo
+   * por fotos reales de producto vía Amazon Associates.
+   */
   imagen: string;
   imagenPlaceholder: string;
   galeria: string[] | null;
@@ -103,6 +114,21 @@ export type Bike = {
   reviews: number;
   destacada?: boolean;
 };
+
+/**
+ * Punto de conexión (todavía SIN IMPLEMENTAR) con la Amazon Product Advertising API (PA-API
+ * 5.0) para traer la imagen real de producto de un ASIN una vez tengamos una cuenta de
+ * Amazon Associates aprobada. La PA-API solo se puede usar con una cuenta de Associates
+ * activa y credenciales propias (access key, secret key, partner tag) — no tiene sentido
+ * implementarla antes de tener esa cuenta. Cuando la tengamos, esta función sustituirá el
+ * uso de `Bike.imagen` (foto de stock genérica) por la foto real del producto.
+ * No se llama desde ningún sitio todavía.
+ */
+export async function obtenerImagenAmazonPAAPI(asin: string): Promise<string | null> {
+  throw new Error(
+    `obtenerImagenAmazonPAAPI("${asin}"): no implementado — pendiente de cuenta de Amazon Associates y credenciales de la Product Advertising API.`,
+  );
+}
 
 export type Guia = {
   id: string;

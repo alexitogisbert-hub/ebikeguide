@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { EBG_DATA } from "@/data/ebg-data";
 import { compararBikes, MAX_BIKES_COMPARADOR } from "@/domain/comparator";
-import { ImagePlaceholder } from "./ImagePlaceholder";
+import { BikeImage } from "./BikeImage";
 import { FavoriteButton } from "./FavoriteButton";
 
 const priceFormatter = new Intl.NumberFormat("es-ES", {
@@ -84,7 +84,7 @@ export function ComparadorClient() {
                 {comparativa.bikes.map((bike) => (
                   <th key={bike.id} className="min-w-[200px] px-3 pb-4 text-left align-bottom">
                     <div className="relative">
-                      <ImagePlaceholder label={bike.imagenPlaceholder} className="h-28 w-full rounded-xl" />
+                      <BikeImage bike={bike} className="h-28 w-full rounded-xl" />
                       <FavoriteButton
                         bikeId={bike.id}
                         className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-full bg-white/90 text-ink hover:bg-white"

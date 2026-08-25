@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { EBG_DATA } from "@/data/ebg-data";
-import { ImagePlaceholder } from "./ImagePlaceholder";
+import { BikeImage } from "./BikeImage";
 import { ChevronLeftIcon, ChevronRightIcon } from "./icons";
 
 const ROTATE_MS = 3200;
@@ -68,8 +68,8 @@ export function BikeShowcaseCard() {
             className="animate-ebg-in group flex flex-1 items-center gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-acc/50 hover:bg-white/[0.08]"
           >
             <div className="relative shrink-0">
-              <ImagePlaceholder
-                label={bike.imagenPlaceholder}
+              <BikeImage
+                bike={bike}
                 className="h-24 w-32 rounded-xl !border-white/10 !bg-white/10 !text-white/60"
               />
               <span className="absolute -right-2 -top-2 rounded-full bg-acc px-2 py-0.5 text-[11px] font-bold text-dark shadow-sm">

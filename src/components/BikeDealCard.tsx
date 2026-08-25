@@ -3,7 +3,7 @@
 import Link from "next/link";
 import type { Bike } from "@/data/ebg-data";
 import { useFavorites } from "@/lib/favorites-context";
-import { ImagePlaceholder } from "./ImagePlaceholder";
+import { BikeImage } from "./BikeImage";
 import { HeartIcon, StarIcon } from "./icons";
 
 const priceFormatter = new Intl.NumberFormat("es-ES", {
@@ -23,7 +23,7 @@ export function BikeDealCard({ bike }: { bike: Bike }) {
   return (
     <div className="rounded-2xl border border-line transition-shadow duration-200 hover:shadow-lg">
       <div className="relative">
-        <ImagePlaceholder label={bike.imagenPlaceholder} className="h-[160px] w-full rounded-t-2xl" />
+        <BikeImage bike={bike} className="h-[160px] w-full rounded-t-2xl" />
         {discountPct !== null && (
           <span className="absolute left-3 top-3 rounded-full bg-ink px-2.5 py-1 text-xs font-bold text-white">
             -{discountPct}%

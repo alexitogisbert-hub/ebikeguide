@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Bike } from "@/data/ebg-data";
 import { EBG_DATA } from "@/data/ebg-data";
-import { ImagePlaceholder } from "./ImagePlaceholder";
+import { BikeImage } from "./BikeImage";
 import { FavoriteButton } from "./FavoriteButton";
 import { SubsBreakdown } from "./SubsBreakdown";
 import { BikeDealCard } from "./BikeDealCard";
@@ -56,6 +56,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
     "@type": "Product",
     name: `${bike.marca} ${bike.modelo}`,
     description: bike.porQue,
+    ...(bike.imagen ? { image: `${EBG_DATA.meta.dominio}${bike.imagen}` } : {}),
     sku: bike.id,
     brand: { "@type": "Brand", name: bike.marca },
     aggregateRating: {
@@ -93,7 +94,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
       <section className="mx-auto max-w-[1280px] px-5 py-8 sm:px-8">
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-2">
           <div className="relative">
-            <ImagePlaceholder label={bike.imagenPlaceholder} className="aspect-[4/3] w-full rounded-[24px]" />
+            <BikeImage bike={bike} className="aspect-[4/3] w-full rounded-[24px]" />
             <FavoriteButton
               bikeId={bike.id}
               className="absolute right-4 top-4 flex size-10 items-center justify-center rounded-full bg-white/90 text-ink hover:bg-white"
