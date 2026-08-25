@@ -277,7 +277,11 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
                         : "rounded-full border border-line px-4 py-2 text-sm font-semibold text-mut"
                     }
                   >
-                    {oferta.affiliateUrl ? "Ver oferta" : oferta.urlProducto ? "Ver en Amazon" : "Enlace pendiente"}
+                    {oferta.affiliateUrl
+                      ? "Ver oferta"
+                      : oferta.urlProducto
+                        ? "Ver precio actual en Amazon"
+                        : "Enlace pendiente"}
                   </AffiliateLink>
                 </div>
               </div>
@@ -285,7 +289,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
           })}
         </div>
         <p className="mt-4 text-xs text-mut">
-          Todavía no tenemos cuenta de afiliado activa: los enlaces &ldquo;Ver en Amazon&rdquo; van directamente a la
+          Todavía no tenemos cuenta de afiliado activa: los enlaces &ldquo;Ver precio actual en Amazon&rdquo; van directamente a la
           ficha del producto, sin comisión para nosotros. Cuando activemos la afiliación, lo indicaremos aquí con claridad.
           Nunca afecta a la puntuación.{" "}
           <Link href="/aviso-legal/" className="underline hover:text-ink">

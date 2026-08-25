@@ -12,8 +12,7 @@ const manrope = Manrope({
 });
 
 const SITE_TITLE = `${EBG_DATA.meta.nombre} — Encuentra tu e-bike ideal`;
-const SITE_DESCRIPTION =
-  "Comparador y guía de compra de bicicletas eléctricas. Analizamos autonomía, motor, confort y precio para ayudarte a elegir.";
+const SITE_DESCRIPTION = `Comparamos ${EBG_DATA.bikes.length} bicicletas eléctricas para el mercado español: autonomía, motor, peso y precio analizados con datos reales. Encuentra tu e-bike ideal en menos de 2 minutos.`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(EBG_DATA.meta.dominio),

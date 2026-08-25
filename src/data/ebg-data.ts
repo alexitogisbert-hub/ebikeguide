@@ -1254,7 +1254,7 @@ export const EBG_DATA = {
     mensajeEstado:
       "Catálogo en verificación · productos reales, precios orientativos, sin afiliación activa todavía",
     nombre: "eBikeGuide",
-    dominio: "https://ebikeguide.es",
+    dominio: "https://ebike-guide.netlify.app",
     metodologiaUrl: "/metodologia/",
     pruebasPropias: false,
     evidenciaPorDefecto: "especificaciones",
