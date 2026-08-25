@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { calcularAutonomia, type NivelAsistencia, type TipoTerreno } from "@/domain/autonomy";
 
 const BATTERY_OPTIONS = [300, 375, 500, 625, 750];
@@ -18,12 +18,25 @@ const TERRAIN_OPTIONS: Array<{ id: TipoTerreno; label: string }> = [
   { id: "montanoso", label: "Montañoso" },
 ];
 
-export function AutonomyCalculator() {
-  const [bateriaWh, setBateriaWh] = useState(500);
-  const [pesoKg, setPesoKg] = useState(80);
-  const [assistId, setAssistId] = useState<NivelAsistencia>("medio");
-  const [terrainId, setTerrainId] = useState<TipoTerreno>("mixto");
-
+export function AutonomyCalculator({
+  bateriaWh,
+  setBateriaWh,
+  pesoKg,
+  setPesoKg,
+  assistId,
+  setAssistId,
+  terrainId,
+  setTerrainId,
+}: {
+  bateriaWh: number;
+  setBateriaWh: (wh: number) => void;
+  pesoKg: number;
+  setPesoKg: (kg: number) => void;
+  assistId: NivelAsistencia;
+  setAssistId: (id: NivelAsistencia) => void;
+  terrainId: TipoTerreno;
+  setTerrainId: (id: TipoTerreno) => void;
+}) {
   const { minKm: min, maxKm: max, estimadoKm: estimado } = useMemo(
     () => calcularAutonomia({ bateriaWh, pesoKg, asistencia: assistId, terreno: terrainId }),
     [bateriaWh, pesoKg, assistId, terrainId],

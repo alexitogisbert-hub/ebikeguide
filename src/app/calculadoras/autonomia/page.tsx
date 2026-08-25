@@ -1,7 +1,7 @@
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
-import { AutonomyCalculator } from "@/components/AutonomyCalculator";
+import { AutonomiaConMapa } from "@/components/AutonomiaConMapa";
 import { FACTOR_ASISTENCIA, FACTOR_TERRENO, BASE_WH_POR_KM } from "@/domain/autonomy";
 import { pageMetadata } from "@/lib/seo";
 
@@ -35,9 +35,7 @@ export default function CalculadoraAutonomiaPage() {
         />
 
         <div className="mx-auto max-w-[1280px] px-5 pb-10 sm:px-8">
-          <div className="max-w-xl">
-            <AutonomyCalculator />
-          </div>
+          <AutonomiaConMapa />
         </div>
 
         <section className="mx-auto max-w-[1280px] px-5 pb-16 sm:px-8">
