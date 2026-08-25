@@ -305,12 +305,15 @@ const BIKES_RAW: BikeRaw[] = [
     noEsPara: "Quien necesita confirmar el tipo exacto de motor o frenos antes de comprar: el fabricante no lo detalla.",
     porQue: "Uno de los precios de entrada más bajos del catálogo con una batería grande (576 Wh) para su rango de precio.",
     analisis:
-      "Con 576 Wh es la batería más grande de las tres urbanas del catálogo, lo que explica su autonomía estimada de 80 km. A cambio, ni el fabricante ni la ficha investigada confirman el tipo exacto de motor ni de frenos, así que quedan marcados como 'no confirmado' en vez de asumir un valor.",
-    pros: ["Batería de 576 Wh, la más grande de las urbanas del catálogo", "Precio de entrada bajo", "Batería extraíble"],
+      "Con 576 Wh es la batería más grande de las tres urbanas del catálogo, lo que explica su autonomía estimada de 80 km. Pesa 20 kg (la más ligera de las tres urbanas) y su motor entrega 55 Nm de par, aunque ni el fabricante ni la ficha investigada confirman el tipo exacto de motor ni de frenos, así que quedan marcados como 'no confirmado' en vez de asumir un valor.",
+    pros: [
+      "Batería de 576 Wh, la más grande de las urbanas del catálogo",
+      "Con 20 kg, la más ligera de las tres urbanas",
+      "Precio de entrada bajo y batería extraíble",
+    ],
     contras: [
       "El fabricante no especifica el tipo de motor ni de frenos",
-      "No hay dato de peso publicado",
-      "No hay dato de par motor (Nm)",
+      "Precio investigado (900 €), no confirmado con exactitud por el fabricante",
     ],
     ofertas: [
       {
@@ -366,15 +369,15 @@ const BIKES_RAW: BikeRaw[] = [
     noEsPara: "Quien necesita saber el número de marchas antes de comprar: no está publicado.",
     porQue: "42 Nm de par y frenos hidráulicos por 899 €, con autonomía anunciada de hasta 120 km.",
     analisis:
-      "Es la urbana del catálogo con más autonomía anunciada (hasta 120 km) y la única de las tres con frenos hidráulicos confirmados. El sensor de par de 42 Nm es razonable para el segmento, aunque el fabricante no especifica si el motor es central o de buje.",
+      "Es la urbana del catálogo con más autonomía anunciada (hasta 120 km) y la única de las tres con frenos hidráulicos confirmados. El sensor de par de 42 Nm es razonable para el segmento y pesa 24 kg, en línea con las demás urbanas, aunque el fabricante no especifica si el motor es central o de buje.",
     pros: [
       "Autonomía anunciada de hasta 120 km, la más alta de las urbanas",
       "Frenos hidráulicos",
-      "Sensor de par de 42 Nm",
+      "Sensor de par de 42 Nm y peso confirmado (24 kg)",
     ],
     contras: [
       "No se confirma si el motor es central o de buje",
-      "No hay dato de peso ni de marchas",
+      "No se confirma el número de marchas",
       "Precio investigado, no leído directamente de la ficha",
     ],
     ofertas: [
@@ -477,7 +480,7 @@ const BIKES_RAW: BikeRaw[] = [
     autonomia: 57.5,
     autonomiaMin: 35,
     autonomiaMax: 80,
-    motor: "250 W sin escobillas (tipo/Nm no confirmado)",
+    motor: "250 W sin escobillas, 40 Nm (tipo no confirmado)",
     motorTipo: null,
     parNm: 40,
     velocidad: 25,
@@ -496,16 +499,16 @@ const BIKES_RAW: BikeRaw[] = [
     noEsPara: "Quien necesita conocer el tipo de frenos antes de comprar.",
     porQue: "El rango de autonomía anunciado más amplio de las plegables del catálogo (35-80 km).",
     analisis:
-      "El fabricante la describe como 'semiplegable', no plegable al 100 %, así que conviene comprobar el tamaño plegado real antes de asumir que cabe donde una plegable convencional. Motor sin escobillas de 250 W, pero ni el tipo exacto ni el par (Nm) están confirmados.",
+      "El fabricante la describe como 'semiplegable', no plegable al 100 %, así que conviene comprobar el tamaño plegado real antes de asumir que cabe donde una plegable convencional. Motor sin escobillas de 250 W con 40 Nm de par, aunque el fabricante no confirma si es central o de buje.",
     pros: [
       "Rango de autonomía anunciado amplio (35-80 km)",
       "Batería extraíble de 468 Wh",
-      "Peso moderado para su categoría (25 kg)",
+      "Peso moderado para su categoría (25 kg) y 40 Nm de par confirmado",
     ],
     contras: [
       "Es 'semiplegable', no plegable al 100 % según el propio fabricante",
       "No se confirma el tipo de frenos",
-      "No se confirma el par motor (Nm)",
+      "No se confirma si el motor es central o de buje",
     ],
     ofertas: [
       {
@@ -737,7 +740,7 @@ const BIKES_RAW: BikeRaw[] = [
     autonomia: 120,
     autonomiaMin: 120,
     autonomiaMax: 120,
-    motor: "Central 250 W (Nm no confirmado)",
+    motor: "Central 250 W, 70 Nm",
     motorTipo: "central",
     parNm: 70,
     velocidad: 25,
@@ -753,20 +756,17 @@ const BIKES_RAW: BikeRaw[] = [
     carga: false,
     mejorPara: "Doble suspensión y frenos hidráulicos confirmados a precio de entrada dentro del catálogo.",
     idealPara: "Terreno más técnico donde la doble suspensión marca la diferencia frente a una rígida.",
-    noEsPara: "Quien necesita saber el par motor (Nm) exacto antes de comprar: no está confirmado.",
+    noEsPara: "Quien quiere un precio cerrado sin rango: varía bastante según la oferta (1.047-1.700 €).",
     porQue: "624 Wh, doble suspensión y frenos de disco hidráulicos confirmados, con precio investigado desde 1.047 €.",
     analisis:
-      "Es la única de las tres montaña con doble suspensión (delantera y trasera) y frenos hidráulicos confirmados en la misma ficha, con un cuadro de aluminio 6061. El precio investigado varía mucho según la oferta (1.047-1.700 €), así que conviene comprobarlo antes de decidir solo por el número más bajo.",
+      "Es la única de las tres montaña con doble suspensión (delantera y trasera) y frenos hidráulicos confirmados en la misma ficha, con un cuadro de aluminio 6061, motor central de 70 Nm de par y 26 kg de peso. El precio investigado varía mucho según la oferta (1.047-1.700 €), así que conviene comprobarlo antes de decidir solo por el número más bajo.",
     pros: [
       "Doble suspensión (delantera y trasera)",
       "Frenos de disco hidráulicos confirmados",
+      "Motor central de 70 Nm de par",
       "Batería de 624 Wh integrada, Shimano 8v (Altus)",
     ],
-    contras: [
-      "No se confirma el par motor (Nm) del motor central",
-      "Rango de precio investigado muy amplio (1.047-1.700 €), verificar antes de comprar",
-      "No hay dato de peso publicado",
-    ],
+    contras: ["Rango de precio investigado muy amplio (1.047-1.700 €), verificar antes de comprar"],
     ofertas: [
       {
         merchantId: "amazon",
@@ -802,7 +802,7 @@ const BIKES_RAW: BikeRaw[] = [
     autonomia: 70,
     autonomiaMin: 70,
     autonomiaMax: 70,
-    motor: "Bafang central (potencia/Nm no confirmado)",
+    motor: "Bafang central, 80 Nm",
     motorTipo: "central",
     parNm: 80,
     velocidad: 25,
@@ -817,19 +817,21 @@ const BIKES_RAW: BikeRaw[] = [
     plegable: false,
     carga: false,
     mejorPara: "Suspensión delantera y trasera de marcas reconocidas (SunTour/Kindshock) en una eMTB.",
-    idealPara: "Quien valora componentes de suspensión de marca por encima de tener una cifra de autonomía confirmada.",
-    noEsPara: "Quien necesita una autonomía oficial confirmada antes de comprar: no está disponible para el mercado europeo.",
-    porQue: "Suspensión delantera SunTour de 100 mm y trasera Kindshock de 52 mm, con 624 Wh de batería.",
+    idealPara:
+      "Quien valora componentes de suspensión de marca (SunTour/Kindshock) por encima de tener la autonomía más larga: es la que menos autonomía declara de las tres montaña.",
+    noEsPara: "Quien busca la autonomía más alta del trío montaña: con 70 km es la más corta de las tres.",
+    porQue:
+      "Suspensión delantera SunTour de 100 mm y trasera Kindshock de 52 mm, con 624 Wh de batería y motor Bafang central de 80 Nm de par.",
     analisis:
-      "Es la más cara de las tres montaña investigadas (desde 1.742 €) y la única que detalla marcas concretas de suspensión (SunTour delantera, Kindshock trasera). A cambio, no hay una cifra de autonomía confirmada oficialmente para la ficha europea, así que no publicamos ninguna en vez de estimarla. Disponible con rueda de 27,5\" o 29\" según la oferta.",
+      "Es la más cara de las tres montaña investigadas (desde 1.742 €) y la única que detalla marcas concretas de suspensión (SunTour delantera, Kindshock trasera). Su motor Bafang central entrega 80 Nm de par — empatada con la Fischer Viator 4.2i como el par más alto del catálogo fuera de las cargo — pero su autonomía declarada (70 km) es la más corta de las tres montaña, y con 31 kg también es la más pesada. Disponible con rueda de 27,5\" o 29\" según la oferta.",
     pros: [
       "Suspensión de marca reconocida delante (SunTour) y detrás (Kindshock)",
+      "80 Nm de par, empatada con la Fischer Viator 4.2i como el más alto fuera de las cargo",
       "Frenos hidráulicos Zoom y transmisión de 9 velocidades",
-      "Batería de 624 Wh integrada",
     ],
     contras: [
-      "Sin autonomía confirmada oficialmente para el mercado europeo",
-      "El par motor (Nm) del motor Bafang central no está confirmado",
+      "La autonomía declarada (70 km) es la más corta de las tres montaña",
+      "Con 31 kg, la más pesada de las tres montaña",
       "La más cara de las tres montaña investigadas",
     ],
     ofertas: [
@@ -882,17 +884,17 @@ const BIKES_RAW: BikeRaw[] = [
     plegable: false,
     carga: false,
     mejorPara: "El precio de entrada más bajo de todo el catálogo.",
-    idealPara: "Presupuesto muy ajustado en formato trekking, sin exigir cifras de autonomía confirmadas.",
-    noEsPara: "Quien necesita una autonomía o número de marchas confirmados antes de comprar.",
-    porQue: "El precio más bajo investigado de todo el catálogo (desde 699 €), con motor de 40 Nm.",
+    idealPara: "Presupuesto muy ajustado en formato trekking, sin exigir el número de marchas confirmado.",
+    noEsPara: "Quien necesita el número de marchas confirmado antes de comprar: no está publicado.",
+    porQue: "El precio más bajo investigado de todo el catálogo (desde 699 €), con motor de 40 Nm y autonomía anunciada de 90 km.",
     analisis:
-      "Es la bici más barata investigada de todo el catálogo. A cambio, faltan varios datos clave: no hay autonomía confirmada, ni peso, ni número de marchas — solo el motor (250 W, 40 Nm) y que monta frenos de disco sin especificar el tipo. Rueda de 28\".",
-    pros: ["El precio más bajo investigado de todo el catálogo", "Rueda de 28\", motor de 40 Nm", "Batería extraíble de 374 Wh"],
-    contras: [
-      "Sin autonomía confirmada",
-      "Sin dato de peso ni de número de marchas",
-      "No se confirma el tipo de frenos de disco",
+      "Es la bici más barata investigada de todo el catálogo. Pesa 24 kg y anuncia una autonomía de 90 km — sigue faltando el número de marchas y el tipo exacto de frenos de disco, que quedan sin confirmar. Rueda de 28\".",
+    pros: [
+      "El precio más bajo investigado de todo el catálogo",
+      "Autonomía anunciada de 90 km y 24 kg de peso",
+      "Batería extraíble de 374 Wh",
     ],
+    contras: ["Sin dato de número de marchas", "No se confirma el tipo de frenos de disco"],
     ofertas: [
       {
         merchantId: "amazon",
@@ -942,16 +944,19 @@ const BIKES_RAW: BikeRaw[] = [
     nivelEquipamiento: "completo",
     plegable: false,
     carga: false,
-    mejorPara: "El motor de mayor par de todo el catálogo fuera de las cargo.",
+    mejorPara: "Quien busca par motor alto y buena autonomía en formato trekking, con marca alemana especializada.",
     idealPara: "Quien prioriza par motor alto y una transmisión Shimano de 9 velocidades por encima de conocer el precio exacto de antemano.",
-    noEsPara: "Quien necesita el precio, la autonomía o el peso confirmados antes de comprar: ninguno de los tres lo está.",
-    porQue: "80 Nm de par con motor central Bafang M400, el más alto del catálogo entre las bicis que no son de carga.",
+    noEsPara: "Quien necesita el precio exacto confirmado antes de comprar: solo hay un rango de gama investigado (1.400-2.800 €).",
+    porQue: "80 Nm de par con motor central Bafang M400 y 120 km de autonomía anunciada, entre los datos más altos del catálogo fuera de las cargo.",
     analisis:
-      "Marca alemana con motor central Bafang M400 de 80 Nm, el par más alto del catálogo fuera de las cargo (que llevan motores pensados para tirar de peso). A cambio, es la bici del catálogo con más datos sin confirmar: ni el precio exacto (solo un rango de gama de 1.400-2.800 €), ni la autonomía, ni el peso, ni el tipo de frenos.",
-    pros: ["80 Nm de par, el más alto del catálogo fuera de las cargo", "Transmisión Shimano 1x9", "Marca alemana especializada en trekking"],
+      "Marca alemana con motor central Bafang M400 de 80 Nm — empatada con la Accolmile Cola Bear como el par más alto del catálogo fuera de las cargo (que llevan motores pensados para tirar de peso) — y autonomía anunciada de 120 km, la más alta de las dos trekking. Pesa 30 kg. El precio, en cambio, sigue sin confirmarse con exactitud: solo hay un rango de gama investigado (1.400-2.800 €).",
+    pros: [
+      "80 Nm de par, empatada con la Accolmile Cola Bear como el más alto fuera de las cargo",
+      "Autonomía anunciada de 120 km, la más alta de las dos trekking",
+      "Transmisión Shimano 1x9",
+    ],
     contras: [
-      "Precio no confirmado, solo un rango de gama muy amplio",
-      "Sin autonomía ni peso confirmados",
+      "Precio no confirmado con exactitud, solo un rango de gama muy amplio (1.400-2.800 €)",
       "No se confirma el tipo de frenos",
     ],
     ofertas: [
@@ -1073,7 +1078,7 @@ const BIKES_RAW: BikeRaw[] = [
     noEsPara: "Quien necesita confirmar el número de marchas antes de comprar: no está claro si tiene cambio.",
     porQue: "Neumáticos fat de 20x3.0\", doble suspensión y manillar plegable, con 75 Nm de par.",
     analisis:
-      "A diferencia de la ENGWE LE20, es una cargo clásica de dos ruedas (no longtail), con neumáticos fatbike de 20x3.0\" y doble suspensión que priorizan estabilidad sobre alcance de carga máximo. No está confirmado si dispone de cambio de marchas: la información investigada solo menciona los niveles de asistencia (PAS 0-3).",
+      "A diferencia de la ENGWE LE20, es una cargo clásica de dos ruedas (no longtail), con neumáticos fatbike de 20x3.0\" y doble suspensión que priorizan estabilidad sobre alcance de carga máximo. Pesa 38 kg. No está confirmado si dispone de cambio de marchas: la información investigada solo menciona los niveles de asistencia (PAS 0-3).",
     pros: [
       "Neumáticos fat 20x3.0\" con doble suspensión",
       "Manillar plegable para ahorrar espacio",
@@ -1081,7 +1086,6 @@ const BIKES_RAW: BikeRaw[] = [
     ],
     contras: [
       "No está confirmado si tiene cambio de marchas",
-      "No hay dato de peso publicado",
       "Rango de precio investigado (1.700-1.800 €) sin confirmar",
     ],
     ofertas: [
