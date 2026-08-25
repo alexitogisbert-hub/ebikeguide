@@ -93,7 +93,7 @@ export function RangoMapa({ estimadoKm }: { estimadoKm: number }) {
             className="w-full rounded-full border border-white/15 bg-white/5 py-2.5 pl-9 pr-3 text-sm text-white outline-none placeholder:text-white/40 focus-visible:border-acc"
           />
           {suggestions.length > 0 && (
-            <ul className="absolute z-10 mt-1.5 w-full overflow-hidden rounded-2xl border border-white/15 bg-[#171d1c] shadow-lg">
+            <ul className="absolute z-20 mt-1.5 w-full overflow-hidden rounded-2xl border border-white/15 bg-[#171d1c] shadow-lg">
               {suggestions.map((s) => (
                 <li key={`${s.lat}-${s.lon}`}>
                   <button
@@ -138,7 +138,7 @@ export function RangoMapa({ estimadoKm }: { estimadoKm: number }) {
         </button>
       </div>
 
-      <div className="relative mt-5 h-[280px] overflow-hidden rounded-2xl border border-white/10 sm:h-[340px]">
+      <div className="relative z-0 mt-5 h-[280px] overflow-hidden rounded-2xl border border-white/10 sm:h-[340px]">
         <RangoMapaCanvas center={selected} geojson={geojson} />
       </div>
 

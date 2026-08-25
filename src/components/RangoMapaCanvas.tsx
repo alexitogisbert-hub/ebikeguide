@@ -30,7 +30,7 @@ export function RangoMapaCanvas({
         scrollWheelZoom: false,
       });
 
-      L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
+      L.tileLayer("https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png", {
         attribution: '&copy; OpenStreetMap &copy; CARTO',
         subdomains: "abcd",
         maxZoom: 19,
@@ -65,20 +65,20 @@ export function RangoMapaCanvas({
       if (!center) return;
 
       markerRef.current = L.circleMarker([center.lat, center.lon], {
-        radius: 6,
+        radius: 7,
         color: "#fff",
         weight: 2,
-        fillColor: "#171d1c",
+        fillColor: "#097c6e",
         fillOpacity: 1,
       }).addTo(map);
 
       if (geojson) {
         layerRef.current = L.geoJSON(geojson, {
           style: {
-            color: "#8dff5c",
-            weight: 2,
-            fillColor: "#8dff5c",
-            fillOpacity: 0.18,
+            color: "#097c6e",
+            weight: 2.5,
+            fillColor: "#0fb5a0",
+            fillOpacity: 0.28,
           },
         }).addTo(map);
         map.fitBounds(layerRef.current.getBounds(), { padding: [24, 24] });
