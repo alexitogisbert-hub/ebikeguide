@@ -38,10 +38,10 @@ export function Header() {
     <header className="sticky top-0 z-[60] border-b border-line bg-white/88 backdrop-blur-md">
       <div className="mx-auto flex h-[68px] max-w-[1280px] items-center gap-8 px-5 sm:px-8">
         <Link href="/" className="whitespace-nowrap text-xl font-extrabold tracking-[-0.03em] text-ink">
-          eBike<span className="text-acc">Guide</span>
+          eBike<span className="text-acc-d">Guide</span>
         </Link>
 
-        <nav className="ml-1.5 hidden items-center gap-6 lg:flex">
+        <nav aria-label="Navegación principal" className="ml-1.5 hidden items-center gap-6 lg:flex">
           {EBG_DATA.navLinks.map((link) => (
             <Link
               key={link.href}
@@ -139,7 +139,7 @@ export function Header() {
 
       {menuOpen && (
         <div className="border-t border-line bg-white lg:hidden">
-          <nav className="mx-auto flex max-w-[1280px] flex-col gap-1 px-5 py-4 sm:px-8">
+          <nav aria-label="Navegación móvil" className="mx-auto flex max-w-[1280px] flex-col gap-1 px-5 py-4 sm:px-8">
             {EBG_DATA.navLinks.map((link) => (
               <Link
                 key={link.href}

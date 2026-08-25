@@ -16,7 +16,7 @@ export function Toolbar() {
             <span className="flex size-9 items-center justify-center rounded-full bg-acc-s text-sm font-bold text-acc-d">
               {step.n}
             </span>
-            <h3 className="mt-3 text-sm font-semibold text-ink">{step.title}</h3>
+            <p className="mt-3 text-sm font-semibold text-ink">{step.title}</p>
             <p className="mt-1 text-sm text-mut">{step.subtitle}</p>
           </div>
         ))}

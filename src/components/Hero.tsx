@@ -9,14 +9,14 @@ export function Hero() {
     <section className="mx-auto max-w-[1280px] px-5 py-10 sm:px-8 sm:py-14">
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
         <div className="animate-ebg-in">
-          <span className="inline-flex items-center rounded-full border border-line bg-surf px-3 py-1 text-xs font-semibold text-mut">
+          <span className="inline-flex items-center rounded-full border border-line px-3 py-1 text-xs font-semibold text-mut">
             DEMO · Datos de muestra · plataforma independiente
           </span>
 
           <h1 className="mt-5 text-[clamp(42px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink">
             <span className="block">Encuentra tu</span>
             <span className="block">
-              e-bike <span className="text-acc">ideal</span>
+              e-bike <span className="text-acc-d">ideal</span>
             </span>
           </h1>
 
@@ -45,7 +45,7 @@ export function Hero() {
               {AVATAR_INITIALS.map((initials) => (
                 <span
                   key={initials}
-                  className="flex size-9 items-center justify-center rounded-full border-2 border-white bg-acc-s text-xs font-bold text-acc-d"
+                  className="flex size-9 items-center justify-center rounded-full border-2 border-white bg-acc-s text-xs font-bold text-ink"
                 >
                   {initials}
                 </span>

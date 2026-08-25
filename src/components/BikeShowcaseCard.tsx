@@ -80,7 +80,7 @@ export function BikeShowcaseCard() {
               <p className="text-xs font-semibold uppercase tracking-wide text-white/50">{bike.marca}</p>
               <p className="truncate font-semibold text-white group-hover:text-acc">{bike.modelo}</p>
               <p className="mt-1 font-bold text-acc">{priceFormatter.format(bike.precio)}</p>
-              <p className="mt-1 text-xs text-white/45">{bike.autonomiaMin}-{bike.autonomiaMax} km de autonomía</p>
+              <p className="mt-1 text-xs text-white/60">{bike.autonomiaMin}-{bike.autonomiaMax} km de autonomía</p>
             </div>
           </Link>
 
@@ -94,7 +94,7 @@ export function BikeShowcaseCard() {
           </button>
         </div>
 
-        <div className="mt-4 flex flex-wrap justify-center gap-1.5">
+        <div className="mt-4 flex flex-wrap justify-center">
           {bikes.map((b, i) => (
             <button
               key={b.id}
@@ -102,8 +102,12 @@ export function BikeShowcaseCard() {
               aria-label={`Ver ${b.marca} ${b.modelo}`}
               aria-current={i === index}
               onClick={() => goTo(i)}
-              className={`h-1.5 rounded-full transition-all ${i === index ? "w-5 bg-acc" : "w-1.5 bg-white/25 hover:bg-white/40"}`}
-            />
+              className="group flex size-6 items-center justify-center"
+            >
+              <span
+                className={`block h-1.5 rounded-full transition-all ${i === index ? "w-5 bg-acc" : "w-1.5 bg-white/25 group-hover:bg-white/40"}`}
+              />
+            </button>
           ))}
         </div>
       </div>

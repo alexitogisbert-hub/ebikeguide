@@ -8,7 +8,7 @@ export function Footer() {
         <div className="flex flex-col gap-8 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <Link href="/" className="text-lg font-extrabold tracking-[-0.03em] text-ink">
-              eBike<span className="text-acc">Guide</span>
+              eBike<span className="text-acc-d">Guide</span>
             </Link>
             <p className="mt-3 max-w-[36ch] text-sm text-mut">
               Comparador independiente de bicicletas eléctricas. Contenido de muestra —
@@ -16,7 +16,7 @@ export function Footer() {
             </p>
           </div>
 
-          <nav className="flex flex-wrap gap-x-8 gap-y-3 text-sm">
+          <nav aria-label="Navegación de pie de página" className="flex flex-wrap gap-x-8 gap-y-3 text-sm">
             {EBG_DATA.navLinks.map((link) => (
               <Link key={link.href} href={link.href} className="text-mut hover:text-ink">
                 {link.label}
@@ -32,9 +32,9 @@ export function Footer() {
           <p>© {new Date().getFullYear()} eBikeGuide. Datos de muestra con fines de demostración.</p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <p>
-              Algunos enlaces son de afiliación:{" "}
+              Algunos enlaces son de afiliación.{" "}
               <Link href="/aviso-legal/" className="underline hover:text-ink">
-                más información
+                Más información sobre afiliación
               </Link>
               .
             </p>

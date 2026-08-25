@@ -42,7 +42,7 @@ export function BikeDealCard({ bike }: { bike: Bike }) {
 
       <div className="p-5">
         <p className="text-xs font-semibold uppercase tracking-wide text-mut">{bike.marca}</p>
-        <h3 className="mt-0.5 font-semibold text-ink">{bike.modelo}</h3>
+        <h2 className="mt-0.5 font-semibold text-ink">{bike.modelo}</h2>
 
         <div className="mt-2 flex items-center gap-1.5 text-sm">
           <span className="flex items-center gap-0.5 font-semibold text-ink">

@@ -265,7 +265,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
           Algunos enlaces son de afiliación: podemos ganar una comisión sin coste para ti si compras a través de
           ellos. Nunca afecta a la puntuación.{" "}
           <Link href="/aviso-legal/" className="underline hover:text-ink">
-            Más información
+            Más información sobre afiliación
           </Link>
           .
         </p>

@@ -33,13 +33,17 @@ export function CookieConsentBanner() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-white/95 backdrop-blur-md">
+    <div
+      role="region"
+      aria-label="Aviso de cookies"
+      className="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-white/95 backdrop-blur-md"
+    >
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-3 px-5 py-4 sm:flex-row sm:justify-between sm:px-8">
         <p className="text-sm text-mut">
           Guardamos tus favoritos solo en este navegador (almacenamiento local, no cookies de terceros). Al seguir un
           enlace hacia una tienda, esa tienda puede usar sus propias cookies.{" "}
           <Link href="/cookies/" className="underline hover:text-ink">
-            Más información
+            Más información sobre cookies
           </Link>
           .
         </p>

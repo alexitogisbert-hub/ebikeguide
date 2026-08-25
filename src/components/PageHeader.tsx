@@ -14,7 +14,7 @@ export function PageHeader({
   return (
     <div className="mx-auto max-w-[1280px] px-5 pb-10 pt-12 sm:px-8 sm:pt-16">
       {eyebrow && (
-        <span className="inline-flex items-center rounded-full border border-line bg-surf px-3 py-1 text-xs font-semibold text-mut">
+        <span className="inline-flex items-center rounded-full border border-line px-3 py-1 text-xs font-semibold text-mut">
           {eyebrow}
         </span>
       )}

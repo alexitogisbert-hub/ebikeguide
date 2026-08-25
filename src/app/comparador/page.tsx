@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { ComparadorClient } from "@/components/ComparadorClient";
+import { ComparadorFallback } from "@/components/ComparadorFallback";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = {
@@ -24,7 +25,7 @@ export default function ComparadorPage() {
           intro="Elige hasta 4 modelos del catálogo demo y compara sus especificaciones de un vistazo."
         />
         <div className="mx-auto max-w-[1280px] px-5 pb-16 sm:px-8">
-          <Suspense fallback={<p className="text-sm text-mut">Cargando comparador…</p>}>
+          <Suspense fallback={<ComparadorFallback />}>
             <ComparadorClient />
           </Suspense>
         </div>
