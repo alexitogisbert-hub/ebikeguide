@@ -4,7 +4,7 @@ import { filtrarBikes } from "./filters";
 export type QuizUso = "ciudad" | "trekking" | "montana" | "cargo" | "multimodal";
 export type QuizTerreno = "llano" | "mixto" | "montanoso";
 export type QuizKmDiarios = "corto" | "medio" | "largo";
-export type QuizPrioridad = "autonomia" | "precio" | "comodidad";
+export type QuizPrioridad = "autonomia" | "precio" | "potencia";
 export type QuizNecesidad = "ninguna" | "plegable" | "cargo";
 
 export type QuizAnswers = {
@@ -44,10 +44,12 @@ export function calcularAjusteQuiz(bike: Bike, respuestas: QuizAnswers): number 
   score += bike.perfil[USO_PERFIL_KEY[respuestas.uso]] * 20;
   score += bike.perfil[KM_DIARIOS_PERFIL_KEY[respuestas.kmDiarios]] * 15;
 
-  const prioridadKey = respuestas.prioridad === "autonomia" ? "autonomia" : respuestas.prioridad === "precio" ? "precio" : "confort";
-  score += (bike.subs[prioridadKey] / 10) * 20;
+  const valorPrioridad = bike.subs[respuestas.prioridad];
+  if (typeof valorPrioridad === "number") {
+    score += (valorPrioridad / 10) * 20;
+  }
 
-  if (respuestas.pesoImportante) {
+  if (respuestas.pesoImportante && typeof bike.subs.peso === "number") {
     score += (bike.subs.peso / 10) * 10;
   }
 

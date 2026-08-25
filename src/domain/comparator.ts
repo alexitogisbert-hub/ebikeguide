@@ -13,8 +13,16 @@ export type Comparativa = {
   filas: FilaComparativa[];
 };
 
-function formatAutonomia(bike: Bike): string {
+const SIN_DATO = "Dato no publicado";
+
+export function formatAutonomia(bike: Bike): string {
+  if (bike.autonomiaMin === null || bike.autonomiaMax === null) return SIN_DATO;
+  if (bike.autonomiaMin === bike.autonomiaMax) return `${bike.autonomiaMin} km`;
   return `${bike.autonomiaMin}-${bike.autonomiaMax} km`;
+}
+
+function formatNumero(valor: number | null, sufijo: string): string {
+  return valor === null ? SIN_DATO : `${valor}${sufijo}`;
 }
 
 export function compararBikes(bikes: Bike[], ids: string[]): Comparativa {
@@ -28,8 +36,8 @@ export function compararBikes(bikes: Bike[], ids: string[]): Comparativa {
     { campo: "bateriaWh", label: "Batería", valores: seleccion.map((b) => b.bateriaWh) },
     { campo: "autonomia", label: "Autonomía", valores: seleccion.map(formatAutonomia) },
     { campo: "motor", label: "Motor", valores: seleccion.map((b) => b.motor) },
-    { campo: "parNm", label: "Par motor", valores: seleccion.map((b) => b.parNm) },
-    { campo: "pesoKg", label: "Peso", valores: seleccion.map((b) => b.pesoKg) },
+    { campo: "parNm", label: "Par motor", valores: seleccion.map((b) => formatNumero(b.parNm, " Nm")) },
+    { campo: "pesoKg", label: "Peso", valores: seleccion.map((b) => formatNumero(b.pesoKg, " kg")) },
     { campo: "puntuacion", label: "Puntuación", valores: seleccion.map((b) => b.puntuacion) },
   ];
 

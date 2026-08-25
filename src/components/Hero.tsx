@@ -1,8 +1,6 @@
 import Link from "next/link";
+import { EBG_DATA } from "@/data/ebg-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
-import { StarIcon } from "./icons";
-
-const AVATAR_INITIALS = ["MA", "JL", "SR", "PC"];
 
 export function Hero() {
   return (
@@ -10,7 +8,7 @@ export function Hero() {
       <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12">
         <div className="animate-ebg-in">
           <span className="inline-flex items-center rounded-full border border-line px-3 py-1 text-xs font-semibold text-mut">
-            DEMO · Datos de muestra · plataforma independiente
+            {EBG_DATA.meta.mensajeEstado}
           </span>
 
           <h1 className="mt-5 text-[clamp(42px,5vw,68px)] font-extrabold leading-[1.05] tracking-[-0.03em] text-ink">
@@ -40,29 +38,7 @@ export function Hero() {
             </Link>
           </div>
 
-          <div className="mt-9 flex flex-wrap items-center gap-3">
-            <div className="flex -space-x-2">
-              {AVATAR_INITIALS.map((initials) => (
-                <span
-                  key={initials}
-                  className="flex size-9 items-center justify-center rounded-full border-2 border-white bg-acc-s text-xs font-bold text-ink"
-                >
-                  {initials}
-                </span>
-              ))}
-            </div>
-            <div className="text-sm">
-              <div className="flex items-center gap-1 font-semibold text-ink">
-                4,9/5
-                <span className="flex text-acc">
-                  {Array.from({ length: 5 }).map((_, i) => (
-                    <StarIcon key={i} className="size-3.5" />
-                  ))}
-                </span>
-              </div>
-              <p className="text-mut">+12.500 ciclistas ya han encontrado su e-bike (dato demo)</p>
-            </div>
-          </div>
+          <p className="mt-9 max-w-[46ch] text-sm text-mut">{EBG_DATA.trustItems[0]}.</p>
         </div>
 
         <ImagePlaceholder

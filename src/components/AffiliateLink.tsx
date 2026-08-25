@@ -17,21 +17,28 @@ export function AffiliateLink({
   children: ReactNode;
   className?: string;
 }) {
-  if (!oferta.affiliateUrl) {
+  if (oferta.affiliateUrl) {
     return (
-      <span
-        className={className}
-        aria-disabled="true"
-        title={`Enlace de afiliado a ${merchantName} pendiente de activar (demo)`}
-      >
+      <a href={oferta.affiliateUrl} target="_blank" rel="sponsored nofollow noopener noreferrer" className={className}>
         {children}
-      </span>
+      </a>
+    );
+  }
+
+  // Sin cuenta de afiliado todavía: si investigamos la URL real del producto, enlazamos
+  // directamente a ella — sin "sponsored" porque no hay comisión — en vez de dejar el
+  // enlace inerte.
+  if (oferta.urlProducto) {
+    return (
+      <a href={oferta.urlProducto} target="_blank" rel="nofollow noopener noreferrer" className={className}>
+        {children}
+      </a>
     );
   }
 
   return (
-    <a href={oferta.affiliateUrl} target="_blank" rel="sponsored nofollow noopener noreferrer" className={className}>
+    <span className={className} aria-disabled="true" title={`No tenemos una URL de producto en ${merchantName} todavía`}>
       {children}
-    </a>
+    </span>
   );
 }

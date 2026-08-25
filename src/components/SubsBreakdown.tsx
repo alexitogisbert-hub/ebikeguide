@@ -11,12 +11,12 @@ export function SubsBreakdown({ bike }: { bike: Bike }) {
         <div key={item.id}>
           <div className="flex items-center justify-between text-sm">
             <span className="font-medium text-ink">{item.label}</span>
-            <span className="text-mut">{item.valor.toFixed(1)}/10</span>
+            <span className="text-mut">{item.valor === null ? "N/D" : `${item.valor.toFixed(1)}/10`}</span>
           </div>
           <div className="mt-1 h-2 overflow-hidden rounded-full bg-surf">
             <div
               className="h-full rounded-full bg-acc"
-              style={{ width: `${Math.max(0, Math.min(100, item.valor * 10))}%` }}
+              style={{ width: `${item.valor === null ? 0 : Math.max(0, Math.min(100, item.valor * 10))}%` }}
             />
           </div>
         </div>

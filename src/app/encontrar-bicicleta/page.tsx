@@ -6,7 +6,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Encuentra tu e-bike ideal | eBikeGuide",
-  description: "Responde 7 preguntas rápidas sobre tu uso, terreno y presupuesto y te recomendamos las e-bikes del catálogo demo que mejor encajan.",
+  description: "Responde 7 preguntas rápidas sobre tu uso, terreno y presupuesto y te recomendamos las e-bikes de nuestro catálogo que mejor encajan.",
 });
 
 export default function EncontrarBicicletaPage() {

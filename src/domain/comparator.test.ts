@@ -32,13 +32,23 @@ describe("compararBikes", () => {
     expect(comparativa.bikes[0].id).toBe(bikes[0].id);
   });
 
-  it("incluye la fila de autonomía formateada como rango en km", () => {
-    const comparativa = compararBikes(bikes, [bikes[0].id]);
+  it("incluye la fila de autonomía formateada como rango en km cuando min y max difieren", () => {
+    const bikeConRango = bikes.find((b) => b.autonomiaMin !== null && b.autonomiaMin !== b.autonomiaMax)!;
+    const comparativa = compararBikes(bikes, [bikeConRango.id]);
     const filaAutonomia = comparativa.filas.find((f) => f.campo === "autonomia")!;
-    expect(filaAutonomia.valores[0]).toBe(`${bikes[0].autonomiaMin}-${bikes[0].autonomiaMax} km`);
+    expect(filaAutonomia.valores[0]).toBe(`${bikeConRango.autonomiaMin}-${bikeConRango.autonomiaMax} km`);
   });
 
-  it("compara las alternativas cruzadas b01/b02 con sentido (mismo grupo compacto/urbano)", () => {
+  it("muestra un único número cuando min y max coinciden, y 'Dato no publicado' si no hay autonomía", () => {
+    const bikeCifraUnica = bikes.find((b) => b.autonomiaMin !== null && b.autonomiaMin === b.autonomiaMax)!;
+    const bikeSinAutonomia = bikes.find((b) => b.autonomiaMin === null)!;
+    const comparativa = compararBikes(bikes, [bikeCifraUnica.id, bikeSinAutonomia.id]);
+    const filaAutonomia = comparativa.filas.find((f) => f.campo === "autonomia")!;
+    expect(filaAutonomia.valores[0]).toBe(`${bikeCifraUnica.autonomiaMin} km`);
+    expect(filaAutonomia.valores[1]).toBe("Dato no publicado");
+  });
+
+  it("compara ids concretos manteniendo el orden pedido", () => {
     const comparativa = compararBikes(bikes, ["b01", "b02", "b09"]);
     expect(comparativa.bikes.map((b) => b.id)).toEqual(["b01", "b02", "b09"]);
   });

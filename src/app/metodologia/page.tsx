@@ -48,8 +48,10 @@ export default function MetodologiaPage() {
             </table>
           </div>
           <p className="mt-3 text-xs text-mut">
-            Los pesos suman {pesosPuntuacion.reduce((sum, p) => sum + p.peso, 0)}%. Cada bici tiene una nota de 0 a 10
-            en cada criterio; la puntuación final es la media ponderada de esas notas.
+            Los pesos suman {pesosPuntuacion.reduce((sum, p) => sum + p.peso, 0)}%. Cada bici tiene una nota de 0 a
+            10 en cada criterio, calculada automáticamente como el percentil de esa especificación dentro del
+            catálogo (no una opinión editorial ni una prueba física); la puntuación final es la media ponderada de
+            esas notas.
           </p>
         </section>
 
@@ -59,8 +61,16 @@ export default function MetodologiaPage() {
             <p className="mt-2 text-sm text-mut">
               {EBG_DATA.meta.pruebasPropias
                 ? "Las notas se basan en pruebas propias sobre cada bici."
-                : "En esta demo, las notas se basan en especificaciones publicadas por cada fabricante, no en pruebas propias todavía — evidencia declarada por defecto: "}
+                : "Las notas se calculan automáticamente a partir de especificaciones publicadas por cada fabricante, no en pruebas propias todavía — evidencia declarada por defecto: "}
               <span className="font-semibold text-ink">{EBG_DATA.meta.evidenciaPorDefecto}</span>.
+            </p>
+            <p className="mt-3 text-sm text-mut">
+              Antes ponderábamos también «Comodidad» y «Componentes» de forma editorial. Los hemos retirado del
+              motor de puntuación: sin pruebas propias no teníamos una especificación numérica objetiva de la que
+              derivarlos, y mantenerlos habría significado seguir asignándolos a mano — justo lo que queríamos
+              evitar en un catálogo de productos reales. Cuando el fabricante no publica el dato que necesita un
+              criterio (por ejemplo, el par motor en Nm), esa bici muestra «N/D» en ese criterio en vez de un
+              número inventado, y su puntuación final se calcula solo con los criterios de los que sí hay dato.
             </p>
           </div>
         </section>

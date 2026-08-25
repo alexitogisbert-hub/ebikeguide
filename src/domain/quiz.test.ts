@@ -15,24 +15,31 @@ const baseAnswers: QuizAnswers = {
 };
 
 describe("calcularAjusteQuiz", () => {
-  it("da más ajuste a una bici urbana ligera cuando el perfil es ciudad/llano/precio", () => {
-    const urbana = bikes.find((b) => b.slug === "vent-single-speed-e")!;
-    const montana = bikes.find((b) => b.slug === "granith-trail-emtb-29")!;
+  it("da más ajuste a una bici urbana cuando el perfil es ciudad/llano/precio", () => {
+    const urbana = bikes.find((b) => b.slug === "onesport-ot07")!;
+    const montana = bikes.find((b) => b.slug === "moma-bikes-emtb-29-pro")!;
     expect(calcularAjusteQuiz(urbana, baseAnswers)).toBeGreaterThan(calcularAjusteQuiz(montana, baseAnswers));
   });
 
   it("da más ajuste a una bici de montaña cuando el perfil es montaña/montañoso", () => {
     const respuestas: QuizAnswers = { ...baseAnswers, uso: "montana", terreno: "montanoso", prioridad: "autonomia" };
-    const urbana = bikes.find((b) => b.slug === "vent-single-speed-e")!;
-    const montana = bikes.find((b) => b.slug === "granith-trail-emtb-29")!;
+    const urbana = bikes.find((b) => b.slug === "onesport-ot07")!;
+    const montana = bikes.find((b) => b.slug === "moma-bikes-emtb-29-pro")!;
     expect(calcularAjusteQuiz(montana, respuestas)).toBeGreaterThan(calcularAjusteQuiz(urbana, respuestas));
   });
 
-  it("subir la prioridad de comodidad favorece a la bici con mejor sub de confort", () => {
-    const respuestas: QuizAnswers = { ...baseAnswers, prioridad: "comodidad" };
-    const comoda = bikes.find((b) => b.slug === "nordvik-comfort-step-500")!;
-    const basica = bikes.find((b) => b.slug === "kompaq-mini-fold-16")!;
-    expect(calcularAjusteQuiz(comoda, respuestas)).toBeGreaterThan(calcularAjusteQuiz(basica, respuestas));
+  it("subir la prioridad de potencia favorece a la bici con más par motor", () => {
+    const respuestas: QuizAnswers = { ...baseAnswers, prioridad: "potencia" };
+    const potente = bikes.find((b) => b.slug === "fischer-viator-42i")!; // 80 Nm
+    const floja = bikes.find((b) => b.slug === "ado-air20-pro")!; // 40 Nm
+    expect(calcularAjusteQuiz(potente, respuestas)).toBeGreaterThan(calcularAjusteQuiz(floja, respuestas));
+  });
+
+  it("no falla si el criterio priorizado es null para una bici (dato no publicado)", () => {
+    const respuestas: QuizAnswers = { ...baseAnswers, prioridad: "potencia" };
+    const sinPar = bikes.find((b) => b.parNm === null)!;
+    expect(() => calcularAjusteQuiz(sinPar, respuestas)).not.toThrow();
+    expect(Number.isFinite(calcularAjusteQuiz(sinPar, respuestas))).toBe(true);
   });
 });
 

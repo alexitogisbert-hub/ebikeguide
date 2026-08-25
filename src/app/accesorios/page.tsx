@@ -24,7 +24,7 @@ export default function AccesoriosPage() {
         <PageHeader
           eyebrow="Accesorios"
           title="Accesorios para tu e-bike"
-          intro="Lo esencial para usar tu bicicleta eléctrica con más seguridad y comodidad, con precio aproximado (dato demo)."
+          intro="Lo esencial para usar tu bicicleta eléctrica con más seguridad y comodidad, con precio aproximado orientativo."
         />
         <div className="mx-auto max-w-[1280px] px-5 pb-16 sm:px-8">
           <div className="grid grid-cols-[repeat(auto-fit,minmax(240px,1fr))] gap-5">

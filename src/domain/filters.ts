@@ -21,9 +21,15 @@ export function filtrarBikes(bikes: Bike[], criterios: FiltroCriterios = {}): Bi
     if (criterios.categoriaId && bike.categoriaId !== criterios.categoriaId) return false;
     if (criterios.precioMax !== undefined && bike.precio > criterios.precioMax) return false;
     if (criterios.precioMin !== undefined && bike.precio < criterios.precioMin) return false;
-    if (criterios.pesoMax !== undefined && bike.pesoKg > criterios.pesoMax) return false;
+    // Peso no publicado: no lo excluimos por no poder confirmar que supera el máximo.
+    if (criterios.pesoMax !== undefined && bike.pesoKg !== null && bike.pesoKg > criterios.pesoMax) return false;
     if (criterios.bateriaWhMin !== undefined && bike.bateriaWh < criterios.bateriaWhMin) return false;
-    if (criterios.autonomiaMinKm !== undefined && bike.autonomiaMax < criterios.autonomiaMinKm) return false;
+    // Autonomía no publicada: no podemos confirmar que llega al mínimo pedido, así que se excluye.
+    if (
+      criterios.autonomiaMinKm !== undefined &&
+      (bike.autonomiaMax === null || bike.autonomiaMax < criterios.autonomiaMinKm)
+    )
+      return false;
     if (criterios.puntuacionMin !== undefined && bike.puntuacion < criterios.puntuacionMin) return false;
     if (criterios.plegable !== undefined && bike.plegable !== criterios.plegable) return false;
     return true;
@@ -37,9 +43,13 @@ function valorPorCriterio(bike: Bike, criterio: OrdenCriterio): number {
     case "precio":
       return bike.precio;
     case "autonomia":
-      return (bike.autonomiaMin + bike.autonomiaMax) / 2;
+      // Sin dato: se trata como la autonomía más baja posible, nunca como una ventaja.
+      return bike.autonomiaMin !== null && bike.autonomiaMax !== null
+        ? (bike.autonomiaMin + bike.autonomiaMax) / 2
+        : Number.NEGATIVE_INFINITY;
     case "peso":
-      return bike.pesoKg;
+      // Sin dato: se trata como el peso más alto posible, nunca como una ventaja.
+      return bike.pesoKg ?? Number.POSITIVE_INFINITY;
     case "valor":
       return bike.precio > 0 ? bike.puntuacion / bike.precio : 0;
   }

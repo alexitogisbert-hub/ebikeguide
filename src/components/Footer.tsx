@@ -11,7 +11,7 @@ export function Footer() {
               eBike<span className="text-acc-d">Guide</span>
             </Link>
             <p className="mt-3 max-w-[36ch] text-sm text-mut">
-              Comparador independiente de bicicletas eléctricas. Contenido de muestra —
+              Comparador independiente de bicicletas eléctricas. Catálogo en verificación —
               plataforma en construcción.
             </p>
           </div>
@@ -29,7 +29,7 @@ export function Footer() {
         </div>
 
         <div className="mt-10 flex flex-col gap-4 border-t border-line pt-6 text-xs text-mut sm:flex-row sm:items-center sm:justify-between">
-          <p>© {new Date().getFullYear()} eBikeGuide. Datos de muestra con fines de demostración.</p>
+          <p>© {new Date().getFullYear()} eBikeGuide. Catálogo en verificación, precios orientativos.</p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
             <p>
               Algunos enlaces son de afiliación.{" "}

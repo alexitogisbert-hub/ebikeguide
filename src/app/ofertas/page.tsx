@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
@@ -7,7 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title: "Ofertas en e-bikes | eBikeGuide",
-  description: "Bicicletas eléctricas con descuento en el catálogo demo, ordenadas por porcentaje de rebaja.",
+  description: "Bicicletas eléctricas con descuento, ordenadas por porcentaje de rebaja.",
 });
 
 function descuentoPct(precio: number, precioAnterior: number) {
@@ -26,14 +27,28 @@ export default function OfertasPage() {
         <PageHeader
           eyebrow="Ofertas"
           title="E-bikes con descuento"
-          intro={`${bikesConDescuento.length} modelos con precio rebajado en el catálogo demo, de mayor a menor descuento.`}
+          intro={
+            bikesConDescuento.length > 0
+              ? `${bikesConDescuento.length} modelos con precio rebajado, de mayor a menor descuento.`
+              : "Todavía no tenemos descuentos verificados que mostrar — los precios de cada ficha son orientativos, investigados por búsqueda web."
+          }
         />
         <div className="mx-auto max-w-[1280px] px-5 pb-16 sm:px-8">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5">
-            {bikesConDescuento.map((bike) => (
-              <BikeDealCard key={bike.id} bike={bike} />
-            ))}
-          </div>
+          {bikesConDescuento.length > 0 ? (
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5">
+              {bikesConDescuento.map((bike) => (
+                <BikeDealCard key={bike.id} bike={bike} />
+              ))}
+            </div>
+          ) : (
+            <p className="rounded-2xl border border-dashed border-line p-10 text-center text-sm text-mut">
+              Vuelve más adelante, o explora el{" "}
+              <Link href="/bicicletas-electricas/" className="underline hover:text-ink">
+                catálogo completo
+              </Link>
+              .
+            </p>
+          )}
         </div>
       </main>
       <Footer />

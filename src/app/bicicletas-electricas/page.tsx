@@ -8,7 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = {
   ...pageMetadata({
     title: "Bicicletas eléctricas — catálogo completo | eBikeGuide",
-    description: "Compara todas las e-bikes del catálogo demo por categoría, precio, autonomía y puntuación.",
+    description: "Compara e-bikes reales por categoría, precio, autonomía y puntuación calculada a partir de sus especificaciones.",
   }),
   alternates: { canonical: "/bicicletas-electricas/" },
 };

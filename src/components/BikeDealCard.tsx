@@ -4,7 +4,7 @@ import Link from "next/link";
 import type { Bike } from "@/data/ebg-data";
 import { useFavorites } from "@/lib/favorites-context";
 import { BikeImage } from "./BikeImage";
-import { HeartIcon, StarIcon } from "./icons";
+import { HeartIcon } from "./icons";
 
 const priceFormatter = new Intl.NumberFormat("es-ES", {
   style: "currency",
@@ -18,7 +18,6 @@ export function BikeDealCard({ bike }: { bike: Bike }) {
   const discountPct = bike.precioAnterior
     ? Math.round((1 - bike.precio / bike.precioAnterior) * 100)
     : null;
-  const rating = (bike.puntuacion / 2).toFixed(1);
 
   return (
     <div className="rounded-2xl border border-line transition-shadow duration-200 hover:shadow-lg">
@@ -45,11 +44,14 @@ export function BikeDealCard({ bike }: { bike: Bike }) {
         <h2 className="mt-0.5 font-semibold text-ink">{bike.modelo}</h2>
 
         <div className="mt-2 flex items-center gap-1.5 text-sm">
-          <span className="flex items-center gap-0.5 font-semibold text-ink">
-            <StarIcon className="size-3.5 text-acc" />
-            {rating}
-          </span>
-          <span className="text-mut">({bike.reviews})</span>
+          {bike.puntuacion > 0 ? (
+            <span className="rounded-full bg-acc-s px-2 py-0.5 text-xs font-bold text-acc-d">
+              {bike.puntuacion.toFixed(1)}/10
+            </span>
+          ) : (
+            <span className="rounded-full bg-surf px-2 py-0.5 text-xs font-bold text-mut">Sin datos suficientes</span>
+          )}
+          {bike.esTriciclo && <span className="text-xs font-medium text-mut">Triciclo</span>}
         </div>
 
         <div className="mt-3 flex items-baseline gap-2">

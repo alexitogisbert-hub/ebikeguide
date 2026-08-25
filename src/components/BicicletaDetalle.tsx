@@ -7,7 +7,9 @@ import { SubsBreakdown } from "./SubsBreakdown";
 import { BikeDealCard } from "./BikeDealCard";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { AffiliateLink } from "./AffiliateLink";
-import { ArrowRightIcon, StarIcon } from "./icons";
+import { ArrowRightIcon } from "./icons";
+
+const SIN_DATO = "Dato no publicado por el fabricante";
 
 const SCHEMA_AVAILABILITY: Record<string, string> = {
   disponible: "https://schema.org/InStock",
@@ -21,19 +23,36 @@ const priceFormatter = new Intl.NumberFormat("es-ES", {
   maximumFractionDigits: 0,
 });
 
+const BATERIA_EXTRAIBLE_LABEL: Record<"true" | "false" | "null", string> = {
+  true: "extraíble",
+  false: "fija",
+  null: "extraíble o fija no confirmado",
+};
+
 const SPEC_ROWS = (bike: Bike) => [
-  { label: "Batería", value: `${bike.bateriaWh} Wh${bike.bateriaExtraible ? " · extraíble" : " · fija"}` },
-  { label: "Autonomía estimada", value: `${bike.autonomiaMin}-${bike.autonomiaMax} km` },
-  { label: "Motor", value: `${bike.motor} (${bike.motorTipo === "central" ? "central" : "buje"})` },
-  { label: "Par motor", value: `${bike.parNm} Nm` },
+  {
+    label: "Batería",
+    value: `${bike.bateriaWh} Wh · ${BATERIA_EXTRAIBLE_LABEL[String(bike.bateriaExtraible) as "true" | "false" | "null"]}`,
+  },
+  {
+    label: "Autonomía estimada",
+    value:
+      bike.autonomiaMin === null || bike.autonomiaMax === null
+        ? SIN_DATO
+        : bike.autonomiaMin === bike.autonomiaMax
+          ? `${bike.autonomiaMin} km`
+          : `${bike.autonomiaMin}-${bike.autonomiaMax} km`,
+  },
+  { label: "Motor", value: bike.motor },
+  { label: "Par motor", value: bike.parNm === null ? SIN_DATO : `${bike.parNm} Nm` },
   { label: "Velocidad asistida", value: `${bike.velocidad} km/h` },
-  { label: "Peso", value: `${bike.pesoKg} kg` },
-  { label: "Cambios", value: bike.cambios },
-  { label: "Frenos", value: bike.frenos },
-  { label: "Suspensión", value: bike.suspension },
-  { label: "Tallas disponibles", value: bike.tallas.join(", ") },
-  { label: "Carga máxima", value: `${bike.cargaMaxima} kg` },
-  { label: "Dimensiones", value: bike.dimensiones },
+  { label: "Peso", value: bike.pesoKg === null ? SIN_DATO : `${bike.pesoKg} kg` },
+  { label: "Cambios", value: bike.cambios ?? SIN_DATO },
+  { label: "Frenos", value: bike.frenos ?? SIN_DATO },
+  { label: "Suspensión", value: bike.suspension ?? SIN_DATO },
+  { label: "Tallas disponibles", value: bike.tallas.length > 0 ? bike.tallas.join(", ") : SIN_DATO },
+  { label: "Carga máxima", value: bike.cargaMaxima === null ? SIN_DATO : `${bike.cargaMaxima} kg` },
+  { label: "Dimensiones", value: bike.dimensiones ?? SIN_DATO },
 ];
 
 const DISPONIBILIDAD_LABEL: Record<string, string> = {
@@ -48,8 +67,9 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
     .filter((b): b is NonNullable<typeof b> => Boolean(b));
 
   const discountPct = bike.precioAnterior ? Math.round((1 - bike.precio / bike.precioAnterior) * 100) : null;
-  const rating = (bike.puntuacion / 2).toFixed(1);
   const categoria = EBG_DATA.categorias.find((c) => c.id === bike.categoriaId);
+  const criteriosConDato = Object.values(bike.subs).filter((v) => typeof v === "number").length;
+  const totalCriterios = Object.keys(bike.subs).length;
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -59,13 +79,9 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
     ...(bike.imagen ? { image: `${EBG_DATA.meta.dominio}${bike.imagen}` } : {}),
     sku: bike.id,
     brand: { "@type": "Brand", name: bike.marca },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: bike.puntuacion,
-      bestRating: 10,
-      worstRating: 1,
-      reviewCount: bike.reviews,
-    },
+    // Sin aggregateRating: no tenemos reseñas ni valoraciones reales de usuarios — nuestra
+    // puntuación 0-10 es un cálculo propio a partir de especificaciones, no una valoración
+    // agregada de clientes, y marcarla como tal en datos estructurados sería engañoso.
     offers: bike.ofertas.map((oferta) => ({
       "@type": "Offer",
       price: oferta.precio,
@@ -113,14 +129,14 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
             </h1>
 
             <div className="mt-3 flex items-center gap-3 text-sm">
-              <span className="flex items-center gap-1 font-semibold text-ink">
-                <StarIcon className="size-4 text-acc" />
-                {rating}/5
-              </span>
-              <span className="text-mut">({bike.reviews} reseñas · dato demo)</span>
               <span className="rounded-full bg-acc-s px-2.5 py-1 text-xs font-bold text-acc-d">
                 {bike.puntuacion.toFixed(1)}/10 puntuación
               </span>
+              {bike.esTriciclo && (
+                <span className="rounded-full bg-ink px-2.5 py-1 text-xs font-bold text-white">
+                  Triciclo de 3 ruedas
+                </span>
+              )}
             </div>
 
             <div className="mt-5 flex items-baseline gap-3">
@@ -224,6 +240,12 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
               <div className="mt-4">
                 <SubsBreakdown bike={bike} />
               </div>
+              {criteriosConDato <= 1 && (
+                <p className="mt-4 rounded-xl bg-surf px-3 py-2 text-xs text-mut">
+                  Puntuación poco representativa: solo tenemos {criteriosConDato} de {totalCriterios} datos
+                  objetivos publicados para esta bici, no es un reflejo de mal rendimiento.
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -250,12 +272,12 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
                     oferta={oferta}
                     merchantName={merchantName}
                     className={
-                      oferta.affiliateUrl
+                      oferta.affiliateUrl || oferta.urlProducto
                         ? "rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-acc-d"
                         : "rounded-full border border-line px-4 py-2 text-sm font-semibold text-mut"
                     }
                   >
-                    {oferta.affiliateUrl ? "Ver oferta" : "Enlace pendiente (demo)"}
+                    {oferta.affiliateUrl ? "Ver oferta" : oferta.urlProducto ? "Ver en Amazon" : "Enlace pendiente"}
                   </AffiliateLink>
                 </div>
               </div>
@@ -263,8 +285,9 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
           })}
         </div>
         <p className="mt-4 text-xs text-mut">
-          Algunos enlaces son de afiliación: podemos ganar una comisión sin coste para ti si compras a través de
-          ellos. Nunca afecta a la puntuación.{" "}
+          Todavía no tenemos cuenta de afiliado activa: los enlaces &ldquo;Ver en Amazon&rdquo; van directamente a la
+          ficha del producto, sin comisión para nosotros. Cuando activemos la afiliación, lo indicaremos aquí con claridad.
+          Nunca afecta a la puntuación.{" "}
           <Link href="/aviso-legal/" className="underline hover:text-ink">
             Más información sobre afiliación
           </Link>

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { EBG_DATA } from "@/data/ebg-data";
+import { formatAutonomia } from "@/domain/comparator";
 import { BikeImage } from "./BikeImage";
 import { ChevronLeftIcon, ChevronRightIcon } from "./icons";
 
@@ -80,7 +81,7 @@ export function BikeShowcaseCard() {
               <p className="text-xs font-semibold uppercase tracking-wide text-white/50">{bike.marca}</p>
               <p className="truncate font-semibold text-white group-hover:text-acc">{bike.modelo}</p>
               <p className="mt-1 font-bold text-acc">{priceFormatter.format(bike.precio)}</p>
-              <p className="mt-1 text-xs text-white/60">{bike.autonomiaMin}-{bike.autonomiaMax} km de autonomía</p>
+              <p className="mt-1 text-xs text-white/60">{formatAutonomia(bike)}</p>
             </div>
           </Link>
 

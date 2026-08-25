@@ -76,7 +76,7 @@ const STEPS: [
     opciones: [
       { value: "autonomia", label: "Autonomía" },
       { value: "precio", label: "Precio" },
-      { value: "comodidad", label: "Comodidad" },
+      { value: "potencia", label: "Potencia del motor" },
     ],
   },
   {
@@ -118,7 +118,7 @@ export function EncontrarBicicletaQuiz() {
       <div>
         <h2 className="text-xl font-bold text-ink">Tus recomendaciones</h2>
         <p className="mt-2 text-sm text-mut">
-          Según tus respuestas, estas son las {recomendaciones.length} bicis del catálogo demo que mejor encajan.
+          Según tus respuestas, estas son las {recomendaciones.length} bicis de nuestro catálogo que mejor encajan.
         </p>
         <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5">
           {recomendaciones.map((bike) => (

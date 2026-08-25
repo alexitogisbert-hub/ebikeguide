@@ -22,7 +22,7 @@ export default function ComparadorPage() {
         <PageHeader
           eyebrow="Comparador"
           title="Compara e-bikes lado a lado"
-          intro="Elige hasta 4 modelos del catálogo demo y compara sus especificaciones de un vistazo."
+          intro="Elige hasta 4 modelos de nuestro catálogo y compara sus especificaciones de un vistazo."
         />
         <div className="mx-auto max-w-[1280px] px-5 pb-16 sm:px-8">
           <Suspense fallback={<ComparadorFallback />}>

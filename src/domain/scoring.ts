@@ -3,7 +3,7 @@ import type { Bike, PesoPuntuacion, SubPuntuaciones } from "@/data/ebg-data";
 export type ScoreBreakdownItem = {
   id: string;
   label: string;
-  valor: number;
+  valor: number | null;
   peso: number;
   aportacion: number;
 };
@@ -21,33 +21,104 @@ export function validatePesosPuntuacion(pesos: PesoPuntuacion[]): { valido: bool
   return { valido: Math.abs(sumaTotal - 100) <= PESOS_EPSILON, sumaTotal };
 }
 
+/**
+ * Percentil 0-10 del elemento en `indice` dentro de `valores`, donde un valor RAW más alto
+ * puntúa más alto. Los `null` (dato no publicado) no participan como puntos de comparación:
+ * el percentil se calcula solo entre los valores conocidos. Empates comparten el mismo rango
+ * (rango medio / "fractional ranking"). Con un único valor conocido, devuelve 10 (no hay con
+ * qué comparar). Devuelve `null` si el propio elemento no tiene valor conocido.
+ */
+export function percentil(valores: Array<number | null | undefined>, indice: number): number | null {
+  const v = valores[indice];
+  if (v === null || v === undefined) return null;
+
+  const conocidos = valores.filter((x): x is number => x !== null && x !== undefined);
+  const n = conocidos.length;
+  if (n <= 1) return 10;
+
+  const menor = conocidos.filter((x) => x < v).length;
+  const menorIgual = conocidos.filter((x) => x <= v).length;
+  const rangoMedio = (menor + menorIgual - 1) / 2;
+
+  return Math.round((rangoMedio / (n - 1)) * 100) / 10;
+}
+
+/** Igual que `percentil`, pero un valor RAW más bajo puntúa más alto (p. ej. peso). */
+export function percentilInverso(valores: Array<number | null | undefined>, indice: number): number | null {
+  const invertidos = valores.map((v) => (v === null || v === undefined ? null : -v));
+  return percentil(invertidos, indice);
+}
+
+export type MetricasBike = {
+  /** Punto medio de autonomiaMin/autonomiaMax, o null si no está confirmada. */
+  autonomiaKm: number | null;
+  parNm: number | null;
+  pesoKg: number | null;
+  precio: number;
+};
+
+/**
+ * Calcula `subs` (0-10) para cada bici del catálogo, de forma puramente algorítmica a partir
+ * de especificaciones publicadas — sin opinión editorial, porque `meta.pruebasPropias` es
+ * `false` y no hemos probado físicamente ninguna bici real.
+ *
+ * - autonomia: percentil de autonomiaKm (más km, mejor).
+ * - potencia: percentil de parNm (más par, mejor).
+ * - peso: percentil inverso de pesoKg (menos kg, mejor).
+ * - precio: percentil inverso del precio (más barata dentro del catálogo, mejor).
+ *
+ * `precio` es el único criterio que nunca puede quedar en `null` (el precio siempre existe,
+ * aunque sea orientativo) — a propósito: así, aunque a una bici le falten todos los demás
+ * datos objetivos, sigue teniendo al menos un criterio con el que calcular una puntuación en
+ * vez de quedarse en 0/10, que se leería como "la peor bici" en lugar de "no hay datos
+ * suficientes para evaluarla".
+ *
+ * Si a una bici le falta el dato necesario para autonomia/potencia/peso, ese criterio queda
+ * en `null` para ella (no se inventa un valor) y no participa en el percentil de las demás.
+ */
+export function calcularSubsCatalogo(metricas: MetricasBike[]): SubPuntuaciones[] {
+  const autonomias = metricas.map((m) => m.autonomiaKm);
+  const potencias = metricas.map((m) => m.parNm);
+  const pesos = metricas.map((m) => m.pesoKg);
+  const precios = metricas.map((m) => m.precio);
+
+  return metricas.map((_, i) => ({
+    autonomia: percentil(autonomias, i),
+    potencia: percentil(potencias, i),
+    peso: percentilInverso(pesos, i),
+    precio: percentilInverso(precios, i),
+  }));
+}
+
+/**
+ * Media ponderada de `subs` según `pesos`, tratando los `null` como "criterio no aplicable
+ * para esta bici" en vez de como 0: su peso se excluye y se renormaliza entre los criterios
+ * que sí tienen dato, para no penalizar a una bici solo porque el fabricante no publicó una
+ * especificación. Devuelve 0 si ningún criterio tiene dato.
+ */
 export function computeWeightedScore(
-  subs: SubPuntuaciones | Record<string, number>,
+  subs: Partial<Record<string, number | null>>,
   pesos: PesoPuntuacion[],
 ): number {
-  const sumaPesos = pesos.reduce((sum, p) => sum + p.peso, 0);
+  const disponibles = pesos.filter((p) => typeof subs[p.id] === "number");
+  const sumaPesos = disponibles.reduce((sum, p) => sum + p.peso, 0);
   if (sumaPesos === 0) return 0;
 
-  const sumaPonderada = pesos.reduce((sum, p) => {
-    const valor = subs[p.id as keyof typeof subs] ?? 0;
-    return sum + valor * p.peso;
-  }, 0);
-
+  const sumaPonderada = disponibles.reduce((sum, p) => sum + (subs[p.id] as number) * p.peso, 0);
   return Math.round((sumaPonderada / sumaPesos) * 10) / 10;
 }
 
 export function scoreBikeBreakdown(bike: Bike, pesos: PesoPuntuacion[]): BikeScore {
-  const sumaPesos = pesos.reduce((sum, p) => sum + p.peso, 0);
+  const disponibles = pesos.filter((p) => typeof bike.subs[p.id as keyof SubPuntuaciones] === "number");
+  const sumaPesosDisponibles = disponibles.reduce((sum, p) => sum + p.peso, 0);
 
   const desglose: ScoreBreakdownItem[] = pesos.map((peso) => {
-    const valor = bike.subs[peso.id as keyof SubPuntuaciones] ?? 0;
-    return {
-      id: peso.id,
-      label: peso.label,
-      valor,
-      peso: peso.peso,
-      aportacion: sumaPesos === 0 ? 0 : Math.round(((valor * peso.peso) / sumaPesos) * 10) / 10,
-    };
+    const valor = bike.subs[peso.id as keyof SubPuntuaciones] ?? null;
+    const aportacion =
+      valor === null || sumaPesosDisponibles === 0
+        ? 0
+        : Math.round(((valor * peso.peso) / sumaPesosDisponibles) * 10) / 10;
+    return { id: peso.id, label: peso.label, valor, peso: peso.peso, aportacion };
   });
 
   return {
