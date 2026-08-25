@@ -9,14 +9,21 @@ const SPAIN_ZOOM = 5.5;
 export function RangoMapaCanvas({
   center,
   geojson,
+  onMapClick,
 }: {
   center: { lat: number; lon: number } | null;
   geojson: GeoJSON.FeatureCollection | null;
+  onMapClick?: (lat: number, lon: number) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<LeafletMap | null>(null);
   const layerRef = useRef<LeafletGeoJSON | null>(null);
   const markerRef = useRef<CircleMarker | null>(null);
+  const onMapClickRef = useRef(onMapClick);
+
+  useEffect(() => {
+    onMapClickRef.current = onMapClick;
+  }, [onMapClick]);
 
   useEffect(() => {
     let cancelled = false;
@@ -35,6 +42,8 @@ export function RangoMapaCanvas({
         subdomains: "abcd",
         maxZoom: 19,
       }).addTo(map);
+
+      map.on("click", (e) => onMapClickRef.current?.(e.latlng.lat, e.latlng.lng));
 
       mapRef.current = map;
     });

@@ -21,7 +21,7 @@ export function RangoMapa({ estimadoKm }: { estimadoKm: number }) {
   const [geojson, setGeojson] = useState<GeoJSON.FeatureCollection | null>(null);
   const [shownRangeKm, setShownRangeKm] = useState<number | null>(null);
   useEffect(() => {
-    const shouldClear = query.trim().length < 3 || (selected !== null && query === selected.label);
+    const shouldClear = query.trim().length < 3 || selected !== null;
 
     const timer = setTimeout(async () => {
       if (shouldClear) {
@@ -48,8 +48,7 @@ export function RangoMapa({ estimadoKm }: { estimadoKm: number }) {
     setError(null);
   }
 
-  async function verAlcance() {
-    if (!selected) return;
+  async function calcularAlcance(city: CityResult) {
     setLoading(true);
     setError(null);
     const rangeKm = roundTrip ? estimadoKm / 2 : estimadoKm;
@@ -57,7 +56,7 @@ export function RangoMapa({ estimadoKm }: { estimadoKm: number }) {
       const res = await fetch("/api/isocrona/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ lat: selected.lat, lon: selected.lon, rangeMeters: rangeKm * 1000 }),
+        body: JSON.stringify({ lat: city.lat, lon: city.lon, rangeMeters: rangeKm * 1000 }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Error desconocido");
@@ -69,6 +68,32 @@ export function RangoMapa({ estimadoKm }: { estimadoKm: number }) {
     } finally {
       setLoading(false);
     }
+  }
+
+  function verAlcance() {
+    if (selected) calcularAlcance(selected);
+  }
+
+  async function handleMapClick(lat: number, lon: number) {
+    setError(null);
+    setSuggestions([]);
+    setGeojson(null);
+    setQuery("Buscando lugar…");
+    setSelected({ label: "Ubicación seleccionada", lat, lon });
+
+    let label = `${lat.toFixed(3)}, ${lon.toFixed(3)}`;
+    try {
+      const res = await fetch(`/api/geocode-inverso/?lat=${lat}&lon=${lon}`);
+      const data = await res.json();
+      if (data.label) label = data.label;
+    } catch {
+      // Sin etiqueta de lugar: seguimos con las coordenadas.
+    }
+
+    const city: CityResult = { label, lat, lon };
+    setSelected(city);
+    setQuery(label);
+    await calcularAlcance(city);
   }
 
   return (
@@ -139,8 +164,9 @@ export function RangoMapa({ estimadoKm }: { estimadoKm: number }) {
       </div>
 
       <div className="relative z-0 mt-5 h-[280px] overflow-hidden rounded-2xl border border-white/10 sm:h-[340px]">
-        <RangoMapaCanvas center={selected} geojson={geojson} />
+        <RangoMapaCanvas center={selected} geojson={geojson} onMapClick={handleMapClick} />
       </div>
+      <p className="mt-2 text-xs text-white/40">O haz clic en cualquier punto del mapa para ver su alcance.</p>
 
       {error && (
         <p role="alert" className="mt-3 text-xs text-red-300">
