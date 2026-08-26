@@ -148,20 +148,42 @@ export function scoreBikes(bikes: Bike[], pesos: PesoPuntuacion[]): BikeScore[] 
 export type BadgeBici = {
   emoji: string;
   etiqueta: string;
-  criterio: "autonomia" | "motor" | "peso" | "precio";
+  criterio: "autonomia" | "motor" | "peso" | "precio" | "familiar" | "triciclo";
 };
 
-/** Badge del criterio en el que una bici destaca más dentro de su categoría (mayor sub-puntuación). */
+/**
+ * Badge principal de una bici para las tarjetas del catálogo. Prioridad, de mayor a menor:
+ * 1. Triciclo (`esTriciclo`) — cambia por completo cómo se conduce, es lo más relevante a
+ *    comunicar antes que ningún dato de la sub-puntuación.
+ * 2. Familiar (categoría cargo) — pensada para llevar carga o niños, no para destacar en
+ *    autonomía/potencia/peso/precio frente al resto del catálogo.
+ * 3. El criterio con mayor sub-puntuación dentro de su categoría (autonomía/motor/peso/precio),
+ *    ignorando los que no tienen dato. Caso especial: si es una plegable y el criterio que gana
+ *    es el peso, se etiqueta "Plegable ligera" en vez del genérico "Ligera".
+ */
 export function obtenerBadgePrincipal(bike: Bike): BadgeBici {
+  if (bike.esTriciclo) {
+    return { emoji: "🛺", etiqueta: "Triciclo", criterio: "triciclo" };
+  }
+  if (bike.tipo === "cargo" || bike.tipo === "familiar") {
+    return { emoji: "👨‍👩‍👧", etiqueta: "Familiar", criterio: "familiar" };
+  }
+
   const subs = bike.subs;
-  const candidatos: Array<{ criterio: BadgeBici["criterio"]; valor: number | null; emoji: string; etiqueta: string }> = [
+  type Candidato = { criterio: "autonomia" | "motor" | "peso" | "precio"; valor: number | null; emoji: string; etiqueta: string };
+  const candidatos: Candidato[] = [
     { criterio: "autonomia", valor: subs.autonomia, emoji: "🔋", etiqueta: "Larga autonomía" },
     { criterio: "motor", valor: subs.potencia, emoji: "⚡", etiqueta: "Motor potente" },
     { criterio: "peso", valor: subs.peso, emoji: "🪶", etiqueta: "Ligera" },
     { criterio: "precio", valor: subs.precio, emoji: "💰", etiqueta: "Calidad-precio" },
   ];
-  const conDato = candidatos.filter((c): c is typeof c & { valor: number } => c.valor !== null);
+  const conDato = candidatos.filter((c): c is Candidato & { valor: number } => c.valor !== null);
   if (conDato.length === 0) return { emoji: "📊", etiqueta: "En análisis", criterio: "precio" };
   const mejor = conDato.reduce((a, b) => (b.valor > a.valor ? b : a));
+
+  if (bike.tipo === "plegable" && mejor.criterio === "peso") {
+    return { emoji: "📦", etiqueta: "Plegable ligera", criterio: "peso" };
+  }
+
   return { emoji: mejor.emoji, etiqueta: mejor.etiqueta, criterio: mejor.criterio };
 }

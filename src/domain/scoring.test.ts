@@ -268,8 +268,55 @@ describe("obtenerBadgePrincipal", () => {
   it("todas las bicis reales del catálogo obtienen un badge válido", () => {
     EBG_DATA.bikes.forEach((bike) => {
       const badge = obtenerBadgePrincipal(bike);
-      expect(["autonomia", "motor", "peso", "precio"]).toContain(badge.criterio);
+      expect(["autonomia", "motor", "peso", "precio", "familiar", "triciclo"]).toContain(badge.criterio);
       expect(badge.etiqueta.length).toBeGreaterThan(0);
     });
+  });
+
+  it("una bici triciclo siempre obtiene el badge de triciclo, sin importar sus sub-puntuaciones", () => {
+    const bike: Bike = {
+      ...EBG_DATA.bikes[0],
+      esTriciclo: true,
+      tipo: "urbana",
+      subs: { autonomia: 10, potencia: 10, peso: 10, precio: 10 },
+    };
+    expect(obtenerBadgePrincipal(bike)).toEqual({ emoji: "🛺", etiqueta: "Triciclo", criterio: "triciclo" });
+  });
+
+  it("una bici cargo (no triciclo) obtiene el badge Familiar, sin importar sus sub-puntuaciones", () => {
+    const bike: Bike = {
+      ...EBG_DATA.bikes[0],
+      esTriciclo: false,
+      tipo: "cargo",
+      subs: { autonomia: 10, potencia: 10, peso: 10, precio: 10 },
+    };
+    expect(obtenerBadgePrincipal(bike)).toEqual({ emoji: "👨‍👩‍👧", etiqueta: "Familiar", criterio: "familiar" });
+  });
+
+  it("el triciclo tiene prioridad sobre el badge Familiar cuando una bici es ambas cosas (caso real: Fafrees F20 Mate)", () => {
+    const bike = EBG_DATA.bikes.find((b) => b.slug === "fafrees-f20-mate")!;
+    expect(bike.esTriciclo).toBe(true);
+    expect(bike.tipo).toBe("cargo");
+    expect(obtenerBadgePrincipal(bike).criterio).toBe("triciclo");
+  });
+
+  it("una plegable cuyo mejor criterio es el peso obtiene 'Plegable ligera' en vez del genérico 'Ligera'", () => {
+    const bike: Bike = {
+      ...EBG_DATA.bikes[0],
+      esTriciclo: false,
+      tipo: "plegable",
+      subs: { autonomia: 3, potencia: 2, peso: 9, precio: 4 },
+    };
+    expect(obtenerBadgePrincipal(bike)).toEqual({ emoji: "📦", etiqueta: "Plegable ligera", criterio: "peso" });
+  });
+
+  it("una no-plegable cuyo mejor criterio es el peso mantiene el badge genérico 'Ligera'", () => {
+    const bike: Bike = {
+      ...EBG_DATA.bikes[0],
+      esTriciclo: false,
+      tipo: "urbana",
+      subs: { autonomia: 3, potencia: 2, peso: 9, precio: 4 },
+    };
+    expect(obtenerBadgePrincipal(bike)).toEqual({ emoji: "🪶", etiqueta: "Ligera", criterio: "peso" });
   });
 });
