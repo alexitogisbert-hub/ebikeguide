@@ -7,6 +7,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Calculadoras para e-bikes | eBikeGuide",
   description: "Herramientas para estimar la autonomía real de una e-bike según tu peso, terreno y nivel de asistencia.",
+  path: "/calculadoras/",
 });
 
 export default function CalculadorasPage() {

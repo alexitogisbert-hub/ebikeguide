@@ -8,6 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Política de cookies | eBikeGuide",
   description: "Qué guardamos en tu navegador, por qué, y qué pasa cuando sales hacia una tienda.",
+  path: "/cookies/",
 });
 
 const STORAGE_ROWS = [

@@ -28,6 +28,7 @@ export async function generateMetadata({
   return pageMetadata({
     title: `${guia.titulo} | eBikeGuide`,
     description: guia.resumen,
+    path: `/guias/${guia.slug}/`,
   });
 }
 

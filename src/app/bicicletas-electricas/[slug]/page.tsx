@@ -36,6 +36,7 @@ export async function generateMetadata({
     return pageMetadata({
       title: `E-bikes ${categoria.nombre.toLowerCase()} — ${categoria.claim} | eBikeGuide`,
       description: `Compara las bicicletas eléctricas ${categoria.nombre.toLowerCase()} de nuestro catálogo: ${categoria.claim.toLowerCase()}.`,
+      path: `/bicicletas-electricas/${categoria.slug}/`,
     });
   }
 
@@ -44,6 +45,7 @@ export async function generateMetadata({
     return pageMetadata({
       title: `${bike.marca} ${bike.modelo} — análisis y precio | eBikeGuide`,
       description: bike.porQue,
+      path: `/bicicletas-electricas/${bike.slug}/`,
     });
   }
 
@@ -73,7 +75,7 @@ export default async function BicicletasElectricasSlugPage({
           <PageHeader
             eyebrow="Categoría"
             title={`E-bikes ${categoria.nombre.toLowerCase()}`}
-            intro={`${categoria.claim}. ${categoria.modelosCount} modelos investigados en esta categoría, con precios orientativos mientras verificamos el catálogo.`}
+            intro={`${categoria.claim}. ${categoria.modelosCount} modelos investigados en esta categoría, con precios orientativos.`}
           />
           <div className="mx-auto max-w-[1280px] px-5 pb-16 sm:px-8">
             <CatalogoBicicletas bikes={EBG_DATA.bikes} categorias={EBG_DATA.categorias} initialCategoriaId={categoria.id} />

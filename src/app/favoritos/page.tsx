@@ -7,6 +7,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Tus favoritos | eBikeGuide",
   description: "Las e-bikes que has guardado como favoritas, guardadas en este navegador.",
+  path: "/favoritos/",
 });
 
 export default function FavoritosPage() {

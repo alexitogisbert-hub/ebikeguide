@@ -13,7 +13,7 @@ export function QuizAndAutonomy() {
 
   return (
     <section className="mx-auto max-w-[1280px] px-5 py-8 sm:px-8">
-      <div className="grid grid-cols-[repeat(auto-fit,minmax(380px,1fr))] gap-6">
+      <div className="grid grid-cols-1 gap-6 sm:grid-cols-[repeat(auto-fit,minmax(380px,1fr))]">
         <BikeShowcaseCard />
         <AutonomyCalculator
           bateriaWh={bateriaWh}

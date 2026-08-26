@@ -8,6 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Calculadora de autonomía de e-bikes | eBikeGuide",
   description: "Estima cuántos km puedes hacer con tu e-bike según la batería, tu peso, el terreno y el nivel de asistencia.",
+  path: "/calculadoras/autonomia/",
 });
 
 const ASISTENCIA_LABELS: Record<keyof typeof FACTOR_ASISTENCIA, string> = {

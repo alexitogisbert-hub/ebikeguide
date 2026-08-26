@@ -8,6 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Accesorios para e-bikes | eBikeGuide",
   description: "Casco, candado, luces, alforjas y otros accesorios recomendados para tu bicicleta eléctrica.",
+  path: "/accesorios/",
 });
 
 const priceFormatter = new Intl.NumberFormat("es-ES", {

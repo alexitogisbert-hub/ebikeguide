@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { EBG_DATA } from "@/data/ebg-data";
 import { compararBikes, MAX_BIKES_COMPARADOR } from "@/domain/comparator";
+import { AffiliateLink, ofertaCtaLabel } from "./AffiliateLink";
 import { BikeImage } from "./BikeImage";
 import { FavoriteButton } from "./FavoriteButton";
 
@@ -115,6 +116,28 @@ export function ComparadorClient() {
                   ))}
                 </tr>
               ))}
+              <tr className="border-t border-line">
+                <td className="px-3 py-3 text-sm font-medium text-mut">Comprar</td>
+                {comparativa.bikes.map((bike) => {
+                  const oferta = bike.ofertas[0];
+                  const merchant = EBG_DATA.merchants.find((m) => m.id === oferta?.merchantId);
+                  return (
+                    <td key={bike.id} className="px-3 py-3">
+                      {oferta ? (
+                        <AffiliateLink
+                          oferta={oferta}
+                          merchantName={merchant?.nombre ?? oferta.merchantId}
+                          className="inline-flex items-center rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white hover:bg-acc-d"
+                        >
+                          {ofertaCtaLabel(oferta)}
+                        </AffiliateLink>
+                      ) : (
+                        <span className="text-xs text-mut">Sin oferta</span>
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
             </tbody>
           </table>
         </div>

@@ -6,7 +6,7 @@ import { FavoriteButton } from "./FavoriteButton";
 import { SubsBreakdown } from "./SubsBreakdown";
 import { BikeDealCard } from "./BikeDealCard";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { AffiliateLink } from "./AffiliateLink";
+import { AffiliateLink, ofertaCtaLabel } from "./AffiliateLink";
 import { ArrowRightIcon } from "./icons";
 
 const SIN_DATO = "Dato no publicado por el fabricante";
@@ -60,12 +60,6 @@ const DISPONIBILIDAD_LABEL: Record<string, string> = {
   pocas: "Pocas unidades",
   agotado: "Agotado",
 };
-
-function ofertaCtaLabel(oferta: OfertaBike): string {
-  if (oferta.affiliateUrl) return "Ver oferta";
-  if (oferta.urlProducto) return "Ver precio actual en Amazon";
-  return "Enlace pendiente";
-}
 
 export function BicicletaDetalle({ bike }: { bike: Bike }) {
   const alternativas = bike.alternativas

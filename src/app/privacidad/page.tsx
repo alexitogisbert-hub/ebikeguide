@@ -8,6 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Política de privacidad | eBikeGuide",
   description: "Qué datos guardamos, dónde se guardan y qué pasa cuando sigues un enlace hacia una tienda.",
+  path: "/privacidad/",
 });
 
 export default function PrivacidadPage() {

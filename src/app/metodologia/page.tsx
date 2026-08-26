@@ -7,6 +7,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Metodología | eBikeGuide",
   description: "Cómo calculamos la puntuación de cada e-bike: los criterios, sus pesos y de dónde sale la evidencia.",
+  path: "/metodologia/",
 });
 
 export default function MetodologiaPage() {
@@ -23,8 +24,8 @@ export default function MetodologiaPage() {
         />
 
         <section className="mx-auto max-w-[1280px] px-5 pb-12 sm:px-8">
-          <div className="overflow-hidden rounded-2xl border border-line">
-            <table className="w-full border-collapse text-left text-sm">
+          <div className="overflow-x-auto rounded-2xl border border-line">
+            <table className="w-full min-w-[480px] border-collapse text-left text-sm">
               <thead className="bg-surf text-xs font-semibold uppercase tracking-wide text-mut">
                 <tr>
                   <th className="px-5 py-3">Criterio</th>

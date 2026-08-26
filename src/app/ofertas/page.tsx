@@ -9,6 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Ofertas en e-bikes | eBikeGuide",
   description: "Bicicletas eléctricas con descuento, ordenadas por porcentaje de rebaja.",
+  path: "/ofertas/",
 });
 
 function descuentoPct(precio: number, precioAnterior: number) {

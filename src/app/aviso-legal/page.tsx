@@ -8,6 +8,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Aviso legal | eBikeGuide",
   description: "Titularidad del sitio, relación con tiendas y marcas, y cómo funcionan nuestros enlaces de afiliación.",
+  path: "/aviso-legal/",
 });
 
 export default function AvisoLegalPage() {

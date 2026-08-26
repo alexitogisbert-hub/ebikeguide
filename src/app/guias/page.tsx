@@ -9,6 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Guías y consejos sobre e-bikes | eBikeGuide",
   description: "Guías de compra, mantenimiento y normativa sobre bicicletas eléctricas.",
+  path: "/guias/",
 });
 
 export default function GuiasPage() {

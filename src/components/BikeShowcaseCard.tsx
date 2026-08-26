@@ -66,12 +66,12 @@ export function BikeShowcaseCard() {
           <Link
             key={bike.id}
             href={`/bicicletas-electricas/${bike.slug}/`}
-            className="animate-ebg-in group flex flex-1 items-center gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-acc/50 hover:bg-white/[0.08]"
+            className="animate-ebg-in group flex min-w-0 flex-1 items-center gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-acc/50 hover:bg-white/[0.08]"
           >
             <div className="relative shrink-0">
               <BikeImage
                 bike={bike}
-                className="h-24 w-32 rounded-xl !border-white/10 !bg-white/10 !text-white/60"
+                className="h-16 w-20 rounded-xl !border-white/10 !bg-white/10 !text-white/60 sm:h-24 sm:w-32"
               />
               <span className="absolute -right-2 -top-2 rounded-full bg-acc px-2 py-0.5 text-[11px] font-bold text-dark shadow-sm">
                 {bike.puntuacion.toFixed(1)}

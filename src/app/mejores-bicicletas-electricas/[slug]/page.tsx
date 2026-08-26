@@ -34,6 +34,7 @@ export async function generateMetadata({
   return pageMetadata({
     title: `${mejor.titulo} | eBikeGuide`,
     description: mejor.resumen,
+    path: `/mejores-bicicletas-electricas/${mejor.slug}/`,
   });
 }
 

@@ -9,6 +9,7 @@ import { pageMetadata } from "@/lib/seo";
 export const metadata = pageMetadata({
   title: "Las mejores bicicletas eléctricas | eBikeGuide",
   description: "Selecciones por categoría y presupuesto, con criterios explicados y preguntas frecuentes.",
+  path: "/mejores-bicicletas-electricas/",
 });
 
 export default function MejoresBicicletasPage() {
