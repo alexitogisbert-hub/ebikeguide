@@ -1451,6 +1451,101 @@ export const EBG_DATA = {
       ],
       imagenPlaceholder: "E-bike de montaña de doble suspensión apoyada en un mirador con vistas",
     },
+    {
+      id: "mejores-ebikes-plegables-maletero-2026",
+      slug: "mejores-ebikes-plegables-para-el-maletero",
+      titulo: "Las 3 mejores e-bikes plegables para meter en el maletero",
+      resumen: "Las tres plegables de nuestro catálogo ordenadas por lo que de verdad importa para el coche: cuánto pesan al levantarlas y si se pliegan al 100 % o solo a medias.",
+      intro:
+        "Para el maletero, la ficha que más importa no es la autonomía: es el peso (lo que vas a levantar cada vez) y si el fabricante la llama «plegable» de verdad o «semiplegable». Aquí van las tres plegables de nuestro catálogo con esos datos claros, sin asumir tamaños de maletero que no hemos podido confirmar.",
+      criterios: [
+        { titulo: "Peso", descripcion: "Kilos a levantar para meterla y sacarla del maletero, según ficha del fabricante." },
+        { titulo: "Plegado real", descripcion: "Si se pliega al 100 % o el fabricante la describe como «semiplegable»." },
+        { titulo: "Autonomía anunciada", descripcion: "Km declarados, para no quedarte tirado si la usas también fuera del coche." },
+      ],
+      ganadores: [
+        { bikeId: "b05", motivo: "18 kg, la más ligera de las tres plegables del catálogo: la que menos cuesta levantar para meterla en el maletero." },
+        { bikeId: "b06", motivo: "Misma plataforma y mismo peso (18 kg) que la Air20 Pro, con localización GPS añadida si te importa poder encontrarla." },
+        { bikeId: "b04", motivo: "La de más autonomía anunciada del trío (hasta 80 km), pero el fabricante la describe como «semiplegable», no 100 % plegable — comprueba el tamaño plegado antes de dar por hecho que cabe en tu maletero." },
+      ],
+      faq: [
+        {
+          pregunta: "¿Todas las e-bikes «plegables» se pliegan al 100 %?",
+          respuesta: "No. Algunos fabricantes usan «plegable» para modelos que solo doblan el manillar o el sillín («semiplegables»), no el cuadro completo. La ENGWE P1 de este catálogo es un ejemplo: el propio fabricante la describe como semiplegable.",
+        },
+        {
+          pregunta: "¿Qué tamaño de maletero necesito?",
+          respuesta: "Depende del modelo, y no todos los fabricantes publican las medidas exactas plegada. Si el espacio es muy justo, comprueba las dimensiones plegadas en la ficha del fabricante antes de comprar en vez de asumirlas.",
+        },
+        {
+          pregunta: "¿Cuánto pesa una e-bike plegable normal?",
+          respuesta: "Entre las plegables de nuestro catálogo, el rango va de 18 a 25 kg. Cuanto menos peses tú, más relevante es fijarte en ese dato antes de elegir.",
+        },
+      ],
+      imagenPlaceholder: "E-bike plegable junto al maletero abierto de un coche",
+    },
+    {
+      id: "mejores-ebikes-cargo-ninos-2026",
+      slug: "mejores-ebikes-de-carga-para-llevar-ninos",
+      titulo: "Las mejores e-bikes de carga para llevar niños al cole",
+      resumen: "Triciclo, longtail o cargo compacta: las tres cargo de nuestro catálogo comparadas por estabilidad y carga máxima, no solo por precio.",
+      intro:
+        "Para llevar niños, la pregunta no es solo «cuánto carga» — es si necesitas mantener el equilibrio con ese peso detrás o delante. Comparamos las tres cargo de nuestro catálogo por carga máxima, tipo de cuadro y lo que declara cada fabricante.",
+      criterios: [
+        { titulo: "Estabilidad", descripcion: "Triciclo (no requiere equilibrio) frente a cargo de dos ruedas longtail o compacta." },
+        { titulo: "Carga máxima", descripcion: "Kg que admite el fabricante entre conductor, niños y carga." },
+        { titulo: "Par motor", descripcion: "Nm del motor: cuanto más peso llevas, más se nota al arrancar en cuesta." },
+      ],
+      ganadores: [
+        { bikeId: "b14", motivo: "Es un triciclo: no hace falta mantener el equilibrio con el peso de un niño detrás, la diferencia real frente a una cargo de dos ruedas." },
+        { bikeId: "b12", motivo: "Cuadro longtail pensado para llevar hasta dos niños, con 200 kg de carga máxima y el par motor más alto de todo el catálogo (100 Nm) para arrancar con peso." },
+        { bikeId: "b13", motivo: "Cargo de dos ruedas más compacta que la longtail, con neumáticos fat y doble suspensión para más estabilidad sobre baches con carga." },
+      ],
+      faq: [
+        {
+          pregunta: "¿Triciclo o cargo de dos ruedas para llevar niños?",
+          respuesta: "El triciclo no requiere mantener el equilibrio, lo que puede dar más tranquilidad a baja velocidad o al parar. A cambio ocupa más espacio y gira de forma distinta a una bici normal — no es una decisión solo de gustos.",
+        },
+        {
+          pregunta: "¿Qué carga máxima necesito para dos niños?",
+          respuesta: "Depende del peso de los niños y de si además llevas mochilas o compra. Las cargo de este catálogo admiten hasta 200 kg entre conductor, niños y carga; comprueba siempre la cifra del fabricante para tu caso concreto.",
+        },
+        {
+          pregunta: "¿Necesito más par motor si llevo niños?",
+          respuesta: "Sí: arrancar en cuesta con peso extra exige más del motor. Un par motor alto (80-100 Nm en las bicis de carga de este catálogo) ayuda a que el arranque no se note forzado.",
+        },
+      ],
+      imagenPlaceholder: "E-bike de carga con niño sentado en el asiento trasero en una calle residencial",
+    },
+    {
+      id: "mejores-ebikes-baratas-frenos-hidraulicos-2026",
+      slug: "mejores-ebikes-baratas-con-frenos-hidraulicos",
+      titulo: "Las e-bikes más baratas con frenos hidráulicos confirmados",
+      resumen: "No todas las e-bikes de entrada tienen frenos hidráulicos — muchas fichas ni siquiera confirman el tipo. Estas tres sí lo confirman, ordenadas de menor a mayor precio.",
+      intro:
+        "En e-bikes de entrada, los frenos son de lo primero que se recorta: muchas fichas económicas ni siquiera especifican si son hidráulicos o mecánicos. Estas son las tres bicis más baratas de nuestro catálogo con frenos hidráulicos confirmados por el fabricante, no asumidos.",
+      criterios: [
+        { titulo: "Precio", descripcion: "Coste de entrada investigado, de menor a mayor." },
+        { titulo: "Frenos", descripcion: "Solo se incluyen modelos con hidráulicos confirmados, no «disco (tipo no confirmado)»." },
+        { titulo: "Qué más incluye", descripcion: "Autonomía, par motor u otros extras a ese mismo precio." },
+      ],
+      ganadores: [
+        { bikeId: "b03", motivo: "729 €, el precio más bajo del catálogo con frenos hidráulicos confirmados, además del par motor más alto de las urbanas (65 Nm)." },
+        { bikeId: "b02", motivo: "899 € con frenos hidráulicos confirmados y la autonomía anunciada más alta de las urbanas del catálogo (hasta 120 km)." },
+        { bikeId: "b08", motivo: "1.047 €, la eMTB más barata del catálogo con frenos hidráulicos y doble suspensión confirmados a la vez." },
+      ],
+      faq: [
+        {
+          pregunta: "¿Por qué importan los frenos hidráulicos frente a los mecánicos?",
+          respuesta: "Los hidráulicos suelen frenar con más potencia y consistencia, y necesitan menos mantenimiento (no hay que tensar un cable). En una e-bike, que pesa y acelera más que una bici normal, esa diferencia se nota más.",
+        },
+        {
+          pregunta: "¿Todas las e-bikes baratas tienen frenos hidráulicos?",
+          respuesta: "No. Varios modelos de entrada de nuestro propio catálogo solo confirman «disco», sin especificar si es hidráulico o mecánico — por eso esta selección solo incluye los que sí lo confirman explícitamente.",
+        },
+      ],
+      imagenPlaceholder: "Detalle de una pinza de freno de disco hidráulico en una rueda de e-bike",
+    },
   ] as Mejor[],
 
   accesorios: [

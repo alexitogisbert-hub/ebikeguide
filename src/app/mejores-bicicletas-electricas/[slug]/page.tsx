@@ -51,6 +51,8 @@ export default async function MejorDetallePage({
     .map((g) => ({ ...g, bike: EBG_DATA.bikes.find((b) => b.id === g.bikeId) }))
     .filter((g): g is typeof g & { bike: NonNullable<typeof g.bike> } => Boolean(g.bike));
 
+  const comparadorHref = `/comparador/?ids=${ganadores.map((g) => g.bike.id).join(",")}`;
+
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -101,7 +103,15 @@ export default async function MejorDetallePage({
         </section>
 
         <section className="mx-auto max-w-[1280px] px-5 pb-12 sm:px-8">
-          <h2 className="text-xl font-bold text-ink">Ganadoras</h2>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-xl font-bold text-ink">Ganadoras</h2>
+            <Link
+              href={comparadorHref}
+              className="inline-flex items-center rounded-full bg-acc px-5 py-2.5 text-sm font-bold text-dark transition-opacity hover:opacity-90"
+            >
+              Comparar estas {ganadores.length} en el comparador →
+            </Link>
+          </div>
           <div className="mt-5 flex flex-col gap-4">
             {ganadores.map(({ bike, motivo }) => (
               <Link
