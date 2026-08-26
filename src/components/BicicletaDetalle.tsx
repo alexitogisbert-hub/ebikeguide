@@ -157,7 +157,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
                 <AffiliateLink
                   oferta={ofertaPrincipal}
                   merchantName={merchantPrincipal}
-                  className="inline-flex items-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white hover:bg-acc-d"
+                  className="inline-flex items-center rounded-full bg-acc px-6 py-3 text-sm font-bold text-dark transition-opacity hover:opacity-90"
                 >
                   {ofertaCtaLabel(ofertaPrincipal)}
                 </AffiliateLink>
@@ -288,7 +288,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
                     merchantName={merchantName}
                     className={
                       oferta.affiliateUrl || oferta.urlProducto
-                        ? "rounded-full bg-ink px-4 py-2 text-sm font-semibold text-white hover:bg-acc-d"
+                        ? "rounded-full bg-acc px-4 py-2 text-sm font-bold text-dark transition-opacity hover:opacity-90"
                         : "rounded-full border border-line px-4 py-2 text-sm font-semibold text-mut"
                     }
                   >

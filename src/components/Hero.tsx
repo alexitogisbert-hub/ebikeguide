@@ -2,6 +2,8 @@ import Link from "next/link";
 import { EBG_DATA } from "@/data/ebg-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 
+const MARCAS_ANALIZADAS = Array.from(new Set(EBG_DATA.bikes.map((bike) => bike.marca)));
+
 export function Hero() {
   return (
     <section className="mx-auto max-w-[1280px] px-5 py-10 sm:px-8 sm:py-14">
@@ -24,7 +26,7 @@ export function Hero() {
               href="/encontrar-bicicleta/"
               className="inline-flex items-center rounded-full bg-ink px-6 py-3.5 text-sm font-semibold text-white hover:bg-acc-d"
             >
-              Comenzar ahora →
+              Descubre mi e-bike →
             </Link>
             <Link
               href="/metodologia/"
@@ -34,7 +36,11 @@ export function Hero() {
             </Link>
           </div>
 
-          <p className="mt-9 max-w-[46ch] text-sm text-mut">{EBG_DATA.trustItems[0]}.</p>
+          <p className="mt-6 text-xs font-semibold uppercase tracking-wide text-mut">
+            Marcas que analizamos: <span className="normal-case text-ink">{MARCAS_ANALIZADAS.join(" · ")}</span>
+          </p>
+
+          <p className="mt-5 max-w-[46ch] text-sm text-mut">{EBG_DATA.trustItems[0]}.</p>
         </div>
 
         <ImagePlaceholder

@@ -5,6 +5,12 @@
   --acc: #0fb5a0;
   --acc-d: #097c6e;
   --acc-s: #e6f7f4;
+  /* Naranja de "en oferta" — deliberadamente distinto del verde --acc para que un
+     descuento real no se confunda visualmente con los badges informativos (autonomía,
+     peso, etc.). Contraste verificado: sale/blanco 5.18:1, sale-s/sale-d 6.36:1. */
+  --sale: #c2410c;
+  --sale-d: #9a3412;
+  --sale-s: #fdece3;
   --ink: #0d1512;
   --mut: #687370;
   --line: #e7eae9;
@@ -16,6 +22,9 @@
   --color-acc: var(--acc);
   --color-acc-d: var(--acc-d);
   --color-acc-s: var(--acc-s);
+  --color-sale: var(--sale);
+  --color-sale-d: var(--sale-d);
+  --color-sale-s: var(--sale-s);
   --color-ink: var(--ink);
   --color-mut: var(--mut);
   --color-line: var(--line);
