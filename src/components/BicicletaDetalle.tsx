@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { Bike } from "@/data/ebg-data";
+import type { Bike, OfertaBike } from "@/data/ebg-data";
 import { EBG_DATA } from "@/data/ebg-data";
 import { BikeImage } from "./BikeImage";
 import { FavoriteButton } from "./FavoriteButton";
@@ -61,6 +61,12 @@ const DISPONIBILIDAD_LABEL: Record<string, string> = {
   agotado: "Agotado",
 };
 
+function ofertaCtaLabel(oferta: OfertaBike): string {
+  if (oferta.affiliateUrl) return "Ver oferta";
+  if (oferta.urlProducto) return "Ver precio actual en Amazon";
+  return "Enlace pendiente";
+}
+
 export function BicicletaDetalle({ bike }: { bike: Bike }) {
   const alternativas = bike.alternativas
     .map((id) => EBG_DATA.bikes.find((b) => b.id === id))
@@ -68,6 +74,10 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
 
   const discountPct = bike.precioAnterior ? Math.round((1 - bike.precio / bike.precioAnterior) * 100) : null;
   const categoria = EBG_DATA.categorias.find((c) => c.id === bike.categoriaId);
+  const ofertaPrincipal = bike.ofertas[0] as OfertaBike | undefined;
+  const merchantPrincipal = ofertaPrincipal
+    ? (EBG_DATA.merchants.find((m) => m.id === ofertaPrincipal.merchantId)?.nombre ?? ofertaPrincipal.merchantId)
+    : "";
   const criteriosConDato = Object.values(bike.subs).filter((v) => typeof v === "number").length;
   const totalCriterios = Object.keys(bike.subs).length;
 
@@ -149,12 +159,23 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
             <p className="mt-4 text-mut">{bike.porQue}</p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <a
-                href="#ofertas"
-                className="inline-flex items-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white hover:bg-acc-d"
-              >
-                Ver precios y tiendas
-              </a>
+              {ofertaPrincipal && (
+                <AffiliateLink
+                  oferta={ofertaPrincipal}
+                  merchantName={merchantPrincipal}
+                  className="inline-flex items-center rounded-full bg-ink px-6 py-3 text-sm font-semibold text-white hover:bg-acc-d"
+                >
+                  {ofertaCtaLabel(ofertaPrincipal)}
+                </AffiliateLink>
+              )}
+              {bike.ofertas.length > 1 && (
+                <a
+                  href="#ofertas"
+                  className="inline-flex items-center rounded-full border border-line px-6 py-3 text-sm font-semibold text-ink hover:border-ink"
+                >
+                  Ver todas las tiendas
+                </a>
+              )}
               <Link
                 href={`/comparador/?ids=${bike.id}`}
                 className="inline-flex items-center rounded-full border border-line px-6 py-3 text-sm font-semibold text-ink hover:border-ink"
@@ -277,11 +298,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
                         : "rounded-full border border-line px-4 py-2 text-sm font-semibold text-mut"
                     }
                   >
-                    {oferta.affiliateUrl
-                      ? "Ver oferta"
-                      : oferta.urlProducto
-                        ? "Ver precio actual en Amazon"
-                        : "Enlace pendiente"}
+                    {ofertaCtaLabel(oferta)}
                   </AffiliateLink>
                 </div>
               </div>
