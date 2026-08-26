@@ -35,7 +35,7 @@ export function BikeShowcaseCard() {
   }
 
   return (
-    <div className="animate-ebg-in flex h-full flex-col justify-between rounded-3xl bg-dark p-8 text-white sm:p-10">
+    <div className="animate-ebg-in flex h-full flex-col justify-between rounded-3xl bg-dark p-6 text-white sm:p-10">
       <div>
         <h2 className="text-2xl font-extrabold tracking-[-0.02em] sm:text-[28px]">
           Las mejores e-bikes según tu perfil
@@ -53,12 +53,12 @@ export function BikeShowcaseCard() {
       </div>
 
       <div className="mt-8" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)}>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
           <button
             type="button"
             aria-label="Bici anterior"
             onClick={() => goTo(index - 1)}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-acc hover:text-acc"
+            className="flex size-8 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-acc hover:text-acc sm:size-10"
           >
             <ChevronLeftIcon className="size-4" />
           </button>
@@ -66,19 +66,21 @@ export function BikeShowcaseCard() {
           <Link
             key={bike.id}
             href={`/bicicletas-electricas/${bike.slug}/`}
-            className="animate-ebg-in group flex min-w-0 flex-1 items-center gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 transition-colors hover:border-acc/50 hover:bg-white/[0.08]"
+            className="animate-ebg-in group flex min-w-0 flex-1 items-center gap-4 overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-3 transition-colors hover:border-acc/50 hover:bg-white/[0.08] sm:p-4"
           >
-            <div className="relative shrink-0">
-              <BikeImage
-                bike={bike}
-                className="h-16 w-20 rounded-xl !border-white/10 !bg-white/10 !text-white/60 sm:h-24 sm:w-32"
-              />
+            <div className="relative hidden shrink-0 sm:block">
+              <BikeImage bike={bike} className="h-24 w-32 rounded-xl !border-white/10 !bg-white/10 !text-white/60" />
               <span className="absolute -right-2 -top-2 rounded-full bg-acc px-2 py-0.5 text-[11px] font-bold text-dark shadow-sm">
                 {bike.puntuacion.toFixed(1)}
               </span>
             </div>
-            <div className="min-w-0">
-              <p className="text-xs font-semibold uppercase tracking-wide text-white/50">{bike.marca}</p>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/50">{bike.marca}</p>
+                <span className="shrink-0 rounded-full bg-acc px-2 py-0.5 text-[11px] font-bold text-dark sm:hidden">
+                  {bike.puntuacion.toFixed(1)}
+                </span>
+              </div>
               <p className="truncate font-semibold text-white group-hover:text-acc">{bike.modelo}</p>
               <p className="mt-1 font-bold text-acc">{priceFormatter.format(bike.precio)}</p>
               <p className="mt-1 text-xs text-white/60">{formatAutonomia(bike)}</p>
@@ -89,7 +91,7 @@ export function BikeShowcaseCard() {
             type="button"
             aria-label="Siguiente bici"
             onClick={() => goTo(index + 1)}
-            className="flex size-10 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-acc hover:text-acc"
+            className="flex size-8 shrink-0 items-center justify-center rounded-full border border-white/15 text-white/70 transition-colors hover:border-acc hover:text-acc sm:size-10"
           >
             <ChevronRightIcon className="size-4" />
           </button>

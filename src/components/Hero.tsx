@@ -45,7 +45,7 @@ export function Hero() {
 
         <ImagePlaceholder
           label="Fotografía editorial de una persona pedaleando una e-bike urbana al atardecer"
-          className="aspect-[3/2] w-full rounded-[32px]"
+          className="hidden aspect-[3/2] w-full rounded-[32px] lg:flex"
         />
       </div>
     </section>

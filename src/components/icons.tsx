@@ -74,3 +74,20 @@ export function ChevronRightIcon({ className = "size-4" }: IconProps) {
     </svg>
   );
 }
+
+export function BikeIcon({ className = "size-8" }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" className={className} aria-hidden="true">
+      <circle cx="5.5" cy="17.5" r="3.5" stroke="currentColor" strokeWidth="1.6" />
+      <circle cx="18.5" cy="17.5" r="3.5" stroke="currentColor" strokeWidth="1.6" />
+      <path
+        d="M5.5 17.5 10 8h4l3 4.5m-9 5 5-9.5 5.5 9.5m-8.5-5H15"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path d="M10 8H8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+    </svg>
+  );
+}
