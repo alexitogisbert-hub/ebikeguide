@@ -1255,7 +1255,7 @@ export const EBG_DATA = {
     mensajeEstado:
       "Catálogo en verificación · productos reales, precios orientativos, sin afiliación activa todavía",
     nombre: "eBikeGuide",
-    dominio: "https://ebike-guide.netlify.app",
+    dominio: "https://transcendent-horse-c708c5.netlify.app",
     metodologiaUrl: "/metodologia/",
     pruebasPropias: false,
     evidenciaPorDefecto: "especificaciones",
