@@ -739,7 +739,7 @@ const BIKES_RAW: BikeRaw[] = [
     motorTipo: "buje",
     parNm: 80,
     velocidad: 25,
-    pesoKg: null,
+    pesoKg: 31,
     cambios: "7 velocidades",
     frenos: "Disco hidráulicos",
     suspension: "Horquilla delantera",
@@ -754,16 +754,16 @@ const BIKES_RAW: BikeRaw[] = [
     noEsPara: "Quien busca doble suspensión o motor central: lleva horquilla delantera y motor de buje.",
     porQue: "80 Nm, 720 Wh de batería extraíble, frenos hidráulicos y guardabarros incluidos, por 1.299 €.",
     analisis:
-      "eMTB de 29\" con 80 Nm de par (motor de buje trasero) y 720 Wh de batería extraíble, lo que le da hasta 120 km de autonomía declarada en modo de asistencia baja. Frenos de disco hidráulicos, 7 velocidades, suspensión delantera, guardabarros y luces LED incluidas. Apta para ciclistas de 170-195 cm. Marca menos conocida, pero con precio competitivo para las prestaciones que ofrece.",
+      "eMTB de 29\" con 80 Nm de par (motor de buje trasero) y 720 Wh de batería extraíble, lo que le da hasta 120 km de autonomía declarada en modo de asistencia baja. Pesa 31 kg. Frenos de disco hidráulicos, 7 velocidades, suspensión delantera, guardabarros y luces LED incluidas. Disponible en gris y verde. Apta para ciclistas de 170-195 cm. Marca menos conocida, pero con precio competitivo para las prestaciones que ofrece.",
     pros: [
       "720 Wh de batería extraíble, la más grande entre las eMTB del catálogo",
       "80 Nm de par, potente para cuestas",
       "Frenos de disco hidráulicos y guardabarros incluidos",
     ],
     contras: [
-      "Marca poco conocida (Antgooat), menos respaldo postventa que marcas establecidas",
+      "31 kg, de las más pesadas del catálogo",
       "Solo suspensión delantera, sin amortiguador trasero",
-      "Peso no publicado por el fabricante",
+      "Marca poco conocida (Antgooat), menos respaldo postventa que marcas establecidas",
     ],
     ofertas: [
       {
@@ -821,7 +821,7 @@ const BIKES_RAW: BikeRaw[] = [
     porQue:
       "Suspensión delantera SunTour de 100 mm y trasera Kindshock de 52 mm, con 624 Wh de batería y motor Bafang central de 80 Nm de par.",
     analisis:
-      "Es la más cara de las tres montaña investigadas (desde 1.742 €) y la única que detalla marcas concretas de suspensión (SunTour delantera, Kindshock trasera). Su motor Bafang central entrega 80 Nm de par — empatada con la Antgooat Speedy 29 como el par más alto del catálogo fuera de las cargo — pero su autonomía declarada (70 km) es la más corta de las tres montaña, y con 31 kg también es la más pesada. Disponible con rueda de 27,5\" o 29\" según la oferta.",
+      "Es la más cara de las tres montaña investigadas (desde 1.742 €) y la única que detalla marcas concretas de suspensión (SunTour delantera, Kindshock trasera). Su motor Bafang central entrega 80 Nm de par — empatada con la Antgooat Speedy 29 como el par más alto del catálogo fuera de las cargo — pero su autonomía declarada (70 km) es la más corta de las tres montaña, y con 31 kg empata con la Antgooat Speedy 29 como la más pesada de las tres. Disponible con rueda de 27,5\" o 29\" según la oferta.",
     pros: [
       "Suspensión de marca reconocida delante (SunTour) y detrás (Kindshock)",
       "80 Nm de par, empatada con la Antgooat Speedy 29 como el más alto fuera de las cargo",
@@ -829,7 +829,7 @@ const BIKES_RAW: BikeRaw[] = [
     ],
     contras: [
       "La autonomía declarada (70 km) es la más corta de las tres montaña",
-      "Con 31 kg, la más pesada de las tres montaña",
+      "31 kg, empatada con la Antgooat Speedy 29 como la más pesada de las tres montaña",
       "La más cara de las tres montaña investigadas",
     ],
     ofertas: [
