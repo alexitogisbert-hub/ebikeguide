@@ -50,9 +50,6 @@ export function percentilInverso(valores: Array<number | null | undefined>, indi
 }
 
 export type MetricasBike = {
-  /** Categoría (`bike.tipo`): el percentil de cada criterio se calcula solo frente a esta. */
-  tipo: string;
-  /** Punto medio de autonomiaMin/autonomiaMax, o null si no está confirmada. */
   autonomiaKm: number | null;
   parNm: number | null;
   pesoKg: number | null;
@@ -67,40 +64,23 @@ export type MetricasBike = {
  * - autonomia: percentil de autonomiaKm (más km, mejor).
  * - potencia: percentil de parNm (más par, mejor).
  * - peso: percentil inverso de pesoKg (menos kg, mejor).
- * - precio: percentil inverso del precio (más barata dentro del catálogo, mejor).
+ * - precio: percentil inverso del precio (más barata, mejor).
  *
- * El percentil de cada criterio se calcula frente a las demás bicis de la misma categoría
- * (`tipo`), no frente al catálogo entero: una urbana compite con urbanas, una montaña con
- * montañas, etc. — comparar el peso de una plegable con el de una cargo no aporta nada útil.
- * Si una categoría tiene una sola bici, esa bici obtiene percentil 10 en cada criterio con
- * dato (es la mejor de su categoría por definición, al no haber con qué compararla).
- *
- * `precio` es el único criterio que nunca puede quedar en `null` (el precio siempre existe,
- * aunque sea orientativo) — a propósito: así, aunque a una bici le falten todos los demás
- * datos objetivos, sigue teniendo al menos un criterio con el que calcular una puntuación en
- * vez de quedarse en 0/10, que se leería como "la peor bici" en lugar de "no hay datos
- * suficientes para evaluarla".
- *
- * Si a una bici le falta el dato necesario para autonomia/potencia/peso, ese criterio queda
- * en `null` para ella (no se inventa un valor) y no participa en el percentil de las demás.
+ * El percentil se calcula frente a todo el catálogo: con categorías pequeñas (1-2 bicis),
+ * comparar solo dentro de la categoría produce resultados degenerados (todo 10 o todo 0).
  */
 export function calcularSubsCatalogo(metricas: MetricasBike[]): SubPuntuaciones[] {
-  return metricas.map((m) => {
-    const mismaCategoria = metricas.filter((x) => x.tipo === m.tipo);
-    const indiceEnCategoria = mismaCategoria.indexOf(m);
+  const autonomias = metricas.map((x) => x.autonomiaKm);
+  const potencias = metricas.map((x) => x.parNm);
+  const pesos = metricas.map((x) => x.pesoKg);
+  const precios = metricas.map((x) => x.precio);
 
-    const autonomias = mismaCategoria.map((x) => x.autonomiaKm);
-    const potencias = mismaCategoria.map((x) => x.parNm);
-    const pesos = mismaCategoria.map((x) => x.pesoKg);
-    const precios = mismaCategoria.map((x) => x.precio);
-
-    return {
-      autonomia: percentil(autonomias, indiceEnCategoria),
-      potencia: percentil(potencias, indiceEnCategoria),
-      peso: percentilInverso(pesos, indiceEnCategoria),
-      precio: percentilInverso(precios, indiceEnCategoria),
-    };
-  });
+  return metricas.map((_, i) => ({
+    autonomia: percentil(autonomias, i),
+    potencia: percentil(potencias, i),
+    peso: percentilInverso(pesos, i),
+    precio: percentilInverso(precios, i),
+  }));
 }
 
 /**

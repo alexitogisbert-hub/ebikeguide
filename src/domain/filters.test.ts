@@ -68,13 +68,6 @@ describe("ordenarBikes", () => {
     expect(resultado[0].slug).toBe("bodywel-t16pro");
   });
 
-  it("ordena por puntuación descendente por defecto", () => {
-    const resultado = ordenarBikes(bikes, "puntuacion");
-    for (let i = 1; i < resultado.length; i++) {
-      expect(resultado[i].puntuacion).toBeLessThanOrEqual(resultado[i - 1].puntuacion);
-    }
-  });
-
   it("ordena por valor calidad-precio (puntuación / precio) descendente", () => {
     const resultado = ordenarBikes(bikes, "valor");
     const valores = resultado.map((b) => b.puntuacion / b.precio);

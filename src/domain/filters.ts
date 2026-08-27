@@ -8,11 +8,10 @@ export type FiltroCriterios = {
   pesoMax?: number;
   bateriaWhMin?: number;
   autonomiaMinKm?: number;
-  puntuacionMin?: number;
   plegable?: boolean;
 };
 
-export type OrdenCriterio = "puntuacion" | "precio" | "autonomia" | "peso" | "valor";
+export type OrdenCriterio = "precio" | "autonomia" | "peso" | "valor";
 export type OrdenDireccion = "asc" | "desc";
 
 export function filtrarBikes(bikes: Bike[], criterios: FiltroCriterios = {}): Bike[] {
@@ -30,7 +29,6 @@ export function filtrarBikes(bikes: Bike[], criterios: FiltroCriterios = {}): Bi
       (bike.autonomiaMax === null || bike.autonomiaMax < criterios.autonomiaMinKm)
     )
       return false;
-    if (criterios.puntuacionMin !== undefined && bike.puntuacion < criterios.puntuacionMin) return false;
     if (criterios.plegable !== undefined && bike.plegable !== criterios.plegable) return false;
     return true;
   });
@@ -38,8 +36,6 @@ export function filtrarBikes(bikes: Bike[], criterios: FiltroCriterios = {}): Bi
 
 function valorPorCriterio(bike: Bike, criterio: OrdenCriterio): number {
   switch (criterio) {
-    case "puntuacion":
-      return bike.puntuacion;
     case "precio":
       return bike.precio;
     case "autonomia":
@@ -67,7 +63,7 @@ export function ordenarBikes(
 export function filtrarYOrdenarBikes(
   bikes: Bike[],
   criterios: FiltroCriterios = {},
-  criterioOrden: OrdenCriterio = "puntuacion",
+  criterioOrden: OrdenCriterio = "precio",
   direccion: OrdenDireccion = "desc",
 ): Bike[] {
   return ordenarBikes(filtrarBikes(bikes, criterios), criterioOrden, direccion);

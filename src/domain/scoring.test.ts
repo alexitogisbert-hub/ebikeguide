@@ -70,8 +70,8 @@ describe("percentilInverso", () => {
 describe("calcularSubsCatalogo", () => {
   it("calcula autonomia/potencia/peso/precio a partir de métricas objetivas", () => {
     const metricas = [
-      { tipo: "urbana", autonomiaKm: 100, parNm: 40, pesoKg: 20, precio: 1000 },
-      { tipo: "urbana", autonomiaKm: 50, parNm: 80, pesoKg: 10, precio: 1000 },
+      { autonomiaKm: 100, parNm: 40, pesoKg: 20, precio: 1000 },
+      { autonomiaKm: 50, parNm: 80, pesoKg: 10, precio: 1000 },
     ];
     const subs = calcularSubsCatalogo(metricas);
     expect(subs[0].autonomia).toBe(10); // más km, mejor nota
@@ -84,8 +84,8 @@ describe("calcularSubsCatalogo", () => {
 
   it("deja en null el criterio de una bici que no tiene el dato, sin inventar un valor", () => {
     const metricas = [
-      { tipo: "urbana", autonomiaKm: 100, parNm: null, pesoKg: 20, precio: 1000 },
-      { tipo: "urbana", autonomiaKm: 50, parNm: 80, pesoKg: null, precio: 1000 },
+      { autonomiaKm: 100, parNm: null, pesoKg: 20, precio: 1000 },
+      { autonomiaKm: 50, parNm: 80, pesoKg: null, precio: 1000 },
     ];
     const subs = calcularSubsCatalogo(metricas);
     expect(subs[0].potencia).toBeNull();
@@ -96,34 +96,29 @@ describe("calcularSubsCatalogo", () => {
 
   it("la nota de precio es el percentil inverso del precio: más barata, mejor nota", () => {
     const metricas = [
-      { tipo: "urbana", autonomiaKm: null, parNm: null, pesoKg: null, precio: 1000 },
-      { tipo: "urbana", autonomiaKm: null, parNm: null, pesoKg: null, precio: 500 },
+      { autonomiaKm: null, parNm: null, pesoKg: null, precio: 1000 },
+      { autonomiaKm: null, parNm: null, pesoKg: null, precio: 500 },
     ];
     const subs = calcularSubsCatalogo(metricas);
     expect(subs[1].precio).toBeGreaterThan(subs[0].precio!);
   });
 
   it("el criterio de precio nunca es null, aunque falten todos los demás datos", () => {
-    const metricas = [{ tipo: "urbana", autonomiaKm: null, parNm: null, pesoKg: null, precio: 1500 }];
+    const metricas = [{ autonomiaKm: null, parNm: null, pesoKg: null, precio: 1500 }];
     const subs = calcularSubsCatalogo(metricas);
     expect(subs[0].precio).not.toBeNull();
   });
 
-  it("compara cada bici solo dentro de su categoría (tipo), no con el catálogo entero", () => {
+  it("compara contra todo el catálogo, no solo dentro de la categoría", () => {
     const metricas = [
-      { tipo: "urbana", autonomiaKm: 100, parNm: 40, pesoKg: 20, precio: 1000 },
-      { tipo: "urbana", autonomiaKm: 50, parNm: 80, pesoKg: 10, precio: 1000 },
-      { tipo: "montana", autonomiaKm: 10, parNm: 10, pesoKg: 50, precio: 100 },
+      { autonomiaKm: 100, parNm: 40, pesoKg: 20, precio: 1000 },
+      { autonomiaKm: 50, parNm: 80, pesoKg: 10, precio: 1000 },
+      { autonomiaKm: 10, parNm: 10, pesoKg: 50, precio: 100 },
     ];
     const subs = calcularSubsCatalogo(metricas);
-    // las urbanas se comparan solo entre ellas, igual que antes de agrupar por categoría
     expect(subs[0].autonomia).toBe(10);
-    expect(subs[1].autonomia).toBe(0);
-    // la de montaña es la única de su categoría -> percentil 10 en todo, aunque sus valores
-    // absolutos sean los peores del catálogo entero: no hay con qué compararla dentro de "montana"
-    expect(subs[2].autonomia).toBe(10);
-    expect(subs[2].potencia).toBe(10);
-    expect(subs[2].peso).toBe(10);
+    expect(subs[1].autonomia).toBe(5);
+    expect(subs[2].autonomia).toBe(0);
     expect(subs[2].precio).toBe(10);
   });
 });
@@ -205,19 +200,16 @@ describe("scoreBikes", () => {
     });
   });
 
-  it("una bici puede acabar en 0 si es la más cara de su categoría y no tiene ningún otro dato confirmado (no es un fallo, es honesto)", () => {
+  it("una bici puede acabar en 0 si es la más cara del catálogo y no tiene ningún otro dato confirmado", () => {
     const precioMasAlto = Math.max(...EBG_DATA.bikes.map((b) => b.precio)) + 1000;
     const metricas = [
       ...EBG_DATA.bikes.map((b) => ({
-        tipo: b.tipo,
         autonomiaKm: b.autonomiaMin !== null && b.autonomiaMax !== null ? (b.autonomiaMin + b.autonomiaMax) / 2 : null,
         parNm: b.parNm,
         pesoKg: b.pesoKg,
         precio: b.precio,
       })),
-      // misma categoría que las cargo del catálogo, para que compita con ellas y no acabe siendo
-      // la única de una categoría nueva (lo que le daría percentil 10 por definición).
-      { tipo: "cargo", autonomiaKm: null, parNm: null, pesoKg: null, precio: precioMasAlto },
+      { autonomiaKm: null, parNm: null, pesoKg: null, precio: precioMasAlto },
     ];
     const subs = calcularSubsCatalogo(metricas);
     const subsSoloPrecio = subs[subs.length - 1];
@@ -225,7 +217,7 @@ describe("scoreBikes", () => {
     expect(subsSoloPrecio.autonomia).toBeNull();
     expect(subsSoloPrecio.potencia).toBeNull();
     expect(subsSoloPrecio.peso).toBeNull();
-    expect(subsSoloPrecio.precio).toBe(0); // la más cara de su categoría -> peor percentil inverso posible
+    expect(subsSoloPrecio.precio).toBe(0);
     expect(computeWeightedScore(subsSoloPrecio, PESOS)).toBe(0);
   });
 

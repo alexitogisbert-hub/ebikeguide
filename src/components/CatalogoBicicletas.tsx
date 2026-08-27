@@ -6,7 +6,6 @@ import { filtrarYOrdenarBikes, type OrdenCriterio } from "@/domain/filters";
 import { BikeDealCard } from "./BikeDealCard";
 
 const ORDEN_OPTIONS: Array<{ id: OrdenCriterio; label: string; direccion: "asc" | "desc" }> = [
-  { id: "puntuacion", label: "Puntuación", direccion: "desc" },
   { id: "precio", label: "Precio: menor a mayor", direccion: "asc" },
   { id: "autonomia", label: "Autonomía", direccion: "desc" },
   { id: "peso", label: "Peso: menor a mayor", direccion: "asc" },
@@ -27,7 +26,7 @@ export function CatalogoBicicletas({
 
   const [categoriaId, setCategoriaId] = useState<string | null>(initialCategoriaId);
   const [precioMax, setPrecioMax] = useState(precioMaxCatalogo);
-  const [ordenId, setOrdenId] = useState<OrdenCriterio>("puntuacion");
+  const [ordenId, setOrdenId] = useState<OrdenCriterio>("precio");
 
   const orden = ORDEN_OPTIONS.find((o) => o.id === ordenId) ?? ORDEN_OPTIONS[0];
 
