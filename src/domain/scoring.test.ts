@@ -234,7 +234,7 @@ describe("scoreBikes", () => {
 
     const resultados = scoreBikes(EBG_DATA.bikes, pesosCentradosEnPrecio);
     const masBarata = resultados.find((r) => r.bikeId === "b10")!; // Touroll J1, 699 €
-    const masCara = resultados.find((r) => r.bikeId === "b13")!; // Fafrees FF20 CUV, 1.700 €
+    const masCara = resultados.find((r) => r.bikeId === "b14")!; // Fafrees F20 Mate, 2.399 €
 
     expect(masBarata.puntuacion).toBeGreaterThan(masCara.puntuacion);
   });

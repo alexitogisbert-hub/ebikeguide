@@ -44,8 +44,8 @@ describe("filtrarBikes", () => {
   });
 
   it("excluye por peso máximo cuando el peso sí está confirmado y lo supera", () => {
-    const pesada = bikes.find((b) => b.pesoKg !== null && b.pesoKg > 40)!;
-    const resultado = filtrarBikes(bikes, { pesoMax: 30 });
+    const pesada = bikes.find((b) => b.pesoKg !== null && b.pesoKg > 35)!;
+    const resultado = filtrarBikes(bikes, { pesoMax: 35 });
     expect(resultado.map((b) => b.id)).not.toContain(pesada.id);
   });
 
