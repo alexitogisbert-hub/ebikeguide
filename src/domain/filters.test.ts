@@ -13,7 +13,7 @@ describe("filtrarBikes", () => {
   it("filtra por precio máximo", () => {
     const resultado = filtrarBikes(bikes, { precioMax: 1000 });
     expect(resultado.every((b) => b.precio <= 1000)).toBe(true);
-    expect(resultado.map((b) => b.slug)).toContain("moma-bikes-ebike-28");
+    expect(resultado.map((b) => b.slug)).toContain("colorway-bk15");
     expect(resultado.map((b) => b.slug)).toContain("flli-schiano-e-ride");
     expect(resultado.map((b) => b.slug)).not.toContain("eskute-netuno");
   });
@@ -95,6 +95,6 @@ describe("filtrarYOrdenarBikes", () => {
   it("combina filtro y orden en una sola llamada", () => {
     const resultado = filtrarYOrdenarBikes(bikes, { plegable: false }, "precio", "asc");
     expect(resultado.every((b) => !b.plegable)).toBe(true);
-    expect(resultado[0].slug).toBe("flli-schiano-e-ride");
+    expect(resultado[0].slug).toBe("colorway-bk15");
   });
 });
