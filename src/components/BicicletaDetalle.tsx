@@ -32,7 +32,7 @@ const BATERIA_EXTRAIBLE_LABEL: Record<"true" | "false" | "null", string> = {
 const SPEC_ROWS = (bike: Bike) => [
   {
     label: "Batería",
-    value: `${bike.bateriaWh} Wh · ${BATERIA_EXTRAIBLE_LABEL[String(bike.bateriaExtraible) as "true" | "false" | "null"]}`,
+    value: `${bike.bateriaWh != null ? `${bike.bateriaWh} Wh` : "—"} · ${BATERIA_EXTRAIBLE_LABEL[String(bike.bateriaExtraible) as "true" | "false" | "null"]}`,
   },
   {
     label: "Autonomía estimada",

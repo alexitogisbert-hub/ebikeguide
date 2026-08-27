@@ -233,7 +233,7 @@ describe("scoreBikes", () => {
     const pesosCentradosEnPrecio = PESOS.map((p) => (p.id === "precio" ? { ...p, peso: 90 } : { ...p, peso: 10 / 3 }));
 
     const resultados = scoreBikes(EBG_DATA.bikes, pesosCentradosEnPrecio);
-    const masBarata = resultados.find((r) => r.bikeId === "b10")!; // F.lli Schiano, 699 €
+    const masBarata = resultados.find((r) => r.bikeId === "b10")!; // Touroll J1, 699 €
     const masCara = resultados.find((r) => r.bikeId === "b09")!; // Accolmile Cola Bear, 1.742 €
 
     expect(masBarata.puntuacion).toBeGreaterThan(masCara.puntuacion);

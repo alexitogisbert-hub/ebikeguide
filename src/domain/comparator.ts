@@ -5,7 +5,7 @@ export const MAX_BIKES_COMPARADOR = 4;
 export type FilaComparativa = {
   campo: string;
   label: string;
-  valores: Array<string | number>;
+  valores: Array<string | number | null>;
 };
 
 export type Comparativa = {
@@ -33,7 +33,7 @@ export function compararBikes(bikes: Bike[], ids: string[]): Comparativa {
 
   const filas: FilaComparativa[] = [
     { campo: "precio", label: "Precio", valores: seleccion.map((b) => b.precio) },
-    { campo: "bateriaWh", label: "Batería", valores: seleccion.map((b) => b.bateriaWh) },
+    { campo: "bateriaWh", label: "Batería", valores: seleccion.map((b) => formatNumero(b.bateriaWh, " Wh")) },
     { campo: "autonomia", label: "Autonomía", valores: seleccion.map(formatAutonomia) },
     { campo: "motor", label: "Motor", valores: seleccion.map((b) => b.motor) },
     { campo: "parNm", label: "Par motor", valores: seleccion.map((b) => formatNumero(b.parNm, " Nm")) },

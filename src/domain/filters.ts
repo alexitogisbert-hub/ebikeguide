@@ -23,7 +23,7 @@ export function filtrarBikes(bikes: Bike[], criterios: FiltroCriterios = {}): Bi
     if (criterios.precioMin !== undefined && bike.precio < criterios.precioMin) return false;
     // Peso no publicado: no lo excluimos por no poder confirmar que supera el máximo.
     if (criterios.pesoMax !== undefined && bike.pesoKg !== null && bike.pesoKg > criterios.pesoMax) return false;
-    if (criterios.bateriaWhMin !== undefined && bike.bateriaWh < criterios.bateriaWhMin) return false;
+    if (criterios.bateriaWhMin !== undefined && (bike.bateriaWh === null || bike.bateriaWh < criterios.bateriaWhMin)) return false;
     // Autonomía no publicada: no podemos confirmar que llega al mínimo pedido, así que se excluye.
     if (
       criterios.autonomiaMinKm !== undefined &&

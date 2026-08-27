@@ -14,7 +14,7 @@ describe("filtrarBikes", () => {
     const resultado = filtrarBikes(bikes, { precioMax: 1000 });
     expect(resultado.every((b) => b.precio <= 1000)).toBe(true);
     expect(resultado.map((b) => b.slug)).toContain("colorway-bk15");
-    expect(resultado.map((b) => b.slug)).toContain("flli-schiano-e-ride");
+    expect(resultado.map((b) => b.slug)).toContain("touroll-j1");
     expect(resultado.map((b) => b.slug)).not.toContain("eskute-netuno");
   });
 
