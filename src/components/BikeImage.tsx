@@ -76,9 +76,9 @@ export function BikeImage({ bike, className = "" }: { bike: Bike; className?: st
   const alt = `${bike.marca} ${bike.modelo} — e-bike ${tipoLabel}`;
 
   const imageEl = (
-    <div className={`relative overflow-hidden ${className}`}>
+    <div className={`relative overflow-hidden bg-surf ${className}`}>
       {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-cover" />
+      <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-contain p-2" />
     </div>
   );
 

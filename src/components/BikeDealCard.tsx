@@ -36,7 +36,7 @@ export function BikeDealCard({ bike, showBuyCta = false }: { bike: Bike; showBuy
   return (
     <div className="rounded-2xl border border-line transition-shadow duration-200 hover:shadow-lg">
       <div className="relative">
-        <BikeImage bike={bike} className="h-[160px] w-full rounded-t-2xl" />
+        <BikeImage bike={bike} className="aspect-square w-full rounded-t-2xl" />
         {discountPct !== null && (
           <span className="absolute left-3 top-3 rounded-full bg-sale px-2.5 py-1 text-xs font-bold text-white">
             -{discountPct}%
