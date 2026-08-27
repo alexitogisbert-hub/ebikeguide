@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import type { Bike } from "@/data/ebg-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
@@ -10,12 +13,15 @@ const TIPO_LABELS: Record<string, string> = {
   cargo: "de carga",
 };
 
-/**
- * Foto de una bici, con fallback automático al placeholder de texto mientras
- * `bike.imagen` esté vacío (ver el comentario de ese campo en ebg-data.ts).
- */
+const EXTENSIONS = ["webp", "jpg", "png"];
+
 export function BikeImage({ bike, className = "" }: { bike: Bike; className?: string }) {
-  if (!bike.imagen) {
+  const [extIdx, setExtIdx] = useState(0);
+  const [failed, setFailed] = useState(false);
+
+  const src = bike.imagen || (!failed ? `/bikes/${bike.slug}.${EXTENSIONS[extIdx]}` : null);
+
+  if (!src || failed) {
     return <ImagePlaceholder label={bike.imagenPlaceholder} className={className} />;
   }
 
@@ -24,7 +30,20 @@ export function BikeImage({ bike, className = "" }: { bike: Bike; className?: st
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      <Image src={bike.imagen} alt={alt} fill sizes="(min-width: 1024px) 33vw, 100vw" className="object-cover" />
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        sizes="(min-width: 1024px) 33vw, 100vw"
+        className="object-cover"
+        onError={() => {
+          if (!bike.imagen && extIdx < EXTENSIONS.length - 1) {
+            setExtIdx(extIdx + 1);
+          } else {
+            setFailed(true);
+          }
+        }}
+      />
     </div>
   );
 }

@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/favoritos/"],
+      disallow: ["/favoritos/", "/admin/"],
     },
     sitemap: `${EBG_DATA.meta.dominio}/sitemap.xml`,
   };
