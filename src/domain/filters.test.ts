@@ -5,8 +5,8 @@ import { filtrarBikes, filtrarYOrdenarBikes, ordenarBikes } from "./filters";
 const bikes = EBG_DATA.bikes;
 
 describe("filtrarBikes", () => {
-  it("sin criterios devuelve el catálogo completo (15 bicis)", () => {
-    expect(filtrarBikes(bikes)).toHaveLength(15);
+  it("sin criterios devuelve el catálogo completo (14 bicis)", () => {
+    expect(filtrarBikes(bikes)).toHaveLength(14);
     expect(filtrarBikes(bikes)).toHaveLength(bikes.length);
   });
 
@@ -15,7 +15,6 @@ describe("filtrarBikes", () => {
     expect(resultado.every((b) => b.precio <= 1000)).toBe(true);
     expect(resultado.map((b) => b.slug)).toContain("colorway-bk15");
     expect(resultado.map((b) => b.slug)).toContain("touroll-j1");
-    expect(resultado.map((b) => b.slug)).not.toContain("eskute-netuno");
   });
 
   it("filtra por categoría", () => {

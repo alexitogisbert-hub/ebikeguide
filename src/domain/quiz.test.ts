@@ -29,12 +29,9 @@ describe("calcularAjusteQuiz", () => {
   });
 
   it("subir la prioridad de potencia favorece a la bici con más par motor de su categoría", () => {
-    // Mismo tipo (montaña) para las dos, así terrenoFit/perfil de uso son idénticos y la
-    // única diferencia posible en el ajuste es la sub-puntuación de potencia (percentil dentro
-    // de la categoría): la puntuación de potencia ya no se compara contra todo el catálogo.
     const respuestas: QuizAnswers = { ...baseAnswers, prioridad: "potencia" };
     const potente = bikes.find((b) => b.slug === "antgooat-speedy-29")!; // montaña, 80 Nm
-    const floja = bikes.find((b) => b.slug === "eskute-netuno")!; // montaña, 45 Nm
+    const floja: Bike = { ...potente, id: "test-floja", slug: "test-floja", parNm: 45, subs: { ...potente.subs, potencia: 2 } };
     expect(calcularAjusteQuiz(potente, respuestas)).toBeGreaterThan(calcularAjusteQuiz(floja, respuestas));
   });
 
