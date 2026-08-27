@@ -27,7 +27,7 @@ describe("filtrarBikes", () => {
   it("filtra por plegable: true devuelve solo las bicis plegables", () => {
     const resultado = filtrarBikes(bikes, { plegable: true });
     expect(resultado.map((b) => b.slug).sort()).toEqual(
-      ["engwe-ep2-boost", "engwe-p1", "ado-air20-pro", "ado-air20-pro-ultra", "fafrees-f20-mate", "bodywel-t16pro"].sort(),
+      ["engwe-ep2-boost", "engwe-p1", "ado-air20-pro", "legend-siena", "fafrees-f20-mate", "bodywel-t16pro"].sort(),
     );
   });
 
