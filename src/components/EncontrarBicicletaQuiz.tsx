@@ -143,7 +143,7 @@ export function EncontrarBicicletaQuiz() {
         <p className="mt-2 text-sm text-mut">
           Según tus respuestas, estas son las {recomendaciones.length} bicis de nuestro catálogo que mejor encajan.
         </p>
-        <div className="mt-6 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5">
+        <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {recomendaciones.map((bike) => (
             <BikeDealCard key={bike.id} bike={bike} showBuyCta />
           ))}

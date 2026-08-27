@@ -105,7 +105,7 @@ export function CatalogoBicicletas({
       </p>
 
       {resultado.length > 0 ? (
-        <div className="mt-4 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5">
+        <div className="mt-4 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {resultado.map((bike) => (
             <BikeDealCard key={bike.id} bike={bike} />
           ))}

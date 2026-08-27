@@ -36,7 +36,7 @@ export default function OfertasPage() {
         />
         <div className="mx-auto max-w-[1280px] px-5 pb-16 sm:px-8">
           {bikesConDescuento.length > 0 ? (
-            <div className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5">
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {bikesConDescuento.map((bike) => (
                 <BikeDealCard key={bike.id} bike={bike} />
               ))}

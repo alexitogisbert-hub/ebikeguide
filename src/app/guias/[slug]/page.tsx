@@ -89,7 +89,7 @@ export default async function GuiaDetallePage({
         {productos.length > 0 && (
           <section className="mx-auto max-w-[1280px] px-5 py-14 sm:px-8">
             <h2 className="text-xl font-bold text-ink">Bicis mencionadas en esta guía</h2>
-            <div className="mt-5 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5">
+            <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {productos.map((bike) => (
                 <BikeDealCard key={bike.id} bike={bike} />
               ))}

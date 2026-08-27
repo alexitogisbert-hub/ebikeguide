@@ -313,7 +313,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
       {alternativas.length > 0 && (
         <section className="mx-auto max-w-[1280px] px-5 py-10 sm:px-8">
           <h2 className="text-xl font-bold text-ink">Alternativas a considerar</h2>
-          <div className="mt-5 grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-5">
+          <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {alternativas.map((alt) => (
               <BikeDealCard key={alt.id} bike={alt} />
             ))}
