@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "node:fs/promises";
-import { join } from "node:path";
+import { getStore } from "@netlify/blobs";
 import { EBG_DATA } from "@/data/ebg-data";
 
 const VALID_SLUGS = new Set(EBG_DATA.bikes.map((b) => b.slug));
-const BIKES_DIR = join(process.cwd(), "public", "bikes");
-const MAX_SIZE = 5 * 1024 * 1024; // 5 MB
+const MAX_SIZE = 5 * 1024 * 1024;
 
 export async function POST(request: Request) {
   const adminKey = process.env.ADMIN_KEY;
@@ -33,12 +31,8 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "El archivo no es una imagen" }, { status: 400 });
   }
 
-  const ext = file.type === "image/webp" ? "webp" : file.type === "image/png" ? "png" : "jpg";
-  const filename = `${slug}.${ext}`;
+  const store = getStore("bike-images");
+  await store.set(slug, file, { metadata: { contentType: file.type } });
 
-  const buffer = Buffer.from(await file.arrayBuffer());
-  await mkdir(BIKES_DIR, { recursive: true });
-  await writeFile(join(BIKES_DIR, filename), buffer);
-
-  return NextResponse.json({ ok: true, path: `/bikes/${filename}` });
+  return NextResponse.json({ ok: true, path: `/api/bike-image/${slug}` });
 }
