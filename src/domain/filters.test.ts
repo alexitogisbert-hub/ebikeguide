@@ -20,21 +20,21 @@ describe("filtrarBikes", () => {
 
   it("filtra por categoría", () => {
     const resultado = filtrarBikes(bikes, { categoriaId: "cargo" });
-    expect(resultado).toHaveLength(3);
-    expect(resultado.map((b) => b.slug)).toContain("engwe-le20-cargo");
+    expect(resultado).toHaveLength(2);
+    expect(resultado.map((b) => b.slug)).toContain("fafrees-ff20-cuv");
   });
 
   it("filtra por plegable: true devuelve solo las bicis plegables", () => {
     const resultado = filtrarBikes(bikes, { plegable: true });
     expect(resultado.map((b) => b.slug).sort()).toEqual(
-      ["engwe-p1", "ado-air20-pro", "ado-air20-pro-ultra", "fafrees-f20-mate"].sort(),
+      ["engwe-ep2-boost", "engwe-p1", "ado-air20-pro", "ado-air20-pro-ultra", "fafrees-f20-mate"].sort(),
     );
   });
 
   it("filtra por plegable: false excluye las bicis plegables", () => {
     const resultado = filtrarBikes(bikes, { plegable: false });
     expect(resultado.some((b) => b.plegable)).toBe(false);
-    expect(resultado).toHaveLength(bikes.length - 4);
+    expect(resultado).toHaveLength(bikes.length - 5);
   });
 
   it("no excluye por peso máximo cuando el peso no está publicado (no penaliza el dato ausente)", () => {
