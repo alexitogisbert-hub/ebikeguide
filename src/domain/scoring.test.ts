@@ -195,9 +195,9 @@ describe("scoreBikeBreakdown", () => {
 });
 
 describe("scoreBikes", () => {
-  it("calcula la puntuación de las 14 bicis reales del catálogo, todas entre 0 y 10", () => {
+  it("calcula la puntuación de las 15 bicis reales del catálogo, todas entre 0 y 10", () => {
     const resultados = scoreBikes(EBG_DATA.bikes, PESOS);
-    expect(resultados).toHaveLength(14);
+    expect(resultados).toHaveLength(15);
     expect(resultados).toHaveLength(EBG_DATA.bikes.length);
     resultados.forEach((r) => {
       expect(r.puntuacion).toBeGreaterThanOrEqual(0);

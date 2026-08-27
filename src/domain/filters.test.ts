@@ -5,8 +5,8 @@ import { filtrarBikes, filtrarYOrdenarBikes, ordenarBikes } from "./filters";
 const bikes = EBG_DATA.bikes;
 
 describe("filtrarBikes", () => {
-  it("sin criterios devuelve el catálogo completo (14 bicis)", () => {
-    expect(filtrarBikes(bikes)).toHaveLength(14);
+  it("sin criterios devuelve el catálogo completo (15 bicis)", () => {
+    expect(filtrarBikes(bikes)).toHaveLength(15);
     expect(filtrarBikes(bikes)).toHaveLength(bikes.length);
   });
 
