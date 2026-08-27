@@ -27,14 +27,14 @@ describe("filtrarBikes", () => {
   it("filtra por plegable: true devuelve solo las bicis plegables", () => {
     const resultado = filtrarBikes(bikes, { plegable: true });
     expect(resultado.map((b) => b.slug).sort()).toEqual(
-      ["engwe-ep2-boost", "engwe-p1", "ado-air20-pro", "ado-air20-pro-ultra", "fafrees-f20-mate"].sort(),
+      ["engwe-ep2-boost", "engwe-p1", "ado-air20-pro", "ado-air20-pro-ultra", "fafrees-f20-mate", "bodywel-t16pro"].sort(),
     );
   });
 
   it("filtra por plegable: false excluye las bicis plegables", () => {
     const resultado = filtrarBikes(bikes, { plegable: false });
     expect(resultado.some((b) => b.plegable)).toBe(false);
-    expect(resultado).toHaveLength(bikes.length - 5);
+    expect(resultado).toHaveLength(bikes.length - 6);
   });
 
   it("no excluye por peso máximo cuando el peso no está publicado (no penaliza el dato ausente)", () => {
@@ -66,7 +66,7 @@ describe("ordenarBikes", () => {
     for (let i = 1; i < resultado.length; i++) {
       expect(resultado[i].precio).toBeGreaterThanOrEqual(resultado[i - 1].precio);
     }
-    expect(resultado[0].slug).toBe("flli-schiano-e-ride");
+    expect(resultado[0].slug).toBe("bodywel-t16pro");
   });
 
   it("ordena por puntuación descendente por defecto", () => {
