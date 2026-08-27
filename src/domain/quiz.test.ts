@@ -17,14 +17,14 @@ const baseAnswers: QuizAnswers = {
 describe("calcularAjusteQuiz", () => {
   it("da más ajuste a una bici urbana cuando el perfil es ciudad/llano/precio", () => {
     const urbana = bikes.find((b) => b.slug === "onesport-ot07")!;
-    const montana = bikes.find((b) => b.slug === "moma-bikes-emtb-29-pro")!;
+    const montana = bikes.find((b) => b.slug === "antgooat-speedy-29")!;
     expect(calcularAjusteQuiz(urbana, baseAnswers)).toBeGreaterThan(calcularAjusteQuiz(montana, baseAnswers));
   });
 
   it("da más ajuste a una bici de montaña cuando el perfil es montaña/montañoso", () => {
     const respuestas: QuizAnswers = { ...baseAnswers, uso: "montana", terreno: "montanoso", prioridad: "autonomia" };
     const urbana = bikes.find((b) => b.slug === "onesport-ot07")!;
-    const montana = bikes.find((b) => b.slug === "moma-bikes-emtb-29-pro")!;
+    const montana = bikes.find((b) => b.slug === "antgooat-speedy-29")!;
     expect(calcularAjusteQuiz(montana, respuestas)).toBeGreaterThan(calcularAjusteQuiz(urbana, respuestas));
   });
 
