@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { Bike } from "@/data/ebg-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 import { useAdminMode } from "@/hooks/useAdminMode";
@@ -15,21 +15,8 @@ const TIPO_LABELS: Record<string, string> = {
 
 export function BikeImage({ bike, className = "" }: { bike: Bike; className?: string }) {
   const [src, setSrc] = useState<string | null>(bike.imagen || null);
-  const [checked, setChecked] = useState(!!bike.imagen);
   const [uploading, setUploading] = useState(false);
   const admin = useAdminMode();
-
-  useEffect(() => {
-    if (bike.imagen) return;
-    let cancelled = false;
-    fetch(`/api/bike-image/${bike.slug}`, { method: "HEAD" })
-      .then((res) => {
-        if (!cancelled && res.ok) setSrc(`/api/bike-image/${bike.slug}?t=${Date.now()}`);
-      })
-      .catch(() => {})
-      .finally(() => { if (!cancelled) setChecked(true); });
-    return () => { cancelled = true; };
-  }, [bike.imagen, bike.slug]);
 
   const handleUpload = useCallback(
     async (file: File) => {
@@ -67,10 +54,6 @@ export function BikeImage({ bike, className = "" }: { bike: Bike; className?: st
         {admin && <DropOverlay uploading={uploading} onFile={handleUpload} />}
       </div>
     );
-  }
-
-  if (!checked) {
-    return <ImagePlaceholder label={bike.imagenPlaceholder} className={className} />;
   }
 
   return (
