@@ -1,9 +1,8 @@
 import type { Bike } from "@/data/ebg-data";
-import { scoreBikeBreakdown } from "@/domain/scoring";
-import { EBG_DATA } from "@/data/ebg-data";
+import { scoreBikeBreakdown, pesosParaBike } from "@/domain/scoring";
 
 export function SubsBreakdown({ bike }: { bike: Bike }) {
-  const { desglose } = scoreBikeBreakdown(bike, EBG_DATA.meta.pesosPuntuacion);
+  const { desglose } = scoreBikeBreakdown(bike, pesosParaBike(bike));
 
   return (
     <div className="flex flex-col gap-3">

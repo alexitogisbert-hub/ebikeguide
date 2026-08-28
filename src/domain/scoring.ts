@@ -21,32 +21,40 @@ export function validatePesosPuntuacion(pesos: PesoPuntuacion[]): { valido: bool
   return { valido: Math.abs(sumaTotal - 100) <= PESOS_EPSILON, sumaTotal };
 }
 
-/**
- * Percentil 0-10 del elemento en `indice` dentro de `valores`, donde un valor RAW más alto
- * puntúa más alto. Los `null` (dato no publicado) no participan como puntos de comparación:
- * el percentil se calcula solo entre los valores conocidos. Empates comparten el mismo rango
- * (rango medio / "fractional ranking"). Con un único valor conocido, devuelve 10 (no hay con
- * qué comparar). Devuelve `null` si el propio elemento no tiene valor conocido.
- */
-export function percentil(valores: Array<number | null | undefined>, indice: number): number | null {
-  const v = valores[indice];
-  if (v === null || v === undefined) return null;
-
-  const conocidos = valores.filter((x): x is number => x !== null && x !== undefined);
-  const n = conocidos.length;
-  if (n <= 1) return 10;
-
-  const menor = conocidos.filter((x) => x < v).length;
-  const menorIgual = conocidos.filter((x) => x <= v).length;
-  const rangoMedio = (menor + menorIgual - 1) / 2;
-
-  return Math.round((rangoMedio / (n - 1)) * 100) / 10;
+export function tierAutonomia(km: number | null): number | null {
+  if (km === null) return null;
+  if (km >= 120) return 10;
+  if (km >= 100) return 9;
+  if (km >= 80) return 8.5;
+  if (km >= 60) return 8;
+  if (km >= 40) return 7;
+  return 6;
 }
 
-/** Igual que `percentil`, pero un valor RAW más bajo puntúa más alto (p. ej. peso). */
-export function percentilInverso(valores: Array<number | null | undefined>, indice: number): number | null {
-  const invertidos = valores.map((v) => (v === null || v === undefined ? null : -v));
-  return percentil(invertidos, indice);
+export function tierMotor(nm: number | null): number | null {
+  if (nm === null) return null;
+  if (nm >= 75) return 10;
+  if (nm >= 65) return 9;
+  if (nm >= 45) return 8;
+  if (nm >= 35) return 7;
+  return 6;
+}
+
+export function tierPeso(kg: number | null): number | null {
+  if (kg === null) return null;
+  if (kg <= 19) return 10;
+  if (kg <= 24) return 9;
+  if (kg <= 29) return 8;
+  if (kg <= 31) return 7;
+  return 6;
+}
+
+export function tierPrecio(euros: number): number {
+  if (euros <= 699) return 10;
+  if (euros <= 999) return 9;
+  if (euros <= 1499) return 8;
+  if (euros <= 1999) return 7;
+  return 6;
 }
 
 export type MetricasBike = {
@@ -56,39 +64,48 @@ export type MetricasBike = {
   precio: number;
 };
 
-/**
- * Calcula `subs` (0-10) para cada bici del catálogo, de forma puramente algorítmica a partir
- * de especificaciones publicadas — sin opinión editorial, porque `meta.pruebasPropias` es
- * `false` y no hemos probado físicamente ninguna bici real.
- *
- * - autonomia: percentil de autonomiaKm (más km, mejor).
- * - potencia: percentil de parNm (más par, mejor).
- * - peso: percentil inverso de pesoKg (menos kg, mejor).
- * - precio: percentil inverso del precio (más barata, mejor).
- *
- * El percentil se calcula frente a todo el catálogo: con categorías pequeñas (1-2 bicis),
- * comparar solo dentro de la categoría produce resultados degenerados (todo 10 o todo 0).
- */
-export function calcularSubsCatalogo(metricas: MetricasBike[]): SubPuntuaciones[] {
-  const autonomias = metricas.map((x) => x.autonomiaKm);
-  const potencias = metricas.map((x) => x.parNm);
-  const pesos = metricas.map((x) => x.pesoKg);
-  const precios = metricas.map((x) => x.precio);
-
-  return metricas.map((_, i) => ({
-    autonomia: percentil(autonomias, i),
-    potencia: percentil(potencias, i),
-    peso: percentilInverso(pesos, i),
-    precio: percentilInverso(precios, i),
+export function calcularSubsTier(metricas: MetricasBike[]): SubPuntuaciones[] {
+  return metricas.map((m) => ({
+    autonomia: tierAutonomia(m.autonomiaKm),
+    potencia: tierMotor(m.parNm),
+    peso: tierPeso(m.pesoKg),
+    precio: tierPrecio(m.precio),
   }));
 }
 
-/**
- * Media ponderada de `subs` según `pesos`, tratando los `null` como "criterio no aplicable
- * para esta bici" en vez de como 0: su peso se excluye y se renormaliza entre los criterios
- * que sí tienen dato, para no penalizar a una bici solo porque el fabricante no publicó una
- * especificación. Devuelve 0 si ningún criterio tiene dato.
- */
+export const PESOS_POR_TIPO: Record<string, PesoPuntuacion[]> = {
+  urbana: [
+    { id: "autonomia", label: "Autonomía", peso: 30, que: "Nota por tramos de la autonomía estimada (km)." },
+    { id: "potencia", label: "Motor", peso: 15, que: "Nota por tramos del par motor (Nm)." },
+    { id: "peso", label: "Peso", peso: 25, que: "Nota por tramos inversos del peso (menos kg, mejor)." },
+    { id: "precio", label: "Precio", peso: 30, que: "Nota por tramos inversos del precio (más barata, mejor)." },
+  ],
+  plegable: [
+    { id: "autonomia", label: "Autonomía", peso: 25, que: "Nota por tramos de la autonomía estimada (km)." },
+    { id: "potencia", label: "Motor", peso: 15, que: "Nota por tramos del par motor (Nm)." },
+    { id: "peso", label: "Peso", peso: 35, que: "Nota por tramos inversos del peso (menos kg, mejor)." },
+    { id: "precio", label: "Precio", peso: 25, que: "Nota por tramos inversos del precio (más barata, mejor)." },
+  ],
+  montana: [
+    { id: "autonomia", label: "Autonomía", peso: 30, que: "Nota por tramos de la autonomía estimada (km)." },
+    { id: "potencia", label: "Motor", peso: 40, que: "Nota por tramos del par motor (Nm)." },
+    { id: "peso", label: "Peso", peso: 15, que: "Nota por tramos inversos del peso (menos kg, mejor)." },
+    { id: "precio", label: "Precio", peso: 15, que: "Nota por tramos inversos del precio (más barata, mejor)." },
+  ],
+  trekking: [
+    { id: "autonomia", label: "Autonomía", peso: 45, que: "Nota por tramos de la autonomía estimada (km)." },
+    { id: "potencia", label: "Motor", peso: 25, que: "Nota por tramos del par motor (Nm)." },
+    { id: "peso", label: "Peso", peso: 15, que: "Nota por tramos inversos del peso (menos kg, mejor)." },
+    { id: "precio", label: "Precio", peso: 15, que: "Nota por tramos inversos del precio (más barata, mejor)." },
+  ],
+  cargo: [
+    { id: "autonomia", label: "Autonomía", peso: 30, que: "Nota por tramos de la autonomía estimada (km)." },
+    { id: "potencia", label: "Motor", peso: 30, que: "Nota por tramos del par motor (Nm)." },
+    { id: "peso", label: "Peso", peso: 10, que: "Nota por tramos inversos del peso (menos kg, mejor)." },
+    { id: "precio", label: "Precio", peso: 30, que: "Nota por tramos inversos del precio (más barata, mejor)." },
+  ],
+};
+
 export function computeWeightedScore(
   subs: Partial<Record<string, number | null>>,
   pesos: PesoPuntuacion[],
@@ -121,49 +138,44 @@ export function scoreBikeBreakdown(bike: Bike, pesos: PesoPuntuacion[]): BikeSco
   };
 }
 
-export function scoreBikes(bikes: Bike[], pesos: PesoPuntuacion[]): BikeScore[] {
-  return bikes.map((bike) => scoreBikeBreakdown(bike, pesos));
+export function pesosParaBike(bike: Bike): PesoPuntuacion[] {
+  return PESOS_POR_TIPO[bike.tipo] ?? PESOS_POR_TIPO.urbana;
+}
+
+export function scoreBikes(bikes: Bike[], _pesos?: PesoPuntuacion[]): BikeScore[] {
+  return bikes.map((bike) => scoreBikeBreakdown(bike, pesosParaBike(bike)));
 }
 
 export type BadgeBici = {
   emoji: string;
   etiqueta: string;
-  criterio: "autonomia" | "motor" | "peso" | "precio" | "familiar" | "triciclo";
+  criterio: "autonomia" | "motor" | "peso" | "precio" | "familiar" | "equilibrada" | "rutera";
 };
 
-/**
- * Badge principal de una bici para las tarjetas del catálogo. Prioridad, de mayor a menor:
- * 1. Triciclo (`esTriciclo`) — cambia por completo cómo se conduce, es lo más relevante a
- *    comunicar antes que ningún dato de la sub-puntuación.
- * 2. Familiar (categoría cargo) — pensada para llevar carga o niños, no para destacar en
- *    autonomía/potencia/peso/precio frente al resto del catálogo.
- * 3. El criterio con mayor sub-puntuación dentro de su categoría (autonomía/motor/peso/precio),
- *    ignorando los que no tienen dato. Caso especial: si es una plegable y el criterio que gana
- *    es el peso, se etiqueta "Plegable ligera" en vez del genérico "Ligera".
- */
 export function obtenerBadgePrincipal(bike: Bike): BadgeBici {
-  if (bike.esTriciclo) {
-    return { emoji: "🛺", etiqueta: "Triciclo", criterio: "triciclo" };
-  }
   if (bike.tipo === "cargo" || bike.tipo === "familiar") {
-    return { emoji: "👨‍👩‍👧", etiqueta: "Familiar", criterio: "familiar" };
+    return { emoji: "📦", etiqueta: "Familiar", criterio: "familiar" };
   }
 
   const subs = bike.subs;
   type Candidato = { criterio: "autonomia" | "motor" | "peso" | "precio"; valor: number | null; emoji: string; etiqueta: string };
   const candidatos: Candidato[] = [
-    { criterio: "autonomia", valor: subs.autonomia, emoji: "🔋", etiqueta: "Larga autonomía" },
     { criterio: "motor", valor: subs.potencia, emoji: "⚡", etiqueta: "Motor potente" },
+    { criterio: "precio", valor: subs.precio, emoji: "🏅", etiqueta: "Calidad-precio" },
+    { criterio: "autonomia", valor: subs.autonomia, emoji: "🔋", etiqueta: "Larga autonomía" },
     { criterio: "peso", valor: subs.peso, emoji: "🪶", etiqueta: "Ligera" },
-    { criterio: "precio", valor: subs.precio, emoji: "💰", etiqueta: "Calidad-precio" },
   ];
   const conDato = candidatos.filter((c): c is Candidato & { valor: number } => c.valor !== null);
   if (conDato.length === 0) return { emoji: "📊", etiqueta: "En análisis", criterio: "precio" };
-  const mejor = conDato.reduce((a, b) => (b.valor > a.valor ? b : a));
 
-  if (bike.tipo === "plegable" && mejor.criterio === "peso") {
-    return { emoji: "📦", etiqueta: "Plegable ligera", criterio: "peso" };
+  const valores = conDato.map((c) => c.valor);
+  const rango = Math.max(...valores) - Math.min(...valores);
+  if (rango < 1) return { emoji: "⚖️", etiqueta: "Equilibrada", criterio: "equilibrada" };
+
+  if (bike.tipo === "trekking" && subs.autonomia !== null && subs.autonomia >= 10) {
+    return { emoji: "🗺️", etiqueta: "Rutera Premium", criterio: "rutera" };
   }
 
+  const mejor = conDato.reduce((a, b) => (b.valor > a.valor ? b : a));
   return { emoji: mejor.emoji, etiqueta: mejor.etiqueta, criterio: mejor.criterio };
 }

@@ -1,4 +1,4 @@
-import { calcularSubsCatalogo, computeWeightedScore, type MetricasBike } from "@/domain/scoring";
+import { calcularSubsTier, computeWeightedScore, PESOS_POR_TIPO, type MetricasBike } from "@/domain/scoring";
 
 export type PesoPuntuacion = {
   id: string;
@@ -25,14 +25,8 @@ export type Categoria = {
 };
 
 /**
- * 0-10 por criterio, calculado algorítmicamente (ver `calcularSubsCatalogo` en
- * domain/scoring.ts) a partir de especificaciones publicadas, nunca asignado a mano —
- * `meta.pruebasPropias` es `false`, así que no evaluamos subjetivamente nada que no hayamos
- * probado. `null` cuando el fabricante no publica el dato necesario para ese criterio (no se
- * inventa un valor neutro). No incluye "confort" ni "componentes": no existe una
- * especificación numérica objetiva de la que derivarlos sin haber probado la bici, así que
- * se han retirado del motor de puntuación en vez de fabricar una fórmula pseudo-objetiva
- * para ellos — ver la metodología.
+ * 6-10 por criterio, calculado por tramos fijos (ver `calcularSubsTier` en domain/scoring.ts)
+ * a partir de especificaciones publicadas. `null` cuando el fabricante no publica el dato.
  */
 export type SubPuntuaciones = {
   autonomia: number | null;
@@ -211,38 +205,11 @@ export type Accesorio = {
 export type NavLink = { label: string; href: string };
 
 /**
- * Pesos del motor de puntuación (ver domain/scoring.ts). Se calculan sobre 4 criterios
- * objetivos derivables de especificaciones publicadas — no 6: "confort" y "componentes" se
- * han retirado porque no hay una métrica objetiva de la que derivarlos sin pruebas propias
- * (`meta.pruebasPropias` es `false`). El peso que tenían (20+15=35 puntos) se ha
- * redistribuido proporcionalmente entre los 4 restantes.
+ * Los pesos del motor de puntuación ahora son dinámicos por categoría — definidos en
+ * `PESOS_POR_TIPO` en domain/scoring.ts. Cada categoría (urbana, plegable, montaña,
+ * trekking, cargo) pondera autonomía/motor/peso/precio de forma diferente según lo que
+ * importa a cada tipo de usuario.
  */
-const PESOS_PUNTUACION: PesoPuntuacion[] = [
-  {
-    id: "autonomia",
-    label: "Autonomía",
-    peso: 40,
-    que: "Percentil de la autonomía estimada (km) dentro del catálogo.",
-  },
-  {
-    id: "potencia",
-    label: "Motor",
-    peso: 30,
-    que: "Percentil del par motor (Nm) publicado por el fabricante.",
-  },
-  {
-    id: "peso",
-    label: "Peso",
-    peso: 15,
-    que: "Percentil inverso del peso de la bici en kg (menos peso, mejor nota).",
-  },
-  {
-    id: "precio",
-    label: "Precio",
-    peso: 15,
-    que: "Percentil inverso del precio: más barata dentro del catálogo, mejor nota.",
-  },
-];
 
 const PERFIL_POR_TIPO: Record<string, PerfilUso> = {
   urbana: { llano: 0.85, cuestas: 0.35, largaDistancia: 0.3, carga: 0.25, transporte: 0.5, offroad: 0.1 },
@@ -1059,8 +1026,8 @@ const BIKES_RAW: BikeRaw[] = [
     slug: "fafrees-f20-mate",
     marca: "Fafrees",
     modelo: "F20 Mate [Oficial]",
-    tipo: "cargo",
-    categoriaId: "cargo",
+    tipo: "plegable",
+    categoriaId: "plegables",
     precio: 2399,
     precioAproximado: false,
     bateriaWh: 874,
@@ -1193,15 +1160,18 @@ const METRICAS: MetricasBike[] = BIKES_RAW.map((b) => ({
   precio: b.precio,
 }));
 
-const SUBS_CATALOGO = calcularSubsCatalogo(METRICAS);
+const SUBS_CATALOGO = calcularSubsTier(METRICAS);
 
-const BIKES: Bike[] = BIKES_RAW.map((b, i) => ({
-  ...b,
-  subs: SUBS_CATALOGO[i],
-  puntuacion: computeWeightedScore(SUBS_CATALOGO[i], PESOS_PUNTUACION),
-  perfil: PERFIL_POR_TIPO[b.tipo],
-  usosRecomendados: USOS_POR_TIPO[b.tipo],
-}));
+const BIKES: Bike[] = BIKES_RAW.map((b, i) => {
+  const pesos = PESOS_POR_TIPO[b.tipo] ?? PESOS_POR_TIPO.urbana;
+  return {
+    ...b,
+    subs: SUBS_CATALOGO[i],
+    puntuacion: computeWeightedScore(SUBS_CATALOGO[i], pesos),
+    perfil: PERFIL_POR_TIPO[b.tipo],
+    usosRecomendados: USOS_POR_TIPO[b.tipo],
+  };
+});
 
 const CATEGORIAS_BASE: Omit<Categoria, "modelosCount">[] = [
   {
@@ -1272,7 +1242,7 @@ export const EBG_DATA = {
     metodologiaUrl: "/metodologia/",
     pruebasPropias: false,
     evidenciaPorDefecto: "especificaciones",
-    pesosPuntuacion: PESOS_PUNTUACION,
+    pesosPorTipo: PESOS_POR_TIPO,
   },
 
   merchants: [

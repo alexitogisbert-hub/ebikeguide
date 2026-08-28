@@ -19,7 +19,7 @@ describe("filtrarBikes", () => {
 
   it("filtra por categoría", () => {
     const resultado = filtrarBikes(bikes, { categoriaId: "cargo" });
-    expect(resultado).toHaveLength(2);
+    expect(resultado).toHaveLength(1);
     expect(resultado.map((b) => b.slug)).toContain("fafrees-ff20-cuv");
   });
 

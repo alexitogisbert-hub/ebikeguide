@@ -2,6 +2,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { PageHeader } from "@/components/PageHeader";
 import { EBG_DATA } from "@/data/ebg-data";
+import { validatePesosPuntuacion } from "@/domain/scoring";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
@@ -10,8 +11,16 @@ export const metadata = pageMetadata({
   path: "/metodologia/",
 });
 
+const CATEGORIA_LABELS: Record<string, { emoji: string; nombre: string }> = {
+  urbana: { emoji: "🚲", nombre: "Urbanas" },
+  plegable: { emoji: "🗜️", nombre: "Plegables" },
+  montana: { emoji: "⛰️", nombre: "Montaña" },
+  trekking: { emoji: "🗺️", nombre: "Trekking" },
+  cargo: { emoji: "📦", nombre: "Cargo" },
+};
+
 export default function MetodologiaPage() {
-  const { pesosPuntuacion } = EBG_DATA.meta;
+  const { pesosPorTipo } = EBG_DATA.meta;
 
   return (
     <>
@@ -20,39 +29,52 @@ export default function MetodologiaPage() {
         <PageHeader
           eyebrow="Metodología"
           title="Cómo puntuamos cada e-bike"
-          intro="Esta es la misma tabla de pesos que usa nuestro motor de puntuación — si cambia aquí, cambia en toda la web, nunca al revés."
+          intro="Los pesos varían según la categoría de la bici — lo que importa en una plegable no es lo mismo que en una de montaña."
         />
 
         <section className="mx-auto max-w-[1280px] px-5 pb-12 sm:px-8">
-          <div className="overflow-x-auto rounded-2xl border border-line">
-            <table className="w-full min-w-[480px] border-collapse text-left text-sm">
-              <thead className="bg-surf text-xs font-semibold uppercase tracking-wide text-mut">
-                <tr>
-                  <th className="px-5 py-3">Criterio</th>
-                  <th className="px-5 py-3">Peso</th>
-                  <th className="px-5 py-3">Qué mide</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line">
-                {pesosPuntuacion.map((peso) => (
-                  <tr key={peso.id}>
-                    <td className="px-5 py-4 font-semibold text-ink">{peso.label}</td>
-                    <td className="px-5 py-4">
-                      <span className="inline-flex items-center rounded-full bg-acc-s px-2.5 py-1 text-xs font-bold text-acc-d">
-                        {peso.peso}%
-                      </span>
-                    </td>
-                    <td className="px-5 py-4 text-mut">{peso.que}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {Object.entries(pesosPorTipo).map(([tipo, pesos]) => {
+              const cat = CATEGORIA_LABELS[tipo];
+              const { sumaTotal } = validatePesosPuntuacion(pesos);
+              return (
+                <div key={tipo} className="overflow-hidden rounded-2xl border border-line">
+                  <div className="bg-surf px-5 py-3">
+                    <h2 className="text-sm font-bold text-ink">
+                      {cat?.emoji} {cat?.nombre ?? tipo}
+                    </h2>
+                  </div>
+                  <table className="w-full border-collapse text-left text-sm">
+                    <thead className="text-xs font-semibold uppercase tracking-wide text-mut">
+                      <tr>
+                        <th className="px-5 py-2">Criterio</th>
+                        <th className="px-5 py-2 text-right">Peso</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-line">
+                      {pesos.map((peso) => (
+                        <tr key={peso.id}>
+                          <td className="px-5 py-3 font-medium text-ink">{peso.label}</td>
+                          <td className="px-5 py-3 text-right">
+                            <span className="inline-flex items-center rounded-full bg-acc-s px-2.5 py-1 text-xs font-bold text-acc-d">
+                              {peso.peso}%
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  <p className="border-t border-line px-5 py-2 text-xs text-mut">
+                    Suma: {sumaTotal}%
+                  </p>
+                </div>
+              );
+            })}
           </div>
-          <p className="mt-3 text-xs text-mut">
-            Los pesos suman {pesosPuntuacion.reduce((sum, p) => sum + p.peso, 0)}%. Cada bici tiene una nota de 0 a
-            10 en cada criterio, calculada automáticamente como el percentil de esa especificación dentro del
-            catálogo (no una opinión editorial ni una prueba física); la puntuación final es la media ponderada de
-            esas notas.
+          <p className="mt-4 text-xs text-mut">
+            Cada bici tiene una nota de 6 a 10 en cada criterio, asignada por tramos fijos a partir
+            de la especificación real (no un percentil entre bicis del catálogo). La puntuación final
+            es la media ponderada con los pesos de su categoría.
           </p>
         </section>
 
@@ -66,12 +88,9 @@ export default function MetodologiaPage() {
               <span className="font-semibold text-ink">{EBG_DATA.meta.evidenciaPorDefecto}</span>.
             </p>
             <p className="mt-3 text-sm text-mut">
-              Antes ponderábamos también «Comodidad» y «Componentes» de forma editorial. Los hemos retirado del
-              motor de puntuación: sin pruebas propias no teníamos una especificación numérica objetiva de la que
-              derivarlos, y mantenerlos habría significado seguir asignándolos a mano — justo lo que queríamos
-              evitar en un catálogo de productos reales. Cuando el fabricante no publica el dato que necesita un
-              criterio (por ejemplo, el par motor en Nm), esa bici muestra «N/D» en ese criterio en vez de un
-              número inventado, y su puntuación final se calcula solo con los criterios de los que sí hay dato.
+              Cuando el fabricante no publica el dato que necesita un criterio (por ejemplo, el par
+              motor en Nm), esa bici muestra «N/D» en ese criterio y su puntuación final se calcula
+              solo con los criterios disponibles, renormalizando los pesos.
             </p>
           </div>
         </section>
