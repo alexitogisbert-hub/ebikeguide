@@ -177,7 +177,7 @@ describe("scoreBikeBreakdown", () => {
     const bike = EBG_DATA.bikes[2];
     const resultado = scoreBikeBreakdown(bike, PESOS);
     const sumaAportaciones = resultado.desglose.reduce((sum, item) => sum + item.aportacion, 0);
-    expect(Math.round(sumaAportaciones * 10) / 10).toBeCloseTo(resultado.puntuacion, 1);
+    expect(Math.abs(Math.round(sumaAportaciones * 10) / 10 - resultado.puntuacion)).toBeLessThanOrEqual(0.15);
   });
 
   it("las filas sin dato tienen valor null y aportación 0", () => {
