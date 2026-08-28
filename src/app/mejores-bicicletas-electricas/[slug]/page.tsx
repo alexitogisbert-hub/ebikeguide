@@ -5,6 +5,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { AffiliateLink, ofertaCtaLabel } from "@/components/AffiliateLink";
 import { EBG_DATA } from "@/data/ebg-data";
 import { pageMetadata } from "@/lib/seo";
 
@@ -113,21 +114,41 @@ export default async function MejorDetallePage({
             </Link>
           </div>
           <div className="mt-5 flex flex-col gap-4">
-            {ganadores.map(({ bike, motivo }) => (
-              <Link
-                key={bike.id}
-                href={`/bicicletas-electricas/${bike.slug}/`}
-                className="flex flex-col gap-4 rounded-2xl border border-line p-5 transition-shadow hover:shadow-lg sm:flex-row sm:items-center"
-              >
-                <ImagePlaceholder label={bike.imagenPlaceholder} className="h-28 w-full shrink-0 rounded-xl sm:w-40" />
-                <div className="min-w-0 flex-1">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-mut">{bike.marca}</p>
-                  <h3 className="font-bold text-ink">{bike.modelo}</h3>
-                  <p className="mt-1.5 text-sm text-mut">{motivo}</p>
+            {ganadores.map(({ bike, motivo }) => {
+              const oferta = bike.ofertas[0];
+              const merchantName = oferta
+                ? (EBG_DATA.merchants.find((m) => m.id === oferta.merchantId)?.nombre ?? oferta.merchantId)
+                : "";
+              return (
+                <div
+                  key={bike.id}
+                  className="flex flex-col gap-4 rounded-2xl border border-line p-5 transition-shadow hover:shadow-lg sm:flex-row sm:items-center"
+                >
+                  <Link href={`/bicicletas-electricas/${bike.slug}/`} className="shrink-0">
+                    <ImagePlaceholder label={bike.imagenPlaceholder} className="h-28 w-full rounded-xl sm:w-40" />
+                  </Link>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-mut">{bike.marca}</p>
+                    <Link href={`/bicicletas-electricas/${bike.slug}/`}>
+                      <h3 className="font-bold text-ink hover:text-acc-d">{bike.modelo}</h3>
+                    </Link>
+                    <p className="mt-1.5 text-sm text-mut">{motivo}</p>
+                  </div>
+                  <div className="flex flex-col items-start gap-2 sm:items-end">
+                    <span className="text-lg font-bold text-ink">{priceFormatter.format(bike.precio)}</span>
+                    {oferta && (
+                      <AffiliateLink
+                        oferta={oferta}
+                        merchantName={merchantName}
+                        className="inline-flex items-center rounded-full bg-acc px-4 py-2 text-sm font-bold text-dark transition-opacity hover:opacity-90"
+                      >
+                        {ofertaCtaLabel(oferta)}
+                      </AffiliateLink>
+                    )}
+                  </div>
                 </div>
-                <div className="text-left font-bold text-ink sm:text-right">{priceFormatter.format(bike.precio)}</div>
-              </Link>
-            ))}
+              );
+            })}
           </div>
         </section>
 

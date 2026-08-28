@@ -69,6 +69,11 @@ export function BikeDealCard({ bike, showBuyCta = false }: { bike: Bike; showBuy
             </span>
           )}
           {bike.esTriciclo && <span className="text-xs font-medium text-mut">Triciclo</span>}
+          {bike.ofertas[0]?.disponibilidad === "pocas" && (
+            <span className="inline-flex items-center rounded-full bg-sale-s px-2 py-0.5 text-xs font-bold text-sale-d">
+              Pocas unidades
+            </span>
+          )}
         </div>
 
         <div className="mt-3 flex items-baseline gap-2">

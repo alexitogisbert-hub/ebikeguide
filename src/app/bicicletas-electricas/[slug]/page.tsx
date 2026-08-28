@@ -34,8 +34,8 @@ export async function generateMetadata({
   const categoria = getCategoria(slug);
   if (categoria) {
     return pageMetadata({
-      title: `E-bikes ${categoria.nombre.toLowerCase()} — ${categoria.claim} | eBikeGuide`,
-      description: `Compara las bicicletas eléctricas ${categoria.nombre.toLowerCase()} de nuestro catálogo: ${categoria.claim.toLowerCase()}.`,
+      title: `Mejores bicicletas eléctricas ${categoria.nombre.toLowerCase()} de 2026 | eBikeGuide`,
+      description: `Comparamos las ${categoria.modelosCount} mejores e-bikes ${categoria.nombre.toLowerCase()} disponibles en España: ${categoria.claim.toLowerCase()}. Precios, puntuaciones y ofertas actualizadas.`,
       path: `/bicicletas-electricas/${categoria.slug}/`,
     });
   }
@@ -43,8 +43,8 @@ export async function generateMetadata({
   const bike = getBike(slug);
   if (bike) {
     return pageMetadata({
-      title: `${bike.marca} ${bike.modelo} — análisis y precio | eBikeGuide`,
-      description: bike.porQue,
+      title: `${bike.marca} ${bike.modelo}: análisis, opinión y precio en 2026 | eBikeGuide`,
+      description: `${bike.porQue} Puntuación ${bike.puntuacion.toFixed(1)}/10. Precio desde ${bike.precio} €.`,
       path: `/bicicletas-electricas/${bike.slug}/`,
     });
   }

@@ -7,6 +7,7 @@ import { SubsBreakdown } from "./SubsBreakdown";
 import { BikeDealCard } from "./BikeDealCard";
 import { Breadcrumbs } from "./Breadcrumbs";
 import { AffiliateLink, ofertaCtaLabel } from "./AffiliateLink";
+import { StickyBuyCta } from "./StickyBuyCta";
 import { ArrowRightIcon } from "./icons";
 
 const SIN_DATO = "Dato no publicado por el fabricante";
@@ -75,6 +76,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
     : "";
   const criteriosConDato = Object.values(bike.subs).filter((v) => typeof v === "number").length;
   const totalCriterios = Object.keys(bike.subs).length;
+  const guiasRelacionadas = EBG_DATA.guias.filter((g) => g.productos.includes(bike.id));
 
   const productJsonLd = {
     "@context": "https://schema.org",
@@ -133,13 +135,18 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
               {bike.modelo}
             </h1>
 
-            <div className="mt-3 flex items-center gap-3 text-sm">
+            <div className="mt-3 flex flex-wrap items-center gap-2 text-sm">
               <span className="rounded-full bg-acc-s px-2.5 py-1 text-xs font-bold text-acc-d">
                 {bike.puntuacion.toFixed(1)}/10 puntuación
               </span>
               {bike.esTriciclo && (
                 <span className="rounded-full bg-ink px-2.5 py-1 text-xs font-bold text-white">
                   Triciclo de 3 ruedas
+                </span>
+              )}
+              {ofertaPrincipal?.disponibilidad === "pocas" && (
+                <span className="rounded-full bg-sale-s px-2.5 py-1 text-xs font-bold text-sale-d">
+                  Pocas unidades
                 </span>
               )}
             </div>
@@ -150,10 +157,20 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
                 <span className="text-lg text-mut line-through">{priceFormatter.format(bike.precioAnterior)}</span>
               )}
             </div>
+            {bike.fechaPrecioComprobado && (
+              <p className="mt-1 text-xs text-mut">
+                Precio comprobado el{" "}
+                {new Date(bike.fechaPrecioComprobado).toLocaleDateString("es-ES", {
+                  day: "numeric",
+                  month: "long",
+                  year: "numeric",
+                })}
+              </p>
+            )}
 
             <p className="mt-4 text-mut">{bike.porQue}</p>
 
-            <div className="mt-6 flex flex-wrap gap-3">
+            <div id="hero-cta" className="mt-6 flex flex-wrap gap-3">
               {ofertaPrincipal && (
                 <AffiliateLink
                   oferta={ofertaPrincipal}
@@ -301,9 +318,9 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
           })}
         </div>
         <p className="mt-4 text-xs text-mut">
-          Todavía no tenemos cuenta de afiliado activa: los enlaces &ldquo;Ver precio actual en Amazon&rdquo; van directamente a la
-          ficha del producto, sin comisión para nosotros. Cuando activemos la afiliación, lo indicaremos aquí con claridad.
-          Nunca afecta a la puntuación.{" "}
+          Los enlaces a Amazon llevan nuestro código de afiliado: si compras a través de ellos,
+          Amazon nos paga una pequeña comisión sin coste adicional para ti. Esto nos ayuda a mantener
+          la web. Nunca afecta a la puntuación.{" "}
           <Link href="/aviso-legal/" className="underline hover:text-ink">
             Más información sobre afiliación
           </Link>
@@ -316,7 +333,29 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
           <h2 className="text-xl font-bold text-ink">Alternativas a considerar</h2>
           <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
             {alternativas.map((alt) => (
-              <BikeDealCard key={alt.id} bike={alt} />
+              <BikeDealCard key={alt.id} bike={alt} showBuyCta />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {guiasRelacionadas.length > 0 && (
+        <section className="mx-auto max-w-[1280px] px-5 py-10 sm:px-8">
+          <h2 className="text-xl font-bold text-ink">Guías relacionadas</h2>
+          <div className="mt-5 flex flex-col gap-3">
+            {guiasRelacionadas.map((guia) => (
+              <Link
+                key={guia.id}
+                href={`/guias/${guia.slug}/`}
+                className="flex items-center justify-between gap-4 rounded-2xl border border-line p-5 transition-shadow hover:shadow-lg"
+              >
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-mut">{guia.categoria}</p>
+                  <h3 className="mt-0.5 font-semibold text-ink">{guia.titulo}</h3>
+                  <p className="mt-1 text-sm text-mut">{guia.resumen}</p>
+                </div>
+                <ArrowRightIcon className="size-4 shrink-0 text-mut" />
+              </Link>
             ))}
           </div>
         </section>
@@ -327,6 +366,15 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
           Ver todo el catálogo <ArrowRightIcon className="size-3.5" />
         </Link>
       </section>
+
+      {ofertaPrincipal && (
+        <StickyBuyCta
+          oferta={ofertaPrincipal}
+          merchantName={merchantPrincipal}
+          precio={bike.precio}
+          modelo={`${bike.marca} ${bike.modelo}`}
+        />
+      )}
     </>
   );
 }
