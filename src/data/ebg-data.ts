@@ -368,7 +368,7 @@ const BIKES_RAW: BikeRaw[] = [
     medidasPropias: null,
     fechaActualizacion: "2026-08-27",
     fechaPrecioComprobado: null,
-    destacada: true,
+    destacada: false,
   },
   {
     id: "b03",
@@ -562,7 +562,7 @@ const BIKES_RAW: BikeRaw[] = [
     medidasPropias: null,
     fechaActualizacion: "2026-08-27",
     fechaPrecioComprobado: null,
-    destacada: true,
+    destacada: false,
   },
   {
     id: "b06",
@@ -629,7 +629,7 @@ const BIKES_RAW: BikeRaw[] = [
     medidasPropias: null,
     fechaActualizacion: "2026-08-27",
     fechaPrecioComprobado: "2026-08-27",
-    destacada: false,
+    destacada: true,
   },
   {
     id: "b08",
@@ -694,7 +694,7 @@ const BIKES_RAW: BikeRaw[] = [
     medidasPropias: null,
     fechaActualizacion: "2026-08-27",
     fechaPrecioComprobado: "2026-08-27",
-    destacada: true,
+    destacada: false,
   },
   {
     id: "b09",
@@ -955,7 +955,7 @@ const BIKES_RAW: BikeRaw[] = [
     medidasPropias: null,
     fechaActualizacion: "2026-08-27",
     fechaPrecioComprobado: "2026-08-27",
-    destacada: true,
+    destacada: false,
   },
   {
     id: "b13",
@@ -1019,7 +1019,7 @@ const BIKES_RAW: BikeRaw[] = [
     medidasPropias: null,
     fechaActualizacion: "2026-08-27",
     fechaPrecioComprobado: "2026-08-27",
-    destacada: true,
+    destacada: false,
   },
   {
     id: "b14",
@@ -1149,7 +1149,7 @@ const BIKES_RAW: BikeRaw[] = [
     medidasPropias: null,
     fechaActualizacion: "2026-08-27",
     fechaPrecioComprobado: null,
-    destacada: true,
+    destacada: false,
   },
 ];
 
