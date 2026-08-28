@@ -20,7 +20,8 @@ const SCHEMA_AVAILABILITY: Record<string, string> = {
 const priceFormatter = new Intl.NumberFormat("es-ES", {
   style: "currency",
   currency: "EUR",
-  maximumFractionDigits: 0,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
 });
 
 const BATERIA_EXTRAIBLE_LABEL: Record<"true" | "false" | "null", string> = {

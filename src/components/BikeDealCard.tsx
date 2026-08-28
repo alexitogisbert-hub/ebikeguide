@@ -12,7 +12,8 @@ import { HeartIcon } from "./icons";
 const priceFormatter = new Intl.NumberFormat("es-ES", {
   style: "currency",
   currency: "EUR",
-  maximumFractionDigits: 0,
+  minimumFractionDigits: 0,
+  maximumFractionDigits: 2,
 });
 
 /**
