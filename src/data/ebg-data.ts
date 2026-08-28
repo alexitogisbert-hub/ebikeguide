@@ -19,6 +19,7 @@ export type Categoria = {
   slug: string;
   nombre: string;
   claim: string;
+  imagen: string;
   imagenPlaceholder: string;
   modelosCount: number;
 };
@@ -330,7 +331,7 @@ const BIKES_RAW: BikeRaw[] = [
       },
     ],
     alternativas: ["b02", "b03"],
-    imagen: "",
+    imagen: "/bikes/colorway-bk15.webp",
     imagenPlaceholder: "COLORWAY BK15 azul apoyada junto a un carril bici urbano",
     galeria: null,
     medidasPropias: null,
@@ -1174,7 +1175,7 @@ const BIKES_RAW: BikeRaw[] = [
       },
     ],
     alternativas: ["b10"],
-    imagen: "",
+    imagen: "/bikes/fischer-viator-42i.webp",
     imagenPlaceholder: "Fischer Viator 4.2i con alforjas en una ruta de trekking",
     galeria: null,
     medidasPropias: null,
@@ -1207,6 +1208,7 @@ const CATEGORIAS_BASE: Omit<Categoria, "modelosCount">[] = [
     slug: "urbanas",
     nombre: "Urbanas",
     claim: "Para el día a día en ciudad",
+    imagen: "/bikes/colorway-bk15.webp",
     imagenPlaceholder: "Ciclista urbano en e-bike cruzando un carril bici en la ciudad",
   },
   {
@@ -1214,6 +1216,7 @@ const CATEGORIAS_BASE: Omit<Categoria, "modelosCount">[] = [
     slug: "plegables",
     nombre: "Plegables",
     claim: "Se pliegan, caben en cualquier sitio",
+    imagen: "",
     imagenPlaceholder: "E-bike plegable apoyada junto a una mochila en un andén de tren",
   },
   {
@@ -1221,6 +1224,7 @@ const CATEGORIAS_BASE: Omit<Categoria, "modelosCount">[] = [
     slug: "montana",
     nombre: "Montaña",
     claim: "Motor y suspensión para el barro",
+    imagen: "",
     imagenPlaceholder: "E-bike de montaña subiendo un sendero forestal con suspensión activa",
   },
   {
@@ -1228,6 +1232,7 @@ const CATEGORIAS_BASE: Omit<Categoria, "modelosCount">[] = [
     slug: "trekking",
     nombre: "Trekking",
     claim: "Rutas largas con equipaje",
+    imagen: "/bikes/fischer-viator-42i.webp",
     imagenPlaceholder: "E-bike de trekking con alforjas en una ruta de gravilla",
   },
   {
@@ -1235,6 +1240,7 @@ const CATEGORIAS_BASE: Omit<Categoria, "modelosCount">[] = [
     slug: "cargo",
     nombre: "Cargo",
     claim: "Lleva niños o la compra sin sudar",
+    imagen: "",
     imagenPlaceholder: "E-bike de carga con caja delantera transportando a dos niños",
   },
 ];

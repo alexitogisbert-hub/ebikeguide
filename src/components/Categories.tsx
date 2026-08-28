@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { EBG_DATA } from "@/data/ebg-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
@@ -25,7 +26,13 @@ export function Categories() {
             href={`/bicicletas-electricas/?categoria=${cat.slug}`}
             className="group overflow-hidden rounded-2xl border border-line transition-transform duration-200 hover:-translate-y-1 hover:shadow-lg"
           >
-            <ImagePlaceholder label={cat.imagenPlaceholder} className="h-[132px] w-full" />
+            {cat.imagen ? (
+              <div className="relative h-[132px] w-full">
+                <Image src={cat.imagen} alt={cat.imagenPlaceholder} fill className="object-cover" />
+              </div>
+            ) : (
+              <ImagePlaceholder label={cat.imagenPlaceholder} className="h-[132px] w-full" />
+            )}
             <div className="p-4">
               <h3 className="font-semibold text-ink">{cat.nombre}</h3>
               <p className="mt-1 text-sm text-mut">{cat.claim}</p>
