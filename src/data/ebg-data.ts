@@ -161,6 +161,7 @@ export type Guia = {
   titulo: string;
   resumen: string;
   minutosLectura: number;
+  imagen: string;
   imagenPlaceholder: string;
   cuerpo: string[];
   productos: string[];
@@ -1295,6 +1296,7 @@ export const EBG_DATA = {
       resumen:
         "Comparamos par, peso, ruido y autonomía real de los tres motores más habituales del mercado para que sepas cuál encaja con tu forma de rodar.",
       minutosLectura: 9,
+      imagen: "/guias/bosch-vs-shimano-vs-yamaha-que-motor-elegir.webp",
       imagenPlaceholder: "Primer plano de tres motores de e-bike distintos montados en cuadro",
       cuerpo: [
         "El motor es lo primero que se anuncia y lo último que se entiende bien. Hay dos familias: motores centrales, montados en el eje de pedalier, y motores de buje, en la rueda delantera o trasera. La diferencia no es solo de ubicación: cambia cómo se reparte el peso, cómo responde en rampa y cuánto puedes exigirle.",
@@ -1315,6 +1317,7 @@ export const EBG_DATA = {
       resumen:
         "La autonomía anunciada casi nunca coincide con la real. Te explicamos qué factores la reducen y cuántos Wh necesitas según tu ruta.",
       minutosLectura: 6,
+      imagen: "/guias/como-elegir-la-autonomia-que-necesitas.webp",
       imagenPlaceholder: "Indicador de batería de una e-bike mostrado en un display central",
       cuerpo: [
         "La cifra de autonomía de una ficha técnica suele venir del test más favorable posible: asistencia mínima, terreno llano, ciclista ligero. En condiciones reales —asistencia alta, cuestas, más peso— es habitual perder entre un 30 % y un 50 % de esa cifra.",
@@ -1333,6 +1336,7 @@ export const EBG_DATA = {
       resumen:
         "Temperatura, ciclos de carga y almacenamiento en invierno: los hábitos que más alargan la vida útil de una batería de litio.",
       minutosLectura: 5,
+      imagen: "/guias/cuidados-basicos-bateria-e-bike.webp",
       imagenPlaceholder: "Batería extraíble de e-bike cargándose sobre una mesa de taller",
       cuerpo: [
         "Las baterías de e-bike son de ion-litio y se degradan por ciclos de carga y por temperatura, no solo por el paso del tiempo. Cargar entre el 20 % y el 80 % en el día a día, en vez de siempre a 100 %, reduce el estrés químico y alarga la vida útil.",
@@ -1351,6 +1355,7 @@ export const EBG_DATA = {
       resumen:
         "Repasamos la clasificación legal de las bicicletas eléctricas en España, seguro, casco y en qué casos se consideran ciclomotor.",
       minutosLectura: 7,
+      imagen: "/guias/normativa-e-bikes-espana.webp",
       imagenPlaceholder: "Señal de tráfico de carril bici junto a una e-bike aparcada",
       cuerpo: [
         "En España y la UE, una e-bike homologada como EPAC (pedaleo asistido) tiene un motor de hasta 250 W que deja de asistir a partir de 25 km/h. Todas las bicis de dos ruedas de este catálogo, como la COLORWAY BK15 o la ENGWE P275 SE, son de este tipo: legalmente se consideran bicicletas normales.",

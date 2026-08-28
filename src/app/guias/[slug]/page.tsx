@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -77,7 +78,13 @@ export default async function GuiaDetallePage({
           </h1>
           <p className="mt-3 text-sm text-mut">{guia.minutosLectura} min de lectura</p>
 
-          <ImagePlaceholder label={guia.imagenPlaceholder} className="mt-8 h-[280px] w-full rounded-[24px]" />
+          {guia.imagen ? (
+            <div className="relative mt-8 h-[280px] w-full overflow-hidden rounded-[24px]">
+              <Image src={guia.imagen} alt={guia.imagenPlaceholder} fill className="object-cover" />
+            </div>
+          ) : (
+            <ImagePlaceholder label={guia.imagenPlaceholder} className="mt-8 h-[280px] w-full rounded-[24px]" />
+          )}
 
           <div className="mt-8 flex flex-col gap-5 text-[17px] leading-relaxed text-ink">
             {guia.cuerpo.map((parrafo, i) => (

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -26,7 +27,13 @@ export default function GuiasPage() {
                 href={`/guias/${guia.slug}/`}
                 className="overflow-hidden rounded-2xl border border-line transition-shadow duration-200 hover:shadow-lg"
               >
-                <ImagePlaceholder label={guia.imagenPlaceholder} className="h-[160px] w-full" />
+                {guia.imagen ? (
+                  <div className="relative h-[160px] w-full">
+                    <Image src={guia.imagen} alt={guia.imagenPlaceholder} fill className="object-cover" />
+                  </div>
+                ) : (
+                  <ImagePlaceholder label={guia.imagenPlaceholder} className="h-[160px] w-full" />
+                )}
                 <div className="p-5">
                   <p className="text-xs font-semibold uppercase tracking-wide text-acc-d">{guia.categoria}</p>
                   <h2 className="mt-1.5 font-bold text-ink">{guia.titulo}</h2>

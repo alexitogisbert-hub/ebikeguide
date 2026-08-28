@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { EBG_DATA } from "@/data/ebg-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
@@ -28,7 +29,13 @@ export function GuidesNewsletterTrust() {
             href={`/guias/${featured.slug}/`}
             className="mt-6 block overflow-hidden rounded-2xl border border-line transition-shadow duration-200 hover:shadow-lg"
           >
-            <ImagePlaceholder label={featured.imagenPlaceholder} className="h-[190px] w-full" />
+            {featured.imagen ? (
+              <div className="relative h-[190px] w-full">
+                <Image src={featured.imagen} alt={featured.imagenPlaceholder} fill className="object-cover" />
+              </div>
+            ) : (
+              <ImagePlaceholder label={featured.imagenPlaceholder} className="h-[190px] w-full" />
+            )}
             <div className="p-6">
               <p className="text-xs font-semibold uppercase tracking-wide text-acc-d">
                 {featured.categoria}
@@ -46,7 +53,13 @@ export function GuidesNewsletterTrust() {
                   href={`/guias/${guia.slug}/`}
                   className="flex items-center gap-4 py-4 hover:bg-surf"
                 >
-                  <ImagePlaceholder label={guia.imagenPlaceholder} className="size-14 shrink-0 rounded-xl" />
+                  {guia.imagen ? (
+                    <div className="relative size-14 shrink-0 overflow-hidden rounded-xl">
+                      <Image src={guia.imagen} alt={guia.imagenPlaceholder} fill className="object-cover" />
+                    </div>
+                  ) : (
+                    <ImagePlaceholder label={guia.imagenPlaceholder} className="size-14 shrink-0 rounded-xl" />
+                  )}
                   <div className="min-w-0">
                     <p className="text-xs font-semibold uppercase tracking-wide text-acc-d">
                       {guia.categoria}

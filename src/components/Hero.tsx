@@ -1,6 +1,6 @@
+import Image from "next/image";
 import Link from "next/link";
 import { EBG_DATA } from "@/data/ebg-data";
-import { ImagePlaceholder } from "./ImagePlaceholder";
 
 const MARCAS_ANALIZADAS = Array.from(new Set(EBG_DATA.bikes.map((bike) => bike.marca)));
 
@@ -43,10 +43,15 @@ export function Hero() {
           <p className="mt-5 max-w-[46ch] text-sm text-mut">{EBG_DATA.trustItems[0]}.</p>
         </div>
 
-        <ImagePlaceholder
-          label="Fotografía editorial de una persona pedaleando una e-bike urbana al atardecer"
-          className="hidden aspect-[3/2] w-full rounded-[32px] lg:flex"
-        />
+        <div className="relative hidden aspect-[3/2] w-full overflow-hidden rounded-[32px] lg:block">
+          <Image
+            src="/hero.webp"
+            alt="Persona pedaleando una e-bike urbana al atardecer"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
       </div>
     </section>
   );
