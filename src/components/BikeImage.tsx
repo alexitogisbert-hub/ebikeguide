@@ -1,7 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
+import { useCallback, useEffect, useRef, useState } from "react";
 import type { Bike } from "@/data/ebg-data";
 import { ImagePlaceholder } from "./ImagePlaceholder";
 import { useAdminMode } from "@/hooks/useAdminMode";
@@ -16,7 +15,7 @@ const TIPO_LABELS: Record<string, string> = {
 
 export function BikeImage({ bike, className = "" }: { bike: Bike; className?: string }) {
   const [src, setSrc] = useState<string | null>(bike.imagen || null);
-  const [loading, setLoading] = useState(!bike.imagen);
+  const [checked, setChecked] = useState(!!bike.imagen);
   const [uploading, setUploading] = useState(false);
   const admin = useAdminMode();
 
@@ -25,10 +24,10 @@ export function BikeImage({ bike, className = "" }: { bike: Bike; className?: st
     let cancelled = false;
     fetch(`/api/bike-image/${bike.slug}`, { method: "HEAD" })
       .then((res) => {
-        if (!cancelled && res.ok) setSrc(`/api/bike-image/${bike.slug}`);
+        if (!cancelled && res.ok) setSrc(`/api/bike-image/${bike.slug}?t=${Date.now()}`);
       })
       .catch(() => {})
-      .finally(() => { if (!cancelled) setLoading(false); });
+      .finally(() => { if (!cancelled) setChecked(true); });
     return () => { cancelled = true; };
   }, [bike.imagen, bike.slug]);
 
@@ -57,79 +56,86 @@ export function BikeImage({ bike, className = "" }: { bike: Bike; className?: st
     [bike.slug],
   );
 
-  if (loading) {
-    return <ImagePlaceholder label={bike.imagenPlaceholder} className={className} />;
-  }
-
-  if (!src) {
-    if (admin) {
-      return (
-        <DropZone className={className} uploading={uploading} onFile={handleUpload}>
-          <ImagePlaceholder label={bike.imagenPlaceholder} className={className} />
-        </DropZone>
-      );
-    }
-    return <ImagePlaceholder label={bike.imagenPlaceholder} className={className} />;
-  }
-
   const tipoLabel = TIPO_LABELS[bike.tipo] ?? bike.tipo;
   const alt = `${bike.marca} ${bike.modelo} — e-bike ${tipoLabel}`;
 
-  const imageEl = (
-    <div className={`relative overflow-hidden bg-surf ${className}`}>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-contain p-2" />
-    </div>
-  );
-
-  if (admin) {
+  if (src) {
     return (
-      <DropZone className={className} uploading={uploading} onFile={handleUpload}>
-        {imageEl}
-      </DropZone>
+      <div className={`relative overflow-hidden bg-surf ${className}`}>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} className="absolute inset-0 h-full w-full object-contain p-2" />
+        {admin && <DropOverlay uploading={uploading} onFile={handleUpload} />}
+      </div>
     );
   }
 
-  return imageEl;
-}
-
-function DropZone({
-  children,
-  className,
-  uploading,
-  onFile,
-}: {
-  children: React.ReactNode;
-  className?: string;
-  uploading: boolean;
-  onFile: (file: File) => void;
-}) {
-  const [dragOver, setDragOver] = useState(false);
+  if (!checked) {
+    return <ImagePlaceholder label={bike.imagenPlaceholder} className={className} />;
+  }
 
   return (
-    <div
-      className={`group relative ${className}`}
-      onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
-      onDragLeave={() => setDragOver(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDragOver(false);
-        const file = e.dataTransfer.files[0];
-        if (file) onFile(file);
-      }}
-    >
-      {children}
-      {(dragOver || uploading) && (
-        <div className="absolute inset-0 z-10 flex items-center justify-center bg-acc/30 text-sm font-bold text-white backdrop-blur-sm">
-          {uploading ? "Subiendo..." : "Soltar imagen"}
-        </div>
-      )}
-      {!dragOver && !uploading && (
-        <label className="absolute inset-0 z-10 flex cursor-pointer items-center justify-center bg-black/0 opacity-0 transition-opacity hover:bg-black/40 hover:opacity-100">
-          <input type="file" accept="image/*" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); }} />
-          <span className="rounded-lg bg-white/90 px-3 py-1.5 text-xs font-semibold text-ink shadow">Cambiar imagen</span>
-        </label>
-      )}
+    <div className={`relative ${className}`}>
+      <ImagePlaceholder label={bike.imagenPlaceholder} className="h-full w-full" />
+      {admin && <DropOverlay uploading={uploading} onFile={handleUpload} showHint />}
     </div>
+  );
+}
+
+function DropOverlay({
+  uploading,
+  onFile,
+  showHint = false,
+}: {
+  uploading: boolean;
+  onFile: (file: File) => void;
+  showHint?: boolean;
+}) {
+  const [dragOver, setDragOver] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  return (
+    <>
+      <div
+        className="absolute inset-0 z-10"
+        onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => {
+          e.preventDefault();
+          setDragOver(false);
+          const file = e.dataTransfer.files[0];
+          if (file) onFile(file);
+        }}
+      >
+        {(dragOver || uploading) && (
+          <div className="flex h-full w-full items-center justify-center bg-acc/30 text-sm font-bold text-white backdrop-blur-sm">
+            {uploading ? "Subiendo..." : "Soltar imagen"}
+          </div>
+        )}
+        {!dragOver && !uploading && (
+          <button
+            type="button"
+            onClick={() => inputRef.current?.click()}
+            className={`flex h-full w-full cursor-pointer items-center justify-center transition-opacity ${
+              showHint ? "bg-black/20 opacity-100" : "bg-black/0 opacity-0 hover:bg-black/40 hover:opacity-100"
+            }`}
+          >
+            <span className="rounded-lg bg-white/90 px-3 py-1.5 text-xs font-semibold text-ink shadow">
+              {showHint ? "Arrastra o haz clic" : "Cambiar imagen"}
+            </span>
+          </button>
+        )}
+      </div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) onFile(f);
+          if (inputRef.current) inputRef.current.value = "";
+        }}
+      />
+    </>
   );
 }
