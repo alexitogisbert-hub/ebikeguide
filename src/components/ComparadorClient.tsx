@@ -5,7 +5,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { EBG_DATA } from "@/data/ebg-data";
 import { compararBikes, MAX_BIKES_COMPARADOR } from "@/domain/comparator";
-import { AffiliateLink, ofertaCtaLabel } from "./AffiliateLink";
+import { AffiliateLink } from "./AffiliateLink";
+import { ofertaCtaLabel } from "@/lib/affiliate";
 import { BikeImage } from "./BikeImage";
 import { FavoriteButton } from "./FavoriteButton";
 

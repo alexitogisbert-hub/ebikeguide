@@ -1,5 +1,8 @@
+"use client";
+
 import type { ReactNode } from "react";
 import type { OfertaBike } from "@/data/ebg-data";
+import { trackEvent } from "@/lib/analytics";
 
 /**
  * Every outbound merchant link in the site should go through this component:
@@ -17,9 +20,22 @@ export function AffiliateLink({
   children: ReactNode;
   className?: string;
 }) {
+  function handleClick() {
+    trackEvent("click_buy_button", {
+      merchant: merchantName,
+      precio: oferta.precio,
+    });
+  }
+
   if (oferta.affiliateUrl) {
     return (
-      <a href={oferta.affiliateUrl} target="_blank" rel="sponsored nofollow noopener noreferrer" className={className}>
+      <a
+        href={oferta.affiliateUrl}
+        target="_blank"
+        rel="sponsored nofollow noopener noreferrer"
+        className={className}
+        onClick={handleClick}
+      >
         {children}
       </a>
     );
@@ -30,7 +46,13 @@ export function AffiliateLink({
   // enlace inerte.
   if (oferta.urlProducto) {
     return (
-      <a href={oferta.urlProducto} target="_blank" rel="nofollow noopener noreferrer" className={className}>
+      <a
+        href={oferta.urlProducto}
+        target="_blank"
+        rel="nofollow noopener noreferrer"
+        className={className}
+        onClick={handleClick}
+      >
         {children}
       </a>
     );
@@ -43,9 +65,3 @@ export function AffiliateLink({
   );
 }
 
-/** Texto del CTA para una oferta, según qué enlace tengamos disponible. */
-export function ofertaCtaLabel(oferta: OfertaBike): string {
-  if (oferta.affiliateUrl) return "Ver oferta";
-  if (oferta.urlProducto) return "Ver precio actual en Amazon";
-  return "Enlace pendiente";
-}

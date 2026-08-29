@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import type { OfertaBike } from "@/data/ebg-data";
-import { AffiliateLink, ofertaCtaLabel } from "./AffiliateLink";
+import { AffiliateLink } from "./AffiliateLink";
+import { ofertaCtaLabel } from "@/lib/affiliate";
 
 const priceFormatter = new Intl.NumberFormat("es-ES", {
   style: "currency",

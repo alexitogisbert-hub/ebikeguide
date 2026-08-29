@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Manrope } from "next/font/google";
 import { FavoritesProvider } from "@/lib/favorites-context";
 import { CookieConsentBanner } from "@/components/CookieConsentBanner";
+import { GoogleAnalytics } from "@/components/GoogleAnalytics";
 import { EBG_DATA } from "@/data/ebg-data";
 import "./globals.css";
 
@@ -39,6 +40,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="bg-white text-ink font-sans antialiased">
         <FavoritesProvider>{children}</FavoritesProvider>
         <CookieConsentBanner />
+        <GoogleAnalytics />
       </body>
     </html>
   );

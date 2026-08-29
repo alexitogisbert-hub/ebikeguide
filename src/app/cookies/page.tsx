@@ -21,8 +21,14 @@ const STORAGE_ROWS = [
   {
     nombre: "ebg:cookies-consent",
     tipo: "localStorage (no es una cookie)",
-    finalidad: "Recordar que ya has visto y cerrado este aviso, para no repetirlo en cada visita.",
+    finalidad: "Recordar tu elección sobre este aviso (aceptar o rechazar), para no repetirlo en cada visita.",
     duracion: "Hasta que borres los datos del sitio.",
+  },
+  {
+    nombre: "_ga, _ga_*",
+    tipo: "Cookie de analítica (Google Analytics)",
+    finalidad: "Medir visitas y qué páginas se leen más, de forma agregada. Solo se instalan si pulsas «Aceptar» en el aviso de cookies.",
+    duracion: "Hasta 2 años (gestionado por Google).",
   },
 ];
 
@@ -37,10 +43,11 @@ export default function CookiesPage() {
             <section>
               <h2 className="text-lg font-bold">Lo importante</h2>
               <p className="mt-2 text-mut">
-                {EBG_DATA.meta.nombre} no instala cookies de analítica, publicidad ni seguimiento de terceros en esta
-                demo. Lo único que guardamos en tu navegador es almacenamiento local (
+                {EBG_DATA.meta.nombre} usa Google Analytics para saber cuánta gente visita la web y qué páginas
+                funcionan mejor — pero solo si aceptas el aviso de cookies; si lo rechazas, no se instala. Aparte de
+                eso, lo único que guardamos en tu navegador es almacenamiento local (
                 <code className="rounded bg-surf px-1.5 py-0.5">localStorage</code>), que técnicamente no es una
-                cookie, pero lo explicamos aquí igualmente por transparencia.
+                cookie, pero lo explicamos aquí igualmente por transparencia. No usamos cookies de publicidad.
               </p>
             </section>
 

@@ -21,10 +21,13 @@ export function CookieConsentBanner() {
     }
   }, []);
 
-  function dismiss() {
+  function choose(value: "granted" | "denied") {
     setVisible(false);
     try {
-      window.localStorage.setItem(STORAGE_KEY, "1");
+      window.localStorage.setItem(STORAGE_KEY, value);
+      // Avisa a GoogleAnalytics (montado aparte en el layout) para que se active sin
+      // necesidad de recargar la página si el usuario acepta.
+      window.dispatchEvent(new Event("ebg:consent-changed"));
     } catch {
       // Si no se puede guardar, el banner volverá a aparecer en la próxima visita — no es grave.
     }
@@ -40,20 +43,30 @@ export function CookieConsentBanner() {
     >
       <div className="mx-auto flex max-w-[1280px] flex-col items-center gap-3 px-5 py-4 sm:flex-row sm:justify-between sm:px-8">
         <p className="text-sm text-mut">
-          Guardamos tus favoritos solo en este navegador (almacenamiento local, no cookies de terceros). Al seguir un
-          enlace hacia una tienda, esa tienda puede usar sus propias cookies.{" "}
+          Usamos Google Analytics para saber cuánta gente visita la web, solo si lo aceptas. Tus favoritos se
+          guardan en este navegador sin necesidad de cookies. Al seguir un enlace hacia una tienda, esa tienda puede
+          usar sus propias cookies.{" "}
           <Link href="/cookies/" className="underline hover:text-ink">
             Más información sobre cookies
           </Link>
           .
         </p>
-        <button
-          type="button"
-          onClick={dismiss}
-          className="shrink-0 rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white hover:bg-acc-d"
-        >
-          Entendido
-        </button>
+        <div className="flex shrink-0 gap-2">
+          <button
+            type="button"
+            onClick={() => choose("denied")}
+            className="rounded-full border border-line px-5 py-2.5 text-sm font-semibold text-ink hover:border-ink"
+          >
+            Rechazar
+          </button>
+          <button
+            type="button"
+            onClick={() => choose("granted")}
+            className="rounded-full bg-ink px-5 py-2.5 text-sm font-semibold text-white hover:bg-acc-d"
+          >
+            Aceptar
+          </button>
+        </div>
       </div>
     </div>
   );

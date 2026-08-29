@@ -5,7 +5,8 @@ import type { Bike } from "@/data/ebg-data";
 import { EBG_DATA } from "@/data/ebg-data";
 import { obtenerBadgePrincipal } from "@/domain/scoring";
 import { useFavorites } from "@/lib/favorites-context";
-import { AffiliateLink, ofertaCtaLabel } from "./AffiliateLink";
+import { AffiliateLink } from "./AffiliateLink";
+import { ofertaCtaLabel } from "@/lib/affiliate";
 import { BikeImage } from "./BikeImage";
 import { HeartIcon } from "./icons";
 

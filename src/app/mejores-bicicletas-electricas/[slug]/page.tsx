@@ -5,7 +5,8 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ImagePlaceholder } from "@/components/ImagePlaceholder";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
-import { AffiliateLink, ofertaCtaLabel } from "@/components/AffiliateLink";
+import { AffiliateLink } from "@/components/AffiliateLink";
+import { ofertaCtaLabel } from "@/lib/affiliate";
 import { EBG_DATA } from "@/data/ebg-data";
 import { pageMetadata } from "@/lib/seo";
 

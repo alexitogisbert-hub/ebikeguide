@@ -6,7 +6,8 @@ import { FavoriteButton } from "./FavoriteButton";
 import { SubsBreakdown } from "./SubsBreakdown";
 import { BikeDealCard } from "./BikeDealCard";
 import { Breadcrumbs } from "./Breadcrumbs";
-import { AffiliateLink, ofertaCtaLabel } from "./AffiliateLink";
+import { AffiliateLink } from "./AffiliateLink";
+import { ofertaCtaLabel } from "@/lib/affiliate";
 import { StickyBuyCta } from "./StickyBuyCta";
 import { ArrowRightIcon } from "./icons";
 
