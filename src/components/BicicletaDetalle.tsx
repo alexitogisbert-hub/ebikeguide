@@ -178,7 +178,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
                   merchantName={merchantPrincipal}
                   className="inline-flex items-center rounded-full bg-acc px-6 py-3 text-sm font-bold text-dark transition-opacity hover:opacity-90"
                 >
-                  {ofertaCtaLabel(ofertaPrincipal)}
+                  {ofertaCtaLabel(ofertaPrincipal, { discountPct })}
                 </AffiliateLink>
               )}
               {bike.ofertas.length > 1 && (
@@ -311,7 +311,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
                         : "rounded-full border border-line px-4 py-2 text-sm font-semibold text-mut"
                     }
                   >
-                    {ofertaCtaLabel(oferta)}
+                    {ofertaCtaLabel(oferta, { discountPct })}
                   </AffiliateLink>
                 </div>
               </div>
@@ -374,6 +374,7 @@ export function BicicletaDetalle({ bike }: { bike: Bike }) {
           merchantName={merchantPrincipal}
           precio={bike.precio}
           modelo={`${bike.marca} ${bike.modelo}`}
+          discountPct={discountPct}
         />
       )}
     </>

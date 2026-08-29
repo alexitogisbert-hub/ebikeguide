@@ -17,11 +17,13 @@ export function StickyBuyCta({
   merchantName,
   precio,
   modelo,
+  discountPct,
 }: {
   oferta: OfertaBike;
   merchantName: string;
   precio: number;
   modelo: string;
+  discountPct?: number | null;
 }) {
   const [visible, setVisible] = useState(false);
 
@@ -59,7 +61,7 @@ export function StickyBuyCta({
           merchantName={merchantName}
           className="shrink-0 rounded-full bg-acc px-5 py-2.5 text-sm font-bold text-dark transition-opacity hover:opacity-90"
         >
-          {ofertaCtaLabel(oferta)}
+          {ofertaCtaLabel(oferta, { discountPct })}
         </AffiliateLink>
       </div>
     </div>

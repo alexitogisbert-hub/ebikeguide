@@ -85,6 +85,16 @@ export function BikeDealCard({ bike, showBuyCta = false }: { bike: Bike; showBuy
             </span>
           )}
         </div>
+        {bike.fechaPrecioComprobado && (
+          <p className="mt-0.5 text-xs text-mut">
+            Precio comprobado el{" "}
+            {new Date(bike.fechaPrecioComprobado).toLocaleDateString("es-ES", {
+              day: "numeric",
+              month: "long",
+              year: "numeric",
+            })}
+          </p>
+        )}
 
         {showBuyCta && ofertaPrincipal ? (
           <div className="mt-4 flex flex-col gap-2">
@@ -93,7 +103,7 @@ export function BikeDealCard({ bike, showBuyCta = false }: { bike: Bike; showBuy
               merchantName={merchantPrincipal}
               className="flex items-center justify-center rounded-full bg-acc py-3 text-sm font-bold text-dark transition-opacity hover:opacity-90"
             >
-              {ofertaCtaLabel(ofertaPrincipal)}
+              {ofertaCtaLabel(ofertaPrincipal, { discountPct })}
             </AffiliateLink>
             <Link
               href={`/bicicletas-electricas/${bike.slug}/`}

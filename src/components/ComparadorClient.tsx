@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 import { EBG_DATA } from "@/data/ebg-data";
 import { compararBikes, MAX_BIKES_COMPARADOR } from "@/domain/comparator";
+import { obtenerBadgePrincipal } from "@/domain/scoring";
 import { AffiliateLink } from "./AffiliateLink";
 import { ofertaCtaLabel } from "@/lib/affiliate";
 import { BikeImage } from "./BikeImage";
@@ -92,7 +93,11 @@ export function ComparadorClient() {
                         className="absolute right-2 top-2 flex size-8 items-center justify-center rounded-full bg-white/90 text-ink hover:bg-white"
                       />
                     </div>
-                    <Link href={`/bicicletas-electricas/${bike.slug}/`} className="mt-2 block font-semibold text-ink hover:text-acc-d">
+                    <span className="mt-2 inline-flex items-center gap-1 rounded-full bg-acc-s px-2 py-0.5 text-xs font-bold text-acc-d">
+                      <span aria-hidden="true">{obtenerBadgePrincipal(bike).emoji}</span>
+                      {obtenerBadgePrincipal(bike).etiqueta}
+                    </span>
+                    <Link href={`/bicicletas-electricas/${bike.slug}/`} className="mt-1.5 block font-semibold text-ink hover:text-acc-d">
                       {bike.marca} {bike.modelo}
                     </Link>
                     <button
@@ -122,15 +127,18 @@ export function ComparadorClient() {
                 {comparativa.bikes.map((bike) => {
                   const oferta = bike.ofertas[0];
                   const merchant = EBG_DATA.merchants.find((m) => m.id === oferta?.merchantId);
+                  const discountPct = bike.precioAnterior
+                    ? Math.round((1 - bike.precio / bike.precioAnterior) * 100)
+                    : null;
                   return (
                     <td key={bike.id} className="px-3 py-3">
                       {oferta ? (
                         <AffiliateLink
                           oferta={oferta}
                           merchantName={merchant?.nombre ?? oferta.merchantId}
-                          className="inline-flex items-center rounded-full bg-ink px-4 py-2 text-xs font-semibold text-white hover:bg-acc-d"
+                          className="inline-flex items-center rounded-full bg-acc px-4 py-2 text-xs font-bold text-dark transition-opacity hover:opacity-90"
                         >
-                          {ofertaCtaLabel(oferta)}
+                          {ofertaCtaLabel(oferta, { discountPct })}
                         </AffiliateLink>
                       ) : (
                         <span className="text-xs text-mut">Sin oferta</span>

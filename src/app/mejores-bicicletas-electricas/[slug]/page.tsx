@@ -120,6 +120,9 @@ export default async function MejorDetallePage({
               const merchantName = oferta
                 ? (EBG_DATA.merchants.find((m) => m.id === oferta.merchantId)?.nombre ?? oferta.merchantId)
                 : "";
+              const discountPct = bike.precioAnterior
+                ? Math.round((1 - bike.precio / bike.precioAnterior) * 100)
+                : null;
               return (
                 <div
                   key={bike.id}
@@ -143,7 +146,7 @@ export default async function MejorDetallePage({
                         merchantName={merchantName}
                         className="inline-flex items-center rounded-full bg-acc px-4 py-2 text-sm font-bold text-dark transition-opacity hover:opacity-90"
                       >
-                        {ofertaCtaLabel(oferta)}
+                        {ofertaCtaLabel(oferta, { discountPct })}
                       </AffiliateLink>
                     )}
                   </div>
