@@ -21,6 +21,24 @@ export type IntentBlock = { heading: string; body: string };
  * no se añade contenido de relleno a categorías sin un dato real que sostenga el titular.
  */
 export const CATEGORY_INTENT_CONTENT: Record<string, IntentBlock[]> = {
+  urbanas: [
+    {
+      heading: "¿Cuál es la mejor bicicleta eléctrica urbana ligera y con buen par motor?",
+      body: "En nuestro catálogo, la ONESPORT OT07 combina el mismo peso que la más ligera de la categoría (24 kg) con el par motor más alto de las tres urbanas (65 Nm), a 729 €. La ENGWE P275 SE pesa igual (24 kg) pero con menos par (42 Nm) y algo más cara (899 €). Si el precio es lo único que importa, la COLORWAY BK15 es la más barata (600 €), aunque también la más pesada (39 kg) y sin par motor confirmado por el fabricante.",
+    },
+  ],
+  trekking: [
+    {
+      heading: "¿Cuál es la mejor e-bike de trekking para rutas largas con equipaje?",
+      body: "La Fischer Viator 4.2i destaca con 80 Nm de par motor, el más alto de las bicis de trekking del catálogo, ideal si vas a cargar alforjas o hacer rutas con desnivel. Cuesta 1.400 €, casi el doble que la Touroll J1/J2 ST (699 €, 45 Nm), que es la opción más económica de esta categoría si no necesitas tanto par.",
+    },
+  ],
+  cargo: [
+    {
+      heading: "¿Qué bicicleta eléctrica de carga tenemos analizada para niños o la compra?",
+      body: "Por ahora solo hemos investigado un modelo en esta categoría: la Fafrees FF20 CUV (1.800 €), con doble suspensión, carga máxima de 200 kg y autonomía de 100 a 140 km, pensada para llevar peso de forma estable, no solo para desplazarse. Iremos ampliando esta categoría con más modelos según los investiguemos.",
+    },
+  ],
   montana: [
     {
       heading: "¿Cuál es la mejor e-bike para subir cuestas empinadas?",

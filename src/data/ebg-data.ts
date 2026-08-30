@@ -1282,7 +1282,7 @@ export const EBG_DATA = {
         "El par (Nm) importa más que la potencia nominal, que en la UE está limitada a 250 W en la mayoría de casos. Un motor de 80 Nm como el de la Antgooat Speedy 29 tira bien en rampa; uno de 40-50 Nm en una bici ligera es suficiente porque hay menos peso que mover.",
         "La recomendación práctica: si vas a llevar peso, subir cuestas con regularidad o rodar más de 40 km por salida, prioriza un motor central de par alto. Si tu uso es plano, corto y el precio manda, un motor de buje cumple y abarata la bici de forma notable.",
       ],
-      productos: ["b15", "b05", "b08"],
+      productos: ["b15", "b05", "b08", "b03"],
       fechaPublicacion: "2026-07-14",
       destacada: true,
     },
@@ -1302,7 +1302,7 @@ export const EBG_DATA = {
         "Como referencia de este catálogo: la ENGWE EP-2 BOOST declara hasta 120 km con 624 Wh; la HITWAY BK6SL1 declara entre 70 y 150 km con 562 Wh. La diferencia no es solo de batería — el nivel de asistencia usado cambia drásticamente el consumo real.",
         "Regla práctica: calcula tu trayecto habitual en km, multiplícalo por dos si sueles ir en asistencia alta o hay cuestas, y busca una bici cuya autonomía mínima cubra ese número sin apurar la batería por debajo del 20 % de forma sistemática.",
       ],
-      productos: ["b12", "b02"],
+      productos: ["b12", "b04"],
       fechaPublicacion: "2026-06-02",
     },
     {
