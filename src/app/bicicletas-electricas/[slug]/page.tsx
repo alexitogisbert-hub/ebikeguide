@@ -6,8 +6,11 @@ import { PageHeader } from "@/components/PageHeader";
 import { CatalogoBicicletas } from "@/components/CatalogoBicicletas";
 import { BicicletaDetalle } from "@/components/BicicletaDetalle";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
+import { CategoriaIntentContent } from "@/components/CategoriaIntentContent";
+import { FaqSection } from "@/components/FaqSection";
 import { EBG_DATA } from "@/data/ebg-data";
 import { pageMetadata } from "@/lib/seo";
+import { CATEGORY_TITLES, FAQ_GENERAL } from "@/lib/seoContent";
 
 function getCategoria(slug: string) {
   return EBG_DATA.categorias.find((c) => c.slug === slug);
@@ -34,7 +37,7 @@ export async function generateMetadata({
   const categoria = getCategoria(slug);
   if (categoria) {
     return pageMetadata({
-      title: `Mejores bicicletas eléctricas ${categoria.nombre.toLowerCase()} de 2026 | eBikeGuide`,
+      title: CATEGORY_TITLES[categoria.id] ?? `Mejores bicicletas eléctricas ${categoria.nombre.toLowerCase()} de 2026 | eBikeGuide`,
       description: `Comparamos las ${categoria.modelosCount} mejores e-bikes ${categoria.nombre.toLowerCase()} disponibles en España: ${categoria.claim.toLowerCase()}. Precios, puntuaciones y ofertas actualizadas.`,
       path: `/bicicletas-electricas/${categoria.slug}/`,
     });
@@ -43,7 +46,7 @@ export async function generateMetadata({
   const bike = getBike(slug);
   if (bike) {
     return pageMetadata({
-      title: `${bike.marca} ${bike.modelo}: análisis, opinión y precio en 2026 | eBikeGuide`,
+      title: `${bike.marca} ${bike.modelo}: Opiniones, Análisis y Mejor Precio | eBikeGuide`,
       description: `${bike.porQue} Puntuación ${bike.puntuacion.toFixed(1)}/10. Precio desde ${bike.precio} €.`,
       path: `/bicicletas-electricas/${bike.slug}/`,
     });
@@ -80,6 +83,8 @@ export default async function BicicletasElectricasSlugPage({
           <div className="mx-auto max-w-[1280px] px-5 pb-16 sm:px-8">
             <CatalogoBicicletas bikes={EBG_DATA.bikes} categorias={EBG_DATA.categorias} initialCategoriaId={categoria.id} />
           </div>
+          <CategoriaIntentContent categoriaId={categoria.id} />
+          <FaqSection items={FAQ_GENERAL} />
         </main>
         <Footer />
       </>
