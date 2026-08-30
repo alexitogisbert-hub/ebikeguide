@@ -51,6 +51,9 @@ export function Header() {
               {link.label}
             </Link>
           ))}
+          <Link href="/sobre-nosotros/" className="text-[15px] font-medium text-ink/80 hover:text-ink">
+            Sobre nosotros
+          </Link>
         </nav>
 
         <div className="flex-1" />
@@ -150,6 +153,13 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
+            <Link
+              href="/sobre-nosotros/"
+              onClick={() => setMenuOpen(false)}
+              className="rounded-xl px-3 py-2.5 text-[15px] font-medium text-ink hover:bg-surf"
+            >
+              Sobre nosotros
+            </Link>
             <Link
               href="/encontrar-bicicleta/"
               onClick={() => setMenuOpen(false)}

@@ -12,6 +12,7 @@ const STATIC_ROUTES = [
   "/guias/",
   "/encontrar-bicicleta/",
   "/ofertas/",
+  "/sobre-nosotros/",
   "/mejores-bicicletas-electricas/",
   "/accesorios/",
   "/metodologia/",

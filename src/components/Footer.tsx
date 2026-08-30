@@ -38,6 +38,9 @@ export function Footer() {
               </Link>
               .
             </p>
+            <Link href="/sobre-nosotros/" className="hover:text-ink">
+              Sobre nosotros
+            </Link>
             <Link href="/aviso-legal/" className="hover:text-ink">
               Aviso legal
             </Link>
